@@ -599,9 +599,30 @@ button:focus-visible {
   min-width: 0;
 }
 
-.menu-row:hover,
-.menu-row:active {
-  transform: translateX(4px);
+@media (hover: hover) {
+  .menu-row:hover,
+  .menu-row:active {
+    transform: translateX(4px);
+  }
+}
+
+.menu-row-tap {
+  animation: menu-row-tap 1s ease;
+}
+
+@keyframes menu-row-tap {
+  0% {
+    transform: translateX(0);
+  }
+  18% {
+    transform: translateX(4px);
+  }
+  70% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .menu-name {
@@ -1050,7 +1071,8 @@ body:has(.studio-root) .skip {
   .rule-draw,
   .sheet-enter,
   .sticky-bar,
-  .site-nav .nav-label::after {
+  .site-nav .nav-label::after,
+  .menu-row-tap {
     animation: none;
     transition: none;
   }
