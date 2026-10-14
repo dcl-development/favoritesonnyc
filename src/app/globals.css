@@ -124,6 +124,24 @@ button:focus-visible {
   opacity: 0;
 }
 
+.pie-highlight {
+  transform: translate(var(--pie-lx, 0px), var(--pie-ly, 0px));
+}
+
+.pie-mark-tiny .pie-highlight {
+  transform: none;
+}
+
+.pie-glint {
+  opacity: 0;
+  animation: pie-glint 10.5s ease-in-out infinite;
+}
+
+.pie-mark-tiny .pie-glint {
+  animation: none;
+  opacity: 0;
+}
+
 .sign {
   display: flex;
   flex-direction: column;
@@ -771,6 +789,26 @@ button:focus-visible {
   }
 }
 
+@keyframes pie-glint {
+  0%,
+  6% {
+    stroke-dashoffset: 48;
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.55;
+  }
+  32% {
+    stroke-dashoffset: -700;
+    opacity: 0.4;
+  }
+  40%,
+  100% {
+    stroke-dashoffset: -700;
+    opacity: 0;
+  }
+}
+
 @keyframes pie-flicker {
   0%,
   100% {
@@ -930,6 +968,7 @@ body:has(.studio-root) .skip {
   .pie-mark-home,
   .pie-core,
   .pie-flicker,
+  .pie-glint,
   .rule-draw,
   .sheet-enter,
   .sticky-bar,

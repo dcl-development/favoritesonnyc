@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PieLight } from "@/components/PieLight";
 import { StickyBar } from "@/components/StickyBar";
 import { restaurant } from "@/content/site";
 import "./globals.css";
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="skip" href="#content">
           skip to content
         </a>
+        <PieLight />
         <StickyBar />
         <div id="content">{children}</div>
       </body>

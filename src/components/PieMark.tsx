@@ -109,6 +109,22 @@ export function PieMark({ className = "" }: { className?: string }) {
           <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="#fff7f5" />
         ))}
       </g>
+      <g className="pie-highlight">
+        <g transform="translate(-2.8 -2.8)">
+          <g opacity="0.55">
+            <Tubes stroke="#f7fcff" width={2} />
+          </g>
+          <path
+            className="pie-glint"
+            d={PIE_TUBE.ring.d}
+            fill="none"
+            stroke="#fff"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeDasharray="36 780"
+          />
+        </g>
+      </g>
       <path
         className="pie-flicker"
         d={FLICKER}
