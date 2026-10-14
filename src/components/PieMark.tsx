@@ -3,6 +3,8 @@ import { PIE_TUBE } from "@/marks/pie-geometry";
 
 // Paths in src/marks/pie-mark.svg are true arcs and straight lines.
 // Color, core, and glow are a style on top of that locked geometry.
+// Stroke, core, halo, and highlight are 12.5% heavier than the locked widths.
+const WEIGHT = 1.125;
 const TUBES = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust] as const;
 
 // Corners and open ends run a little hotter than the straight runs.
@@ -22,7 +24,7 @@ function Tubes({ stroke, width }: { stroke: string; width?: number }) {
   return (
     <g fill="none" stroke={stroke} strokeLinecap="round" strokeLinejoin="round">
       {TUBES.map((tube) => (
-        <path key={tube.d} d={tube.d} strokeWidth={width ?? tube.width} />
+        <path key={tube.d} d={tube.d} strokeWidth={(width ?? tube.width) * WEIGHT} />
       ))}
     </g>
   );
@@ -59,20 +61,20 @@ export function PieMark({ className = "" }: { className?: string }) {
         </linearGradient>
         <filter
           id={glowId}
-          x="-36"
-          y="-40"
-          width="360"
-          height="400"
+          x="-42"
+          y="-46"
+          width="372"
+          height="412"
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="tight" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation={3 * WEIGHT} result="tight" />
           <feFlood floodColor="#8c0610" floodOpacity="0.4" result="tightInk" />
           <feComposite in="tightInk" in2="tight" operator="in" result="tightGlow" />
-          <feGaussianBlur in="SourceAlpha" stdDeviation="6.5" result="mid" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation={6.5 * WEIGHT} result="mid" />
           <feFlood floodColor="#c01018" floodOpacity="0.2" result="midInk" />
           <feComposite in="midInk" in2="mid" operator="in" result="midGlow" />
-          <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="soft" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation={10 * WEIGHT} result="soft" />
           <feFlood floodColor="#e0141c" floodOpacity="0.11" result="softInk" />
           <feComposite in="softInk" in2="soft" operator="in" result="softGlow" />
           <feMerge>
@@ -86,17 +88,17 @@ export function PieMark({ className = "" }: { className?: string }) {
       <svg viewBox="0 0 286 320" x="0" y="0" width="286" height="320" overflow="visible" filter={`url(#${glowId})`}>
         <Tubes stroke={`url(#${glassId})`} />
         {BENDS.map(([x, y]) => (
-          <circle key={`${x}-${y}`} cx={x} cy={y} r="5" fill="#ff241c" opacity="0.55" />
+          <circle key={`${x}-${y}`} cx={x} cy={y} r={5 * WEIGHT} fill="#ff241c" opacity="0.55" />
         ))}
       </svg>
       <g className="pie-core">
         <Tubes stroke={`url(#${filamentId})`} width={3.15} />
         {BENDS.map(([x, y]) => (
-          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="#ffd6d0" />
+          <circle key={`${x}-${y}`} cx={x} cy={y} r={1.7 * WEIGHT} fill="#ffd6d0" />
         ))}
       </g>
       <g className="pie-highlight">
-        <g transform="translate(-2.8 -2.8)">
+        <g transform={`translate(${-2.8 * WEIGHT} ${-2.8 * WEIGHT})`}>
           <g opacity="0.55">
             <Tubes stroke="#f7fcff" width={2} />
           </g>
@@ -105,15 +107,15 @@ export function PieMark({ className = "" }: { className?: string }) {
             d={PIE_TUBE.ring.d}
             fill="none"
             stroke="#fff"
-            strokeWidth="4"
+            strokeWidth={4 * WEIGHT}
             strokeLinecap="round"
             strokeDasharray="36 780"
           />
         </g>
       </g>
       <g className="pie-flicker" fill="none" stroke="#2a0408" strokeLinecap="round" strokeLinejoin="round">
-        <path d={PIE_TUBE.slice.d} strokeWidth="14" />
-        <path d={PIE_TUBE.crust.d} strokeWidth="16" />
+        <path d={PIE_TUBE.slice.d} strokeWidth={14 * WEIGHT} />
+        <path d={PIE_TUBE.crust.d} strokeWidth={16 * WEIGHT} />
       </g>
     </svg>
   );
