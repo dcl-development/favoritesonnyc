@@ -40,6 +40,10 @@ export default function VisitPage() {
               reserve
             </a>
           </p>
+          <p className="section-note" style={{ marginTop: "0.35rem" }}>
+            parties of 8+? <a href={`tel:${restaurant.phoneTel}`}>call us</a>,
+            the room’s small but we’ll try to fit you.
+          </p>
           <ul className="hours-list">
             {days.map(([day, hours]) => (
               <li key={day}>

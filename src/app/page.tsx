@@ -24,6 +24,9 @@ export default async function Home() {
             reserve
           </a>
         </p>
+        <p className="section-note">
+          parties of 8+? <a href={`tel:${restaurant.phoneTel}`}>call us</a>.
+        </p>
       </div>
       <PieStrip photos={photos} />
       <div className="home-foot">
