@@ -5,8 +5,9 @@ import { PIE_TUBE } from "@/marks/pie-geometry";
 // Color, core, and glow are a style on top of that locked geometry.
 const TUBES = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust] as const;
 
-// Left side of the ring, up to the open end. Style only; the locked paths stay put.
-const FLICKER = "M7.75 166.11 A126.26 126.26 0 0 1 140.81 62.07";
+// Left side of the ring, about 10 o'clock down to 8 o'clock. Same length as before.
+// Style only; the locked paths stay put.
+const FLICKER = "M28.01 259.51 A126.26 126.26 0 0 1 50.06 92.05";
 
 // Corners and open ends run a little hotter than the straight runs.
 const BENDS = [
@@ -87,13 +88,13 @@ export function PieMark({ className = "" }: { className?: string }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <linearGradient id={fadeId} gradientUnits="userSpaceOnUse" x1="7.75" y1="166.11" x2="140.81" y2="62.07">
+        <linearGradient id={fadeId} gradientUnits="userSpaceOnUse" x1="28.01" y1="259.51" x2="50.06" y2="92.05">
           <stop offset="0%" stopColor="#fff" stopOpacity="0" />
           <stop offset="16%" stopColor="#fff" stopOpacity="1" />
           <stop offset="84%" stopColor="#fff" stopOpacity="1" />
           <stop offset="100%" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
-        <mask id={maskId} maskUnits="userSpaceOnUse" x="-24" y="20" width="200" height="180">
+        <mask id={maskId} maskUnits="userSpaceOnUse" x="-20" y="70" width="120" height="220">
           <path d={FLICKER} fill="none" stroke={`url(#${fadeId})`} strokeWidth="26" strokeLinecap="round" />
         </mask>
       </defs>
