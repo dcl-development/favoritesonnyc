@@ -33,6 +33,27 @@ body :where(p, h1, h2, h3, a, li, span, figcaption) {
   text-shadow: 0 0 0.45px rgba(0, 0, 0, 0.55);
 }
 
+/* iOS draws American Typewriter lighter than Chrome. Keep the same family. */
+@supports (-webkit-touch-callout: none) {
+  body {
+    -webkit-font-smoothing: auto;
+    font-weight: 500;
+    -webkit-text-stroke: 0.2px currentColor;
+  }
+
+  .strip-name,
+  .strip-line,
+  .menu-price {
+    font-weight: 500;
+  }
+
+  .studio-root {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke: 0;
+    font-weight: 400;
+  }
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -537,6 +558,25 @@ button:focus-visible {
   text-wrap: pretty;
 }
 
+.menu-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.15rem;
+  margin: 0 0 0.35rem;
+}
+
+.menu-jumps a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--soft);
+  font-size: 0.95rem;
+}
+
+.menu-part {
+  scroll-margin-top: 4.75rem;
+}
+
 .menu-list {
   display: flex;
   flex-direction: column;
@@ -907,17 +947,8 @@ button:focus-visible {
 }
 
 @media (max-width: 430px) {
-  .site-nav {
-    display: grid;
-    grid-template-columns: max-content max-content;
-    justify-content: center;
-    justify-items: start;
-    column-gap: 1.35rem;
-    row-gap: 0;
-  }
-
   .sheet-mast .site-nav {
-    justify-content: start;
+    justify-content: flex-start;
   }
 }
 

@@ -8,7 +8,7 @@ Live at [favoritesonnyc.vercel.app](https://favoritesonnyc.vercel.app).
 
 ## What's on the site
 
-- Home page, menu, drinks, story and visit pages, plus a sitemap and robots file.
+- Home page, menu (food, then wine and drinks), story and visit pages, plus a sitemap and robots file. `/drinks` redirects to `/menu#drinks`.
 - The home page leads with the basics: whole 14 inch pies cut into six, the current service notice, the menu, directions and a phone link.
 - Menu and wine list content is stored in the repo (`src/content/menu.ts`), with optional overrides from Sanity. If Sanity has nothing, the site falls back to the file, so it never shows an empty menu.
 - Hours, the walk-in notice and anything 86'd for the night are in `src/content/site.ts`.
