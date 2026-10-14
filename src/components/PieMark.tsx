@@ -59,21 +59,17 @@ export function PieMark({ className = "" }: { className?: string }) {
         </linearGradient>
         <filter
           id={glowId}
-          x="-42"
-          y="-48"
-          width="380"
-          height="420"
+          x="-16"
+          y="-20"
+          width="320"
+          height="360"
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
           <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="tight" />
           <feFlood floodColor="#8c0610" floodOpacity="0.95" result="tightInk" />
           <feComposite in="tightInk" in2="tight" operator="in" result="tightGlow" />
-          <feGaussianBlur in="SourceAlpha" stdDeviation="12" result="haze" />
-          <feFlood floodColor="#e0141c" floodOpacity="0.46" result="hazeInk" />
-          <feComposite in="hazeInk" in2="haze" operator="in" result="hazeGlow" />
           <feMerge>
-            <feMergeNode in="hazeGlow" />
             <feMergeNode in="tightGlow" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>

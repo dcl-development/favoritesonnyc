@@ -88,8 +88,6 @@ button:focus-visible {
 }
 
 .pie-mark {
-  position: relative;
-  z-index: 1;
   display: block;
   width: 5.85rem;
   height: auto;
@@ -117,7 +115,6 @@ button:focus-visible {
 }
 
 .sign {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -125,25 +122,6 @@ button:focus-visible {
   width: 100%;
   margin: 0 auto;
   padding: 3.1rem 0 0.5rem;
-}
-
-.sign::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: calc(3.1rem + 3.25rem);
-  width: min(18rem, 92vw);
-  height: 14rem;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(186, 14, 22, 0.32) 0%,
-    rgba(168, 10, 18, 0.14) 40%,
-    rgba(150, 8, 16, 0.04) 64%,
-    rgba(150, 8, 16, 0) 74%
-  );
 }
 
 .sign-papers {
@@ -156,8 +134,6 @@ button:focus-visible {
 
 .sign-board {
   --stripe-period: 14px;
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
