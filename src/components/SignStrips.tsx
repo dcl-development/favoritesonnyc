@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
 import { StatusLine } from "./StatusLine";
@@ -23,6 +23,40 @@ const introMs = 1600;
 
 export function SignStrips() {
   const papers = useRef<Array<HTMLParagraphElement | null>>([]);
+  const board = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const node = board.current;
+    const content = node?.querySelector(".sign-papers");
+    if (!node || !content) return;
+
+    let frame = 0;
+    // The teal lines repeat every --stripe-period. Lock the band to a whole
+    // number of periods so the bottom edge never slices a line.
+    const fit = () => {
+      const period =
+        Number.parseFloat(getComputedStyle(node).getPropertyValue("--stripe-period")) || 14;
+      node.style.height = "auto";
+      const height = node.getBoundingClientRect().height;
+      const stripes = Math.max(1, Math.ceil(height / period - 1e-4));
+      node.style.height = `${stripes * period}px`;
+    };
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(fit);
+    };
+
+    fit();
+    const observer = new ResizeObserver(schedule);
+    observer.observe(content);
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", schedule);
+      node.style.height = "";
+    };
+  }, []);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -116,7 +150,7 @@ export function SignStrips() {
   return (
     <div className="sign">
       <PieMark className="pie-mark pie-mark-home" />
-      <div className="sign-board">
+      <div className="sign-board" ref={board}>
         <div className="sign-papers">
           {strips.map((strip, index) => (
             <p

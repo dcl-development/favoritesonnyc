@@ -125,6 +125,7 @@ button:focus-visible {
 }
 
 .sign-board {
+  --stripe-period: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,7 +138,7 @@ button:focus-visible {
     #6a9297 7px,
     #3f6468 8.5px,
     transparent 8.5px,
-    transparent 14px
+    transparent var(--stripe-period)
   );
 }
 
@@ -242,28 +243,119 @@ button:focus-visible {
   animation: draw-dots 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-.home-lead {
-  width: min(100% - 1rem, 36rem);
-  margin: 1.5rem auto 0;
+.home {
+  --home-gap: 0.75rem;
+  --home-group: 1.5rem;
+}
+
+.home .sign {
+  padding-bottom: 0;
+}
+
+.home-stack {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--home-group);
+  width: min(100% - 2rem, 36rem);
+  margin: var(--home-group) auto 0;
   text-align: center;
 }
 
-.home-lead p {
+.home-pages,
+.home-copy,
+.home-reserve {
+  display: flex;
+  justify-content: center;
+  gap: var(--home-gap);
+}
+
+.home-pages {
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
   margin: 0;
-  line-height: 1.45;
-  text-wrap: balance;
 }
 
-.home-lead p + p {
-  margin-top: 0.4rem;
+.home-copy,
+.home-reserve {
+  flex-direction: column;
+  align-items: center;
 }
 
-.home-notice span {
+.home-reserve {
+  position: relative;
+}
+
+.home-copy p,
+.reserve-tip {
+  margin: 0;
+}
+
+.home-pages a,
+.home-reserve-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
   white-space: nowrap;
+  text-decoration: none;
 }
 
-.home-lead .home-actions {
-  margin-top: 1rem;
+.home-pages a:hover,
+.home-pages a:focus-visible,
+.home-reserve-link:hover,
+.home-reserve-link:focus-visible {
+  text-decoration: none;
+}
+
+.home-pages a:hover .home-label,
+.home-pages a:focus-visible .home-label,
+.home-reserve-link:hover .home-label,
+.home-reserve-link:focus-visible .home-label {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.18em;
+}
+
+.reserve-tip {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 800px) {
+  .reserve-tip {
+    position: absolute;
+    z-index: 3;
+    top: 100%;
+    left: 50%;
+    display: block;
+    width: max-content;
+    max-width: min(22rem, calc(100vw - 2rem));
+    padding-top: var(--home-gap);
+    transform: translateX(-50%);
+    color: var(--soft);
+    text-align: center;
+    text-decoration: none;
+    visibility: hidden;
+  }
+
+  .reserve-tip:hover,
+  .reserve-tip:focus-visible {
+    text-decoration: none;
+  }
+
+  .reserve-tip span {
+    display: block;
+    padding: var(--home-gap);
+    background: var(--paper);
+    transform: rotate(-2.5deg);
+  }
+
+  .home-reserve:hover .reserve-tip,
+  .home-reserve:focus-within .reserve-tip {
+    visibility: visible;
+  }
 }
 
 .home-actions {
@@ -287,6 +379,10 @@ button:focus-visible {
   overflow: hidden;
   cursor: grab;
   touch-action: pan-y;
+}
+
+.home .pie-strip {
+  margin-top: calc(var(--home-group) + 1.3rem);
 }
 
 .pie-strip:active {
@@ -561,16 +657,14 @@ button:focus-visible {
 
 .footer-links {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.15rem 1.15rem;
-  margin-top: 0.45rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  margin-top: 0.6rem;
 }
 
 .footer-links a {
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
+  display: inline;
 }
 
 .home-foot {

@@ -8,7 +8,7 @@ Research conducted September 24–25, 2026; updated with the user-supplied busin
 
 Favorite Son is an Ippolito-family neighborhood pizzeria built around **100% sourdough pizza, natural wine, and cocktails**. Danny Ippolito is the publicly identified owner, pizzaiolo, and sommelier. His original announcement makes the restaurant’s name personal: a dedication to his mother from her only son. The strongest website story is the connection between family, Staten Island, fermentation, and Danny’s hands-on work. [Founding announcement](https://www.instagram.com/favoritesonnyc/p/DZNHzCdKsGW/), [Danny’s profile](https://www.instagram.com/shaolinsomm/).
 
-**The most consequential current fact:** On September 23, Danny announced **dine-in only until further notice**, with first-come seating while a reservation system is being worked out. Earlier posts and opening coverage mention takeout; those are superseded for website planning. [Current service announcement](https://www.instagram.com/shaolinsomm/reel/DdohBKZx-Xa/).
+**The most consequential current fact:** On September 23, Danny announced **dine-in only until further notice**. Earlier posts and opening coverage mention takeout; those are superseded for website planning. The no-reservations policy in that announcement, and in earlier posts, has been dropped. [Current service announcement](https://www.instagram.com/shaolinsomm/reel/DdohBKZx-Xa/).
 
 ## Practical facts
 
@@ -21,7 +21,7 @@ Favorite Son is an Ippolito-family neighborhood pizzeria built around **100% sou
 | Hours | **5–10 p.m., Wednesday through Monday; closed Tuesday** | Explicitly supplied by the user and corroborated by official profile. Holiday exceptions remain unspecified. |
 | Opening | **September 9, 2026** | September 8 local-time post announces opening the following day; September 10 post celebrates a sellout. [Opening announcement](https://www.instagram.com/shaolinsomm/reel/DdDIYsCRT-B/). |
 | Service | Dine-in only until further notice | September 23 owner announcement. |
-| Reservations | None currently; first come, first served | Official bio and September 23 announcement. A future system is discussed but not yet verified live. |
+| Reservations | The no-reservations policy has been dropped | The official bio and September 23 announcement had said none, first come, first served. A future system was discussed then but was not verified live. Do not treat “no reservations” as current policy. |
 | Delivery | No delivery | Official bio. Do not add delivery-platform buttons. |
 | Slices | No individual slices for sale | Official bio. Whole pies are cut into six slices. |
 | Preorders | September 17 owner post says no preorders | [Operating update](https://www.instagram.com/shaolinsomm/reel/DdZI5MtxlEI/). Reconfirm if service changes. |
@@ -186,7 +186,7 @@ All entries below are transcribed from **Favorite Son Wine List.pdf**. Regions, 
 | September 11 | Food menu posted; takeout limited | Historical policy |
 | September 12 | Counter-service-only announcement for that night | Do not turn a one-night notice into a permanent policy |
 | September 15 | ’Nduja/stracciatella pie explained | Useful dish story |
-| September 17 | Frequent sellouts, no reservations or preorders, limited to-go | Demand management |
+| September 17 | Frequent sellouts, no preorders, limited to-go. The no-reservations policy in this update has been dropped | Demand management |
 | September 21–23 | SILive feature published/updated | Main earned-media reference |
 | September 23 | Dine-in only until further notice | Latest authoritative service policy found |
 | September 24 | Collaborator food-tour reel | Current visual reference and dish coverage |
@@ -222,7 +222,7 @@ A third-party aggregator displayed a materially different review count/rating fr
 5. **Visit:** Address, map, tap-to-call, hours, seating policy, and verified accessibility/parking information.
 6. **Press:** Link to the SILive story and selected creator coverage; use authorized excerpts or embeds.
 
-A small editable notice for “sold out,” holiday hours, takeout changes, and eventual reservations is particularly valuable. Service rules have already changed during the first weeks. An ordering or booking button should appear only after the owners provide a functioning destination.
+A small editable notice for “sold out,” holiday hours, and takeout changes is particularly valuable. Service rules have already changed during the first weeks. An ordering or booking button should appear only after the owners provide a functioning destination.
 
 For search visibility, use a consistent owner-approved business name, address, phone, and hours across the site and Google. Link the verified Instagram account. Add Restaurant structured data using confirmed fields, and avoid made-up price ranges, ratings, coordinates, or reservation capabilities. “Sourdough pizza on Staten Island,” “natural wine,” and “Forest Avenue” accurately express the concept and location without forcing a disputed neighborhood label.
 
@@ -233,7 +233,7 @@ For search visibility, use a consistent owner-approved business name, address, p
 | Tuesday hours | WhereYouEat blog says open until midnight; official profile says closed | Closed Tuesday. Directory appears to have interpreted an odd time field incorrectly. |
 | Delivery | Directory marks delivery available | Official profile says no delivery. |
 | Takeout | Early menu and press say limited/available | September 23 dine-in-only post is newer. |
-| Reservations | Bio says none; owner mentions a future system | No booking claim or widget until actually live. |
+| Reservations | Bio said none; owner mentioned a future system | The no-reservations policy has been dropped. Do not state that reservations are refused. |
 | Counter service | September 12 “tonight” notice | Temporary historical notice, not permanent format. |
 | Salad cheese | Earlier menu: robiola; user-supplied PDF: goat cheese | Use goat cheese from supplied PDF. |
 | Beer | Public scan: six beers, $7 each; supplied PDF: five beers, $7–$9 | Use the supplied PDF. |
@@ -255,7 +255,7 @@ A health-data aggregator identifies restaurant record **50188718** and reports n
 ## Questions to send the owners before building final content
 
 1. Please supply original logo files and confirm domain/hosting access. Business name and contact email are now provided: Favorite Son Pizzeria & Wine Bar; danny@favoritesonnyc.com.
-2. Is dine-in only still current? Any exceptions, large-party policy, waitlist, or confirmed reservation launch?
+2. Is dine-in only still current? Any exceptions, large-party policy, waitlist, or confirmed reservation launch? The no-reservations policy has been dropped.
 3. Regular hours are confirmed as Wednesday–Monday, 5–10 PM. Are there holiday exceptions, a separate last seating, or a kitchen cutoff?
 4. Who should be credited as owners/team, and what is Graceanne’s preferred title and name?
 5. How would you like Maryann and the restaurant name explained? Is there a family photo you want used?

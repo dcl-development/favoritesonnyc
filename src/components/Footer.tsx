@@ -19,8 +19,8 @@ export function Footer() {
         <StatusLine variant="quiet" />
       </p>
       <p className="footer-links">
-        <a href={restaurant.instagram}>instagram</a>
         <Link href="/visit">directions</Link>
+        <a href={restaurant.instagram}>instagram</a>
         <a href={`mailto:${restaurant.email}`}>{restaurant.email}</a>
       </p>
     </footer>

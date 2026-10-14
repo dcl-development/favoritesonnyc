@@ -33,7 +33,6 @@ const structuredData = {
   email: restaurant.email,
   telephone: restaurant.phoneTel,
   image: `${restaurant.url}/photos/og.jpg`,
-  acceptsReservations: false,
   address: {
     "@type": "PostalAddress",
     streetAddress: restaurant.address.street,
@@ -54,6 +53,11 @@ const structuredData = {
     ],
     opens: "17:00",
     closes: "22:00",
+  },
+  acceptsReservations: true,
+  potentialAction: {
+    "@type": "ReserveAction",
+    target: restaurant.reserve,
   },
   sameAs: [restaurant.instagram],
   hasMenu: `${restaurant.url}/menu`,
