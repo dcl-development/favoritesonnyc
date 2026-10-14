@@ -31,7 +31,6 @@ export const restaurant = {
 
 export const nav = [
   { href: "/menu", label: "menu" },
-  { href: "/drinks", label: "wine & drinks" },
   { href: "/visit", label: "visit" },
   { href: "/story", label: "our story" },
 ] as const;
