@@ -2,14 +2,27 @@ import { useId } from "react";
 import { PIE_TUBE } from "@/marks/pie-geometry";
 
 // Paths in src/marks/pie-mark.svg are true arcs and straight lines.
-// Each path is one solid tube. Neon red, the white core, and the glow are only a style.
+// Color, core, and glow are a style on top of that locked geometry.
 const TUBES = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust] as const;
 
-function Tubes({ core = false }: { core?: boolean }) {
+// Corners and open ends run a little hotter than the straight runs.
+const BENDS = [
+  [132.28, 195.77],
+  [241.69, 126.61],
+  [157.64, 56.65],
+  [165.77, 6.08],
+  [275.66, 98.53],
+  [258.79, 112.3],
+  [159.73, 34.21],
+  [249.05, 140.48],
+  [140.81, 62.07],
+] as const;
+
+function Tubes({ stroke, width }: { stroke: string; width?: number }) {
   return (
-    <g fill="none" stroke={core ? "#fff2f0" : "#e10c16"} strokeLinecap="round" strokeLinejoin="round">
+    <g fill="none" stroke={stroke} strokeLinecap="round" strokeLinejoin="round">
       {TUBES.map((tube) => (
-        <path key={tube.d} d={tube.d} strokeWidth={core ? 4 : tube.width} />
+        <path key={tube.d} d={tube.d} strokeWidth={width ?? tube.width} />
       ))}
     </g>
   );
@@ -18,7 +31,8 @@ function Tubes({ core = false }: { core?: boolean }) {
 export function PieMark({ className = "" }: { className?: string }) {
   const uid = useId().replace(/:/g, "");
   const glowId = `pie-glow-${uid}`;
-  const coreId = `pie-core-${uid}`;
+  const glassId = `pie-glass-${uid}`;
+  const filamentId = `pie-filament-${uid}`;
 
   return (
     <svg
@@ -29,41 +43,54 @@ export function PieMark({ className = "" }: { className?: string }) {
       aria-hidden="true"
     >
       <defs>
+        <linearGradient id={glassId} gradientUnits="userSpaceOnUse" x1="18" y1="24" x2="268" y2="308">
+          <stop offset="0%" stopColor="#ff2a30" />
+          <stop offset="22%" stopColor="#d40e16" />
+          <stop offset="46%" stopColor="#f0141c" />
+          <stop offset="68%" stopColor="#c40c14" />
+          <stop offset="84%" stopColor="#e81018" />
+          <stop offset="100%" stopColor="#f2161e" />
+        </linearGradient>
+        <linearGradient id={filamentId} gradientUnits="userSpaceOnUse" x1="36" y1="12" x2="246" y2="286">
+          <stop offset="0%" stopColor="#fff8f6" />
+          <stop offset="34%" stopColor="#ffcfc8" />
+          <stop offset="58%" stopColor="#fff6f3" />
+          <stop offset="100%" stopColor="#ffc4bc" />
+        </linearGradient>
         <filter
           id={glowId}
-          x="-150"
-          y="-160"
-          width="590"
-          height="640"
+          x="-42"
+          y="-48"
+          width="380"
+          height="420"
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="a1" />
-          <feFlood floodColor="#e01018" floodOpacity="1" result="f1" />
-          <feComposite in="f1" in2="a1" operator="in" result="g1" />
-          <feGaussianBlur in="SourceAlpha" stdDeviation="20" result="a2" />
-          <feFlood floodColor="#d10c16" floodOpacity="0.92" result="f2" />
-          <feComposite in="f2" in2="a2" operator="in" result="g2" />
-          <feGaussianBlur in="SourceAlpha" stdDeviation="46" result="a3" />
-          <feFlood floodColor="#c00812" floodOpacity="0.5" result="f3" />
-          <feComposite in="f3" in2="a3" operator="in" result="g3" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="tight" />
+          <feFlood floodColor="#8c0610" floodOpacity="0.95" result="tightInk" />
+          <feComposite in="tightInk" in2="tight" operator="in" result="tightGlow" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="12" result="haze" />
+          <feFlood floodColor="#e0141c" floodOpacity="0.46" result="hazeInk" />
+          <feComposite in="hazeInk" in2="haze" operator="in" result="hazeGlow" />
           <feMerge>
-            <feMergeNode in="g3" />
-            <feMergeNode in="g2" />
-            <feMergeNode in="g1" />
+            <feMergeNode in="hazeGlow" />
+            <feMergeNode in="tightGlow" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <filter id={coreId} x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
-          <feGaussianBlur stdDeviation="0.8" />
-        </filter>
       </defs>
       <svg viewBox="0 0 286 320" x="0" y="0" width="286" height="320" overflow="visible" filter={`url(#${glowId})`}>
-        <Tubes />
+        <Tubes stroke={`url(#${glassId})`} />
+        {BENDS.map(([x, y]) => (
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="5" fill="#ff241c" opacity="0.55" />
+        ))}
       </svg>
-      <svg viewBox="0 0 286 320" x="0" y="0" width="286" height="320" overflow="visible" filter={`url(#${coreId})`}>
-        <Tubes core />
-      </svg>
+      <g className="pie-core">
+        <Tubes stroke={`url(#${filamentId})`} width={3.15} />
+        {BENDS.map(([x, y]) => (
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="#fff7f5" />
+        ))}
+      </g>
     </svg>
   );
 }
