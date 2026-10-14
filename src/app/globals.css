@@ -114,6 +114,16 @@ button:focus-visible {
   animation: none;
 }
 
+.pie-flicker {
+  opacity: 0;
+  animation: pie-flicker 8.5s linear infinite;
+}
+
+.pie-mark-tiny .pie-flicker {
+  animation: none;
+  opacity: 0;
+}
+
 .sign {
   display: flex;
   flex-direction: column;
@@ -761,6 +771,32 @@ button:focus-visible {
   }
 }
 
+@keyframes pie-flicker {
+  0%,
+  14%,
+  18.7%,
+  58%,
+  61.5%,
+  100% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.72;
+  }
+  16.2% {
+    opacity: 0.08;
+  }
+  17.2% {
+    opacity: 0.55;
+  }
+  59% {
+    opacity: 0.4;
+  }
+  60% {
+    opacity: 0.78;
+  }
+}
+
 @keyframes draw-rule {
   from {
     transform: scaleX(0);
@@ -891,6 +927,7 @@ body:has(.studio-root) .skip {
   .strip,
   .pie-mark-home,
   .pie-core,
+  .pie-flicker,
   .rule-draw,
   .sheet-enter,
   .sticky-bar,

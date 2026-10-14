@@ -5,6 +5,9 @@ import { PIE_TUBE } from "@/marks/pie-geometry";
 // Color, core, and glow are a style on top of that locked geometry.
 const TUBES = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust] as const;
 
+// A short stretch of the upper ring, ending at the open end. Style only.
+const FLICKER = "M84.79 70.96 A126.26 126.26 0 0 1 140.81 62.07";
+
 // Corners and open ends run a little hotter than the straight runs.
 const BENDS = [
   [132.28, 195.77],
@@ -59,17 +62,21 @@ export function PieMark({ className = "" }: { className?: string }) {
         </linearGradient>
         <filter
           id={glowId}
-          x="-16"
-          y="-20"
-          width="320"
-          height="360"
+          x="-24"
+          y="-28"
+          width="336"
+          height="376"
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
           <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="tight" />
           <feFlood floodColor="#8c0610" floodOpacity="0.95" result="tightInk" />
           <feComposite in="tightInk" in2="tight" operator="in" result="tightGlow" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="halo" />
+          <feFlood floodColor="#c4121a" floodOpacity="0.22" result="haloInk" />
+          <feComposite in="haloInk" in2="halo" operator="in" result="haloGlow" />
           <feMerge>
+            <feMergeNode in="haloGlow" />
             <feMergeNode in="tightGlow" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
@@ -87,6 +94,7 @@ export function PieMark({ className = "" }: { className?: string }) {
           <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="#fff7f5" />
         ))}
       </g>
+      <path className="pie-flicker" d={FLICKER} fill="none" stroke="#4a0610" strokeWidth="16" strokeLinecap="round" />
     </svg>
   );
 }
