@@ -70,13 +70,19 @@ body::before {
 
 a {
   color: inherit;
+  text-decoration: underline dotted;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
 }
 
 a:hover,
 a:focus-visible {
   text-decoration: underline dotted;
+}
+
+.bracket-link {
+  text-decoration: none;
 }
 
 .site-nav a,

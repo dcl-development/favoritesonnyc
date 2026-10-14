@@ -46,7 +46,7 @@ export default function VisitPage() {
             ))}
           </ul>
           <p>
-            <a href={restaurant.reserve} target="_blank" rel="noopener">
+            <a className="bracket-link" href={restaurant.reserve} target="_blank" rel="noopener">
               [ book a reservation ]
             </a>
           </p>
