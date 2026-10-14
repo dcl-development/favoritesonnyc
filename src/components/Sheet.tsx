@@ -9,10 +9,12 @@ import { PieMark } from "./PieMark";
 export function Sheet({
   title,
   kicker,
+  footer = true,
   children,
 }: {
   title: string;
   kicker?: string;
+  footer?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -28,7 +30,7 @@ export function Sheet({
         <DashedRule />
       </header>
       {children}
-      <Footer />
+      {footer ? <Footer /> : null}
     </main>
   );
 }

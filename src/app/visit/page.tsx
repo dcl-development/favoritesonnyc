@@ -19,9 +19,11 @@ const days = [
   ["tuesday", "closed"],
 ];
 
+const instagramHandle = `@${new URL(restaurant.instagram).pathname.split("/").filter(Boolean)[0]}`;
+
 export default function VisitPage() {
   return (
-    <Sheet title="visit">
+    <Sheet title="visit" footer={false}>
       <div className="visit-grid">
         <div className="visit-copy">
           <p>
@@ -35,15 +37,6 @@ export default function VisitPage() {
           <p>
             <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
           </p>
-          <p className="visit-phone">
-            <a href={restaurant.reserve} target="_blank" rel="noopener">
-              reservations
-            </a>
-          </p>
-          <p className="section-note" style={{ marginTop: "0.35rem" }}>
-            parties of 8+? <a href={`tel:${restaurant.phoneTel}`}>call us</a>,
-            the room’s small but we’ll try to fit you.
-          </p>
           <ul className="hours-list">
             {days.map(([day, hours]) => (
               <li key={day}>
@@ -52,12 +45,18 @@ export default function VisitPage() {
               </li>
             ))}
           </ul>
-          <div className="visit-notes">
-            <p>{`${restaurant.notice.title}. ${restaurant.notice.body}`}</p>
-            <p>there is covered outdoor seating.</p>
-          </div>
           <p>
-            <a href={`mailto:${restaurant.email}`}>{restaurant.email}</a>
+            <a href={restaurant.reserve} target="_blank" rel="noopener">
+              [ book a reservation ]
+            </a>
+          </p>
+          <p>
+            <a href={restaurant.instagram}>{instagramHandle}</a>
+          </p>
+          <p className="visit-notes">
+            {`${restaurant.notice.title}. ${restaurant.notice.body} there is covered outdoor seating. `}
+            parties of 8 or more, please{" "}
+            <a href={`tel:${restaurant.phoneTel}`}>call</a>.
           </p>
         </div>
         <figure className="visit-photo">
