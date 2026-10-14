@@ -124,6 +124,8 @@ button:focus-visible {
 .pie-flicker {
   opacity: 0;
   animation: pie-flicker 8.5s step-end infinite;
+  /* Burst begins at 72.94% of this cycle. Hold the start so that snap lands at 75% of the 10.5s streak. */
+  animation-delay: calc(10.5s * 0.75 - 8.5s * 0.7294);
 }
 
 .pie-mark-tiny .pie-flicker {
