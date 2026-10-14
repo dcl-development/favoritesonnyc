@@ -5,10 +5,6 @@ import { PIE_TUBE } from "@/marks/pie-geometry";
 // Color, core, and glow are a style on top of that locked geometry.
 const TUBES = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust] as const;
 
-// Left side of the ring, about 10 o'clock down to 8 o'clock. Same length as before.
-// Style only; the locked paths stay put.
-const FLICKER = "M28.01 259.51 A126.26 126.26 0 0 1 50.06 92.05";
-
 // Corners and open ends run a little hotter than the straight runs.
 const BENDS = [
   [132.28, 195.77],
@@ -37,8 +33,6 @@ export function PieMark({ className = "" }: { className?: string }) {
   const glowId = `pie-glow-${uid}`;
   const glassId = `pie-glass-${uid}`;
   const filamentId = `pie-filament-${uid}`;
-  const fadeId = `pie-flicker-fade-${uid}`;
-  const maskId = `pie-flicker-mask-${uid}`;
 
   return (
     <svg
@@ -88,15 +82,6 @@ export function PieMark({ className = "" }: { className?: string }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <linearGradient id={fadeId} gradientUnits="userSpaceOnUse" x1="28.01" y1="259.51" x2="50.06" y2="92.05">
-          <stop offset="0%" stopColor="#fff" stopOpacity="0" />
-          <stop offset="16%" stopColor="#fff" stopOpacity="1" />
-          <stop offset="84%" stopColor="#fff" stopOpacity="1" />
-          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
-        </linearGradient>
-        <mask id={maskId} maskUnits="userSpaceOnUse" x="-20" y="70" width="120" height="220">
-          <path d={FLICKER} fill="none" stroke={`url(#${fadeId})`} strokeWidth="26" strokeLinecap="round" />
-        </mask>
       </defs>
       <svg viewBox="0 0 286 320" x="0" y="0" width="286" height="320" overflow="visible" filter={`url(#${glowId})`}>
         <Tubes stroke={`url(#${glassId})`} />
@@ -126,15 +111,10 @@ export function PieMark({ className = "" }: { className?: string }) {
           />
         </g>
       </g>
-      <path
-        className="pie-flicker"
-        d={FLICKER}
-        fill="none"
-        stroke="#2a0408"
-        strokeWidth="18"
-        strokeLinecap="round"
-        mask={`url(#${maskId})`}
-      />
+      <g className="pie-flicker" fill="none" stroke="#2a0408" strokeLinecap="round" strokeLinejoin="round">
+        <path d={PIE_TUBE.slice.d} strokeWidth="14" />
+        <path d={PIE_TUBE.crust.d} strokeWidth="16" />
+      </g>
     </svg>
   );
 }
