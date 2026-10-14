@@ -789,6 +789,7 @@ button:focus-visible {
   transform: none;
   visibility: visible;
   border-bottom-color: var(--ink);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
 }
 
 .sticky-brand {
