@@ -52,9 +52,9 @@ export function PieMark({ className = "" }: { className?: string }) {
           <stop offset="100%" stopColor="#f2161e" />
         </linearGradient>
         <linearGradient id={filamentId} gradientUnits="userSpaceOnUse" x1="36" y1="12" x2="246" y2="286">
-          <stop offset="0%" stopColor="#fff8f6" />
-          <stop offset="34%" stopColor="#ffcfc8" />
-          <stop offset="58%" stopColor="#fff6f3" />
+          <stop offset="0%" stopColor="#ffd6d0" />
+          <stop offset="34%" stopColor="#ffc4bc" />
+          <stop offset="58%" stopColor="#ffd0c8" />
           <stop offset="100%" stopColor="#ffc4bc" />
         </linearGradient>
         <filter
@@ -92,7 +92,7 @@ export function PieMark({ className = "" }: { className?: string }) {
       <g className="pie-core">
         <Tubes stroke={`url(#${filamentId})`} width={3.15} />
         {BENDS.map(([x, y]) => (
-          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="#fff7f5" />
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="#ffd6d0" />
         ))}
       </g>
       <g className="pie-highlight">
