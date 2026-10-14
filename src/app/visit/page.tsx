@@ -37,7 +37,7 @@ export default function VisitPage() {
           </p>
           <p className="visit-phone">
             <a href={restaurant.reserve} target="_blank" rel="noopener">
-              reserve
+              reservations
             </a>
           </p>
           <p className="section-note" style={{ marginTop: "0.35rem" }}>
