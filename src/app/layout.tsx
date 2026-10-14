@@ -54,6 +54,11 @@ const structuredData = {
     opens: "17:00",
     closes: "22:00",
   },
+  acceptsReservations: true,
+  potentialAction: {
+    "@type": "ReserveAction",
+    target: restaurant.reserve,
+  },
   sameAs: [restaurant.instagram],
   hasMenu: `${restaurant.url}/menu`,
 };
