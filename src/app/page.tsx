@@ -20,6 +20,9 @@ export default async function Home() {
           <Link href="/menu">see the menu</Link>
           <a href={restaurant.maps.google}>directions</a>
           <a href={`tel:${restaurant.phoneTel}`}>call</a>
+          <a href={restaurant.reserve} target="_blank" rel="noopener">
+            reserve
+          </a>
         </p>
       </div>
       <PieStrip photos={photos} />

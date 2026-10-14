@@ -35,6 +35,11 @@ export default function VisitPage() {
           <p className="visit-phone">
             <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
           </p>
+          <p className="visit-phone">
+            <a href={restaurant.reserve} target="_blank" rel="noopener">
+              reserve
+            </a>
+          </p>
           <ul className="hours-list">
             {days.map(([day, hours]) => (
               <li key={day}>
