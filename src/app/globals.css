@@ -245,6 +245,7 @@ button:focus-visible {
 }
 
 .home .sign {
+  padding-top: 0;
   padding-bottom: 0;
 }
 
@@ -271,12 +272,18 @@ button:focus-visible {
 .home-pages {
   flex-wrap: wrap;
   align-items: center;
+  width: min(100% - 2rem, 36rem);
+  margin: 2.5rem auto var(--home-group);
 }
 
 .home-copy,
 .home-reserve {
   flex-direction: column;
   align-items: center;
+}
+
+.home-reserve {
+  position: relative;
 }
 
 .home-copy p,
@@ -310,31 +317,36 @@ button:focus-visible {
 }
 
 .reserve-tip {
-  max-width: 22rem;
-  color: var(--soft);
+  display: none;
 }
 
-@media (hover: hover) {
-  .home-reserve {
-    gap: 0;
-  }
-
+@media (hover: hover) and (pointer: fine) and (min-width: 800px) {
   .reserve-tip {
     position: absolute;
     z-index: 3;
     top: 100%;
     left: 50%;
+    display: block;
     width: max-content;
     max-width: min(22rem, calc(100vw - 2rem));
     padding-top: var(--home-gap);
     transform: translateX(-50%);
+    color: var(--soft);
+    text-align: center;
+    text-decoration: none;
     visibility: hidden;
+  }
+
+  .reserve-tip:hover,
+  .reserve-tip:focus-visible {
+    text-decoration: none;
   }
 
   .reserve-tip span {
     display: block;
     padding: var(--home-gap);
     background: var(--paper);
+    transform: rotate(-2.5deg);
   }
 
   .home-reserve:hover .reserve-tip,
