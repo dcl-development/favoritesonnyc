@@ -36,6 +36,11 @@ export const nav = [
   { href: "/story", label: "our story" },
 ] as const;
 
+export const storyPhoto = {
+  src: "/photos/kitchen.jpg",
+  alt: "Danny Ippolito and Graceanne Belmonte-Ippolito in the kitchen.",
+} as const;
+
 export type Photo = {
   src: string;
   alt: string;
