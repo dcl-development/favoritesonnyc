@@ -29,7 +29,7 @@ export default async function Home() {
             rel="noopener"
           >
             <span aria-hidden="true">[ </span>
-            <span className="home-label">reserve</span>
+            <span className="home-label">reservations</span>
             <span aria-hidden="true"> ]</span>
           </a>
           <a className="reserve-tip" href={`tel:${restaurant.phoneTel}`}>
