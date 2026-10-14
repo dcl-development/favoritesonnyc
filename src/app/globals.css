@@ -245,7 +245,6 @@ button:focus-visible {
 }
 
 .home .sign {
-  padding-top: 0;
   padding-bottom: 0;
 }
 
@@ -272,8 +271,8 @@ button:focus-visible {
 .home-pages {
   flex-wrap: wrap;
   align-items: center;
-  width: min(100% - 2rem, 36rem);
-  margin: 2.5rem auto var(--home-group);
+  width: 100%;
+  margin: 0;
 }
 
 .home-copy,

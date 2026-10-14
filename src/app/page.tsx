@@ -10,17 +10,17 @@ export default async function Home() {
 
   return (
     <main className="home">
-      <nav className="home-pages" aria-label="pages">
-        {nav.map((item) => (
-          <Link key={item.href} href={item.href}>
-            <span aria-hidden="true">[ </span>
-            <span className="home-label">{item.label}</span>
-            <span aria-hidden="true"> ]</span>
-          </Link>
-        ))}
-      </nav>
       <SignStrips />
       <div className="home-stack">
+        <nav className="home-pages" aria-label="pages">
+          {nav.map((item) => (
+            <Link key={item.href} href={item.href}>
+              <span aria-hidden="true">[ </span>
+              <span className="home-label">{item.label}</span>
+              <span aria-hidden="true"> ]</span>
+            </Link>
+          ))}
+        </nav>
         <div className="home-reserve">
           <a
             className="home-reserve-link"
