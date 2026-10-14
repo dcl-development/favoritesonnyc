@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
+import { getStoryPhoto, type StoryPhoto } from "@/lib/cms";
+
+const storySizes = "(max-width: 799px) calc(100vw - 2.3rem), 47.5rem";
 
 export const metadata: Metadata = {
   title: "our story",
@@ -9,19 +12,43 @@ export const metadata: Metadata = {
     "Favorite Son is the Ippolito family’s sourdough pizzeria and wine bar on Forest Avenue, Staten Island.",
 };
 
-export default function StoryPage() {
+function StoryFigure({ photo }: { photo: StoryPhoto }) {
+  if (photo.fromSanity) {
+    return (
+      <figure className="story-photo">
+        <Image
+          className="story-photo-cms"
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          sizes={storySizes}
+          loading="lazy"
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+      </figure>
+    );
+  }
+
+  return (
+    <figure className="story-photo">
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        sizes={storySizes}
+        loading="lazy"
+      />
+    </figure>
+  );
+}
+
+export default async function StoryPage() {
+  const photo = await getStoryPhoto();
+
   return (
     <Sheet title="our story">
       <div className="story-grid">
-        <figure className="story-photo">
-          <Image
-            src="/photos/kitchen.jpg"
-            alt="Danny Ippolito and Graceanne Belmonte-Ippolito in the kitchen."
-            fill
-            sizes="(max-width: 720px) 100vw, 420px"
-            priority
-          />
-        </figure>
+        <StoryFigure photo={photo} />
         <div className="prose">
           <p>
             Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s

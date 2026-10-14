@@ -106,4 +106,11 @@ export const structure: StructureResolver = (S) =>
             .title("Homepage photos")
             .defaultOrdering([{ field: "order", direction: "asc" }]),
         ),
+      S.listItem()
+        .title("Our story")
+        .icon(ImageIcon)
+        .id("story")
+        .child(
+          S.document().schemaType("story").documentId("story").title("Our story"),
+        ),
     ]);

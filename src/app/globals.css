@@ -663,6 +663,10 @@ button:focus-visible {
   object-position: center 18%;
 }
 
+.story-photo img.story-photo-cms {
+  object-position: center;
+}
+
 .prose p {
   margin: 0 0 1rem;
   max-width: 40rem;

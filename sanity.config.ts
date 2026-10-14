@@ -26,4 +26,18 @@ export default defineConfig({
       ...schemaTemplates,
     ],
   },
+  document: {
+    newDocumentOptions: (prev, { creationContext }) => {
+      if (creationContext.type === "global") {
+        return prev.filter((template) => template.templateId !== "story");
+      }
+      return prev;
+    },
+    actions: (prev, { schemaType }) => {
+      if (schemaType === "story") {
+        return prev.filter((action) => action.action !== "duplicate");
+      }
+      return prev;
+    },
+  },
 });
