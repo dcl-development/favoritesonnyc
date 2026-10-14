@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 320" fill="none">
+  <!--
+    Locked geometry of the Favorite Son pie mark.
+    True arcs and straight lines. Stroke each path at its width.
+    Neon color, the white core, and the glow are applied in PieMark.
+  -->
+  <g id="tubes" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
+    <path id="ring" stroke-width="10" d="M249.05 140.48 A126.26 126.26 0 1 1 140.81 62.07"/>
+    <path id="slice" stroke-width="9.5" d="M132.28 195.77 L241.69 126.61 A130.10 130.10 0 0 0 157.64 56.65 Z"/>
+    <path id="crust" stroke-width="11" d="M165.77 6.08 A146.53 146.53 0 0 1 275.66 98.53 L258.79 112.30 A154.20 154.20 0 0 0 159.73 34.21 Z"/>
+  </g>
+</svg>

@@ -47,23 +47,25 @@ export default async function StoryPage() {
 
   return (
     <Sheet title="our story">
-      <StoryFigure photo={photo} />
-      <div className="prose">
-        <p>
-          Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s
-          pizzeria on Forest Avenue. Danny is the owner, the pizzaiolo, and the
-          sommelier. The name is for his mother, Maryann, from her only son.
-        </p>
-        <p>
-          The pies are naturally leavened, New York style, baked in an electric
-          Moretti Forni. The wine is natural. Danny spent about six years on the
-          dough before the doors opened in September 2026, after kitchens at
-          Carbone and Locanda Verde, and after Bin 5, the wine bar he had in
-          Rosebank.
-        </p>
-        <p>
-          <a href={restaurant.press}>Click here for the SILive story.</a>
-        </p>
+      <div className="story-grid">
+        <StoryFigure photo={photo} />
+        <div className="prose">
+          <p>
+            Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s
+            pizzeria on Forest Avenue. Danny is the owner, the pizzaiolo, and the
+            sommelier. The name is for his mother, Maryann, from her only son.
+          </p>
+          <p>
+            The pies are naturally leavened, New York style, baked in an electric
+            Moretti Forni. The wine is natural. Danny spent about six years on the
+            dough before the doors opened in September 2026, after kitchens at
+            Carbone and Locanda Verde, and after Bin 5, the wine bar he had in
+            Rosebank.
+          </p>
+          <p>
+            <a href={restaurant.press}>Click here for the SILive story.</a>
+          </p>
+        </div>
       </div>
     </Sheet>
   );

@@ -23,7 +23,7 @@ export default function VisitPage() {
   return (
     <Sheet title="visit">
       <div className="visit-grid">
-        <div>
+        <div className="visit-copy">
           <p>
             <a href={restaurant.maps.google}>
               {restaurant.address.street}
@@ -32,7 +32,7 @@ export default function VisitPage() {
               {restaurant.address.postal}
             </a>
           </p>
-          <p className="visit-phone">
+          <p>
             <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
           </p>
           <p className="visit-phone">
@@ -52,10 +52,10 @@ export default function VisitPage() {
               </li>
             ))}
           </ul>
-          <p className="section-note" style={{ marginTop: "1rem" }}>
-            {restaurant.notice.title}. {restaurant.notice.body}
-          </p>
-          <p className="section-note">there is covered outdoor seating.</p>
+          <div className="visit-notes">
+            <p>{`${restaurant.notice.title}. ${restaurant.notice.body}`}</p>
+            <p>there is covered outdoor seating.</p>
+          </div>
           <p>
             <a href={`mailto:${restaurant.email}`}>{restaurant.email}</a>
           </p>
@@ -65,7 +65,7 @@ export default function VisitPage() {
             src="/photos/storefront.jpg"
             alt="Danny Ippolito outside Favorite Son at 1210 Forest Avenue."
             fill
-            sizes="(max-width: 800px) 100vw, 400px"
+            sizes="(max-width: 720px) 100vw, 400px"
             priority
           />
         </figure>
