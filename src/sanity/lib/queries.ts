@@ -18,6 +18,17 @@ export const POURS_QUERY = defineQuery(
   }`,
 );
 
+export const STORY_QUERY = defineQuery(
+  `*[_id == "story"][0]{
+    image {
+      alt,
+      crop,
+      hotspot,
+      asset
+    }
+  }`,
+);
+
 export const PHOTOS_QUERY = defineQuery(
   `*[_type == "photo" && defined(image.asset)] | order(order asc) {
     _id,

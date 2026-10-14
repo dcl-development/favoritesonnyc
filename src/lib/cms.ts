@@ -14,12 +14,14 @@ import {
   type Pour,
   type Wine,
 } from "@/content/menu";
-import { photos as staticPhotos, type Photo } from "@/content/site";
+import { photos as staticPhotos, storyPhoto, type Photo } from "@/content/site";
 import { client } from "@/sanity/lib/client";
+import { storyPhotoUrl, type StoryImageField } from "@/sanity/lib/image";
 import {
   DISHES_QUERY,
   PHOTOS_QUERY,
   POURS_QUERY,
+  STORY_QUERY,
   WINES_QUERY,
 } from "@/sanity/lib/queries";
 
@@ -198,6 +200,37 @@ export async function getDrinks(): Promise<DrinksBoard> {
     return board;
   } catch {
     return staticDrinks;
+  }
+}
+
+export type StoryPhoto = {
+  src: string;
+  alt: string;
+  fromSanity: boolean;
+};
+
+const fallbackStoryPhoto: StoryPhoto = {
+  src: storyPhoto.src,
+  alt: storyPhoto.alt,
+  fromSanity: false,
+};
+
+export async function getStoryPhoto(): Promise<StoryPhoto> {
+  try {
+    const story = await client.fetch(STORY_QUERY, {}, fetchOptions);
+    const image = story?.image as (StoryImageField & { alt?: string | null }) | null | undefined;
+    if (!image?.asset?._ref) return fallbackStoryPhoto;
+
+    const src = storyPhotoUrl(image);
+    if (!src) return fallbackStoryPhoto;
+
+    return {
+      src,
+      alt: image.alt?.trim() || "Favorite Son",
+      fromSanity: true,
+    };
+  } catch {
+    return fallbackStoryPhoto;
   }
 }
 
