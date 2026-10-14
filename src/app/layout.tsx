@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { PieLight } from "@/components/PieLight";
 import { StickyBar } from "@/components/StickyBar";
 import { restaurant } from "@/content/site";
@@ -6,6 +6,13 @@ import "./globals.css";
 
 const description =
   "100% sourdough pizza, natural wine, and cocktails at 1210 Forest Avenue, Staten Island. Wednesday–Monday, 5–10. Closed Tuesday. Dine-in, walk-in.";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#f8f4eb",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(restaurant.url),
