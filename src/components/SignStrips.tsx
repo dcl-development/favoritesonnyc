@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { restaurant } from "@/content/site";
+import { PieMark } from "./PieMark";
 import { StatusLine } from "./StatusLine";
 
 const strips = [
@@ -114,6 +115,7 @@ export function SignStrips() {
 
   return (
     <div className="sign">
+      <PieMark className="pie-mark pie-mark-home" />
       <div className="sign-board">
         <div className="sign-papers">
           {strips.map((strip, index) => (

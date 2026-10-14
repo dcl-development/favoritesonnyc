@@ -244,19 +244,8 @@ button:focus-visible {
   --home-group: 1.5rem;
 }
 
-.home-logo {
-  padding-top: 2.5rem;
-  margin-bottom: var(--home-group);
-}
-
-.home .pie-mark {
-  margin-bottom: 0;
-}
-
 .home .sign {
-  padding-top: 0;
   padding-bottom: 0;
-  margin-bottom: var(--home-group);
 }
 
 .home-stack {
@@ -267,7 +256,7 @@ button:focus-visible {
   align-items: center;
   gap: var(--home-group);
   width: min(100% - 2rem, 36rem);
-  margin: 0 auto;
+  margin: var(--home-group) auto 0;
   text-align: center;
 }
 
@@ -282,8 +271,8 @@ button:focus-visible {
 .home-pages {
   flex-wrap: wrap;
   align-items: center;
-  width: min(100% - 2rem, 36rem);
-  margin: 0 auto var(--home-group);
+  width: 100%;
+  margin: 0;
 }
 
 .home-copy,
@@ -388,7 +377,7 @@ button:focus-visible {
 }
 
 .home .pie-strip {
-  margin-top: var(--home-group);
+  margin-top: calc(var(--home-group) + 1.3rem);
 }
 
 .pie-strip:active {
