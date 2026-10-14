@@ -123,8 +123,9 @@ button:focus-visible {
 
 .pie-flicker {
   opacity: 0;
-  /* Same 10.5s cycle as the streak. The first snap is at 75%, when the glint is three quarters around the ring. */
-  animation: pie-flicker 10.5s step-end infinite;
+  animation: pie-flicker 8.5s step-end infinite;
+  /* Burst sits at 72.94% of the cycle. A negative delay starts that snap 2s after load. */
+  animation-delay: calc(2s - 8.5s * 0.7294);
 }
 
 .pie-mark-tiny .pie-flicker {
@@ -803,18 +804,18 @@ button:focus-visible {
 
 @keyframes pie-glint {
   0%,
-  58.968% {
+  6% {
     stroke-dashoffset: 48;
     opacity: 0;
   }
-  66.968% {
+  14% {
     opacity: 0.55;
   }
-  84.968% {
+  32% {
     stroke-dashoffset: -700;
     opacity: 0.4;
   }
-  92.968%,
+  40%,
   100% {
     stroke-dashoffset: -700;
     opacity: 0;
@@ -825,52 +826,52 @@ button:focus-visible {
   0% {
     opacity: 0;
   }
-  75% {
+  72.94% {
     opacity: 0.056;
   }
-  75.761% {
+  73.88% {
     opacity: 0;
   }
-  76.813% {
+  75.18% {
     opacity: 0.053;
   }
-  77.242% {
+  75.71% {
     opacity: 0;
   }
-  78.19% {
+  76.88% {
     opacity: 0.06;
   }
-  78.861% {
+  77.71% {
     opacity: 0;
   }
-  79.38% {
+  78.35% {
     opacity: 0.049;
   }
-  79.76% {
+  78.82% {
     opacity: 0;
   }
-  80.91% {
+  80.24% {
     opacity: 0.056;
   }
-  81.76% {
+  81.29% {
     opacity: 0;
   }
-  82.48% {
+  82.18% {
     opacity: 0.06;
   }
-  82.95% {
+  82.76% {
     opacity: 0;
   }
-  84.002% {
+  84.06% {
     opacity: 0.051;
   }
-  84.569% {
+  84.76% {
     opacity: 0;
   }
-  84.998% {
+  85.29% {
     opacity: 0.064;
   }
-  85.807%,
+  86.29%,
   100% {
     opacity: 0;
   }
