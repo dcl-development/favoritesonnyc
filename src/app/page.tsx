@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
+import { PieMark } from "@/components/PieMark";
 import { PieStrip } from "@/components/PieStrip";
 import { SignStrips } from "@/components/SignStrips";
 import { nav, restaurant } from "@/content/site";
@@ -10,17 +11,20 @@ export default async function Home() {
 
   return (
     <main className="home">
+      <div className="home-logo">
+        <PieMark className="pie-mark pie-mark-home" />
+      </div>
+      <nav className="home-pages" aria-label="pages">
+        {nav.map((item) => (
+          <Link key={item.href} href={item.href}>
+            <span aria-hidden="true">[ </span>
+            <span className="home-label">{item.label}</span>
+            <span aria-hidden="true"> ]</span>
+          </Link>
+        ))}
+      </nav>
       <SignStrips />
       <div className="home-stack">
-        <nav className="home-pages" aria-label="pages">
-          {nav.map((item) => (
-            <Link key={item.href} href={item.href}>
-              <span aria-hidden="true">[ </span>
-              <span className="home-label">{item.label}</span>
-              <span aria-hidden="true"> ]</span>
-            </Link>
-          ))}
-        </nav>
         <div className="home-reserve">
           <a
             className="home-reserve-link"
