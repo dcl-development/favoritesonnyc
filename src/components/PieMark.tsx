@@ -5,8 +5,8 @@ import { PIE_TUBE } from "@/marks/pie-geometry";
 // Color, core, and glow are a style on top of that locked geometry.
 const TUBES = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust] as const;
 
-// A short stretch of the upper ring, ending at the open end. Style only.
-const FLICKER = "M84.79 70.96 A126.26 126.26 0 0 1 140.81 62.07";
+// Left side of the ring, up to the open end. Style only; the locked paths stay put.
+const FLICKER = "M7.75 166.11 A126.26 126.26 0 0 1 140.81 62.07";
 
 // Corners and open ends run a little hotter than the straight runs.
 const BENDS = [
@@ -36,6 +36,8 @@ export function PieMark({ className = "" }: { className?: string }) {
   const glowId = `pie-glow-${uid}`;
   const glassId = `pie-glass-${uid}`;
   const filamentId = `pie-filament-${uid}`;
+  const fadeId = `pie-flicker-fade-${uid}`;
+  const maskId = `pie-flicker-mask-${uid}`;
 
   return (
     <svg
@@ -62,25 +64,38 @@ export function PieMark({ className = "" }: { className?: string }) {
         </linearGradient>
         <filter
           id={glowId}
-          x="-24"
-          y="-28"
-          width="336"
-          height="376"
+          x="-36"
+          y="-40"
+          width="360"
+          height="400"
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
           <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="tight" />
-          <feFlood floodColor="#8c0610" floodOpacity="0.95" result="tightInk" />
+          <feFlood floodColor="#8c0610" floodOpacity="0.4" result="tightInk" />
           <feComposite in="tightInk" in2="tight" operator="in" result="tightGlow" />
-          <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="halo" />
-          <feFlood floodColor="#c4121a" floodOpacity="0.22" result="haloInk" />
-          <feComposite in="haloInk" in2="halo" operator="in" result="haloGlow" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="6.5" result="mid" />
+          <feFlood floodColor="#c01018" floodOpacity="0.2" result="midInk" />
+          <feComposite in="midInk" in2="mid" operator="in" result="midGlow" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="soft" />
+          <feFlood floodColor="#e0141c" floodOpacity="0.11" result="softInk" />
+          <feComposite in="softInk" in2="soft" operator="in" result="softGlow" />
           <feMerge>
-            <feMergeNode in="haloGlow" />
+            <feMergeNode in="softGlow" />
+            <feMergeNode in="midGlow" />
             <feMergeNode in="tightGlow" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+        <linearGradient id={fadeId} gradientUnits="userSpaceOnUse" x1="7.75" y1="166.11" x2="140.81" y2="62.07">
+          <stop offset="0%" stopColor="#fff" stopOpacity="0" />
+          <stop offset="16%" stopColor="#fff" stopOpacity="1" />
+          <stop offset="84%" stopColor="#fff" stopOpacity="1" />
+          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+        <mask id={maskId} maskUnits="userSpaceOnUse" x="-24" y="20" width="200" height="180">
+          <path d={FLICKER} fill="none" stroke={`url(#${fadeId})`} strokeWidth="26" strokeLinecap="round" />
+        </mask>
       </defs>
       <svg viewBox="0 0 286 320" x="0" y="0" width="286" height="320" overflow="visible" filter={`url(#${glowId})`}>
         <Tubes stroke={`url(#${glassId})`} />
@@ -94,7 +109,15 @@ export function PieMark({ className = "" }: { className?: string }) {
           <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="#fff7f5" />
         ))}
       </g>
-      <path className="pie-flicker" d={FLICKER} fill="none" stroke="#4a0610" strokeWidth="16" strokeLinecap="round" />
+      <path
+        className="pie-flicker"
+        d={FLICKER}
+        fill="none"
+        stroke="#2a0408"
+        strokeWidth="18"
+        strokeLinecap="round"
+        mask={`url(#${maskId})`}
+      />
     </svg>
   );
 }
