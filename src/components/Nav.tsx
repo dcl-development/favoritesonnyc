@@ -15,7 +15,9 @@ export function Nav() {
           href={item.href}
           aria-current={path === item.href ? "page" : undefined}
         >
-          {item.label}
+          <span aria-hidden="true">[ </span>
+          <span className="nav-label">{item.label}</span>
+          <span aria-hidden="true"> ]</span>
         </Link>
       ))}
     </nav>
