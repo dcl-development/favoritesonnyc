@@ -716,15 +716,10 @@ button:focus-visible {
 }
 
 .visit-notes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  margin: 0;
   color: var(--soft);
   line-height: 1.45;
-}
-
-.visit-notes p {
-  margin: 0;
+  text-wrap: pretty;
 }
 
 .visit-photo {
