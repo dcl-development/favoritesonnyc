@@ -2,7 +2,7 @@
 
 This is the operating manual for the Favorite Son website. The public site is a small Next.js app. The owner edits the menu, drinks, homepage photos, and the Our Story photo in Sanity. Hours, the service notice, reservations, and the neon sign live in the repo.
 
-Background research that is not shown on the site is in [`favorite-son-research-brief.md`](../favorite-son-research-brief.md) at the repo root.
+Background research that is not shown on the site is in [`favorite-son-research-brief.md`](../favorite-son-research-brief.md) at the repo root. That file is the in-repo copy. Jake holds the original research archive (ChatGPT, September 24–25, 2026).
 
 ## Domain and hosting
 
@@ -75,6 +75,43 @@ https://toast.app/r/favorite-son-llc-1210-forest-avenue
 Home uses `[ reservations ]`. Visit uses `[ book a reservation ]`. Both open that URL in a new tab. Parties of 8 or more are asked to call. On a fine-pointer desktop, hovering the home reservations link shows that note. It is also in the visit paragraph.
 
 Hours are Wednesday through Monday, 5–10, closed Tuesday, in America/New_York. `src/lib/hours.ts` turns that into the “open until 10” / “opens at 5” line in the footer and the sticky bar. The visit page prints the seven days by hand. None of this is a Sanity field.
+
+## Business facts and content rules
+
+Use these when writing or editing public copy. The published Sanity menu and `src/content/menu.ts` already follow the menu rules below.
+
+**Identity**
+
+- Legal name: Favorite Son Pizzeria & Wine Bar. The wordmark on the site is lowercase “favorite son”.
+- Address: 1210 Forest Avenue, Staten Island, NY 10310. Say “Forest Avenue, Staten Island.” Westerleigh and Port Richmond are both used elsewhere, and the neighborhood name is not settled.
+- Danny Ippolito is the contact: danny@favoritesonnyc.com, 929-805-0063.
+- Hours: Wednesday–Monday, 5–10pm. Closed Tuesday. The restaurant opened September 9, 2026.
+- Instagram: [@favoritesonnyc](https://www.instagram.com/favoritesonnyc/). Danny’s account is [@shaolinsomm](https://www.instagram.com/shaolinsomm/).
+- Google listing: https://www.google.com/maps?cid=1258756891494654008. The site’s address link is a maps search for the street address.
+- The Facebook page linked from Danny is labeled Unofficial. Do not link it.
+
+**How to describe the food**
+
+- The oven is an electric Moretti Forni. Never call it wood-fired or coal-fired.
+- The pies are naturally leavened, New York-style sourdough, 14 inches, cut into six slices.
+- Do not invent fermentation hours, superlatives, awards, or health grades. Press and comments that say “first” or “best” are not the restaurant’s claims.
+- Beet salad is arugula, orange, pistachio, and goat cheese, and it is marked for nuts. Do not change the cheese to robiola.
+- Tiramisu cannoli is one dessert (three chocolate-covered minis), not two dishes.
+- “Baby, you’re driving” contains alcohol (bison-grass vodka, grapefruit liqueur, lime, Lillet Blanc). It is not a mocktail. Athletic Run Wild is the nonalcoholic beer.
+- The beer list is those five, at $7–$9: Menabrea Bionda $8, Forst Doppelbock $7, Five Boroughs Gridlock hazy IPA $9, Killsboro Antipasto! pilsner $8, Athletic Run Wild $8.
+- Nut marks follow the printed menu: beet salad, butternut squash, olive oil cake, and tartufo.
+
+## Open questions
+
+Leave these as printed until Danny confirms a change. Do not guess a correction into the menu.
+
+- Cellario, Langhe Timorasso: the grape field repeats the producer name, “Cellario”.
+- “Vini Barraci” is the spelling on the supplied wine list. Confirm it against the bottle before changing it.
+- Day Wines’ tasting note says “naval orange”. It may have meant “navel”.
+- Porchetta & peppers lists mozz, long hots, and parm. Porchetta itself is missing from that ingredient line.
+- Glass and bottle pour sizes are not on the wine list.
+- Graceanne’s name and title are not confirmed for a credit line. The story page currently uses Graceanne Belmonte-Ippolito, from Danny’s public Facebook intro. Her role at the restaurant is not established.
+- Photo reuse permissions are not on file. Do not treat social screenshots or press photos as licensed site assets.
 
 ## Sanity
 
