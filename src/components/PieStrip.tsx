@@ -5,84 +5,139 @@ import { useEffect, useRef } from "react";
 import type { Photo } from "@/content/site";
 
 export function PieStrip({ photos }: { photos: Photo[] }) {
-  const track = useRef<HTMLDivElement>(null);
-  const pos = useRef(0);
-  const vel = useRef(0.4);
+  const scroller = useRef<HTMLDivElement>(null);
+  const coast = useRef(0);
+  const settleTimer = useRef(0);
+  const settleGen = useRef(0);
+  const vel = useRef(0);
   const drag = useRef<{
     x: number;
     y: number;
-    pos: number;
+    left: number;
     lastX: number;
     lastT: number;
     locked: boolean;
+    pointer: number;
   } | null>(null);
 
-  useEffect(() => {
-    const node = track.current;
-    if (!node) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) vel.current = 0;
+  useEffect(
+    () => () => {
+      window.cancelAnimationFrame(coast.current);
+      window.clearTimeout(settleTimer.current);
+    },
+    [],
+  );
 
-    let frame = 0;
-    const tick = () => {
-      if (!drag.current) {
-        pos.current += vel.current;
-        if (reduce) vel.current *= 0.9;
-        else if (Math.abs(vel.current) > 0.4) vel.current *= 0.965;
-        else vel.current = 0.4;
-      }
+  function prefersStill() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
 
-      const width = node.scrollWidth / 2;
-      if (width > 0) {
-        if (pos.current < 0) pos.current += width;
-        if (pos.current >= width) pos.current -= width;
+  function nearest(node: HTMLDivElement) {
+    const origin = node.getBoundingClientRect().left;
+    let best = node.scrollLeft;
+    let bestDist = Infinity;
+    node.querySelectorAll<HTMLElement>(".pie-frame").forEach((frame) => {
+      const target = node.scrollLeft + (frame.getBoundingClientRect().left - origin);
+      const dist = Math.abs(frame.getBoundingClientRect().left - origin);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = target;
       }
-      node.style.transform = `translate3d(${-pos.current}px, 0, 0)`;
-      frame = window.requestAnimationFrame(tick);
+    });
+    return best;
+  }
+
+  function settle(node: HTMLDivElement) {
+    const token = ++settleGen.current;
+    const left = nearest(node);
+    const behavior = prefersStill() ? "auto" : "smooth";
+    node.scrollTo({ left, behavior });
+    window.clearTimeout(settleTimer.current);
+    if (behavior === "auto") {
+      node.classList.remove("is-free");
+      return;
+    }
+    const done = () => {
+      if (token !== settleGen.current) return;
+      settleGen.current += 1;
+      node.classList.remove("is-free");
+      node.removeEventListener("scrollend", done);
     };
-
-    frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
+    node.addEventListener("scrollend", done);
+    settleTimer.current = window.setTimeout(done, 700);
+  }
 
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.pointerType !== "mouse") return;
+    const node = scroller.current;
+    if (!node) return;
+    window.cancelAnimationFrame(coast.current);
+    window.clearTimeout(settleTimer.current);
+    settleGen.current += 1;
+    node.classList.add("is-free");
+    vel.current = 0;
     drag.current = {
       x: event.clientX,
       y: event.clientY,
-      pos: pos.current,
+      left: node.scrollLeft,
       lastX: event.clientX,
       lastT: performance.now(),
       locked: false,
+      pointer: event.pointerId,
     };
   }
 
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
     const current = drag.current;
-    if (!current) return;
+    const node = scroller.current;
+    if (!current || !node || event.pointerType !== "mouse") return;
     const dx = event.clientX - current.x;
     const dy = event.clientY - current.y;
 
     if (!current.locked) {
-      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
       if (Math.abs(dy) > Math.abs(dx)) {
         drag.current = null;
+        node.classList.remove("is-free");
         return;
       }
       current.locked = true;
-      event.currentTarget.setPointerCapture(event.pointerId);
+      node.setPointerCapture(current.pointer);
     }
 
-    pos.current = current.pos - dx;
+    node.scrollLeft = current.left - dx;
     const now = performance.now();
     const dt = now - current.lastT || 16;
-    vel.current = ((current.lastX - event.clientX) / dt) * 16;
-    vel.current = Math.max(-18, Math.min(18, vel.current));
+    vel.current = Math.max(-28, Math.min(28, ((current.lastX - event.clientX) / dt) * 16));
     current.lastX = event.clientX;
     current.lastT = now;
   }
 
-  function endDrag() {
+  function endDrag(event: React.PointerEvent<HTMLDivElement>) {
+    const current = drag.current;
+    const node = scroller.current;
     drag.current = null;
+    if (!current?.locked || !node || event.pointerType !== "mouse") {
+      node?.classList.remove("is-free");
+      return;
+    }
+
+    if (prefersStill() || Math.abs(vel.current) < 0.6) {
+      settle(node);
+      return;
+    }
+
+    let v = vel.current;
+    const tick = () => {
+      v *= 0.88;
+      node.scrollLeft += v;
+      if (Math.abs(v) < 0.5) {
+        settle(node);
+        return;
+      }
+      coast.current = window.requestAnimationFrame(tick);
+    };
+    coast.current = window.requestAnimationFrame(tick);
   }
 
   if (photos.length === 0) return null;
@@ -90,27 +145,25 @@ export function PieStrip({ photos }: { photos: Photo[] }) {
   return (
     <div
       className="pie-strip"
+      ref={scroller}
+      aria-label="photos"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
     >
-      <div className="pie-track" ref={track}>
-        {[0, 1].map((copy) => (
-          <div className="pie-set" key={copy} aria-hidden={copy === 1}>
-            {photos.map((photo) => (
-              <figure className="pie-frame" key={`${copy}-${photo.src}`}>
-                <Image
-                  src={photo.src}
-                  alt={copy === 0 ? photo.alt : ""}
-                  fill
-                  sizes="(max-width: 700px) 70vw, 280px"
-                  draggable={false}
-                />
-                <figcaption>{photo.label}</figcaption>
-              </figure>
-            ))}
-          </div>
+      <div className="pie-track">
+        {photos.map((photo) => (
+          <figure className="pie-frame" key={photo.src}>
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              sizes="(max-width: 700px) 70vw, 280px"
+              draggable={false}
+            />
+            <figcaption>{photo.label}</figcaption>
+          </figure>
         ))}
       </div>
     </div>

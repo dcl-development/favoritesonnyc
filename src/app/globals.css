@@ -86,6 +86,14 @@ a:focus-visible {
   text-decoration: none;
 }
 
+.site-nav a > span[aria-hidden],
+.home-pages a > span[aria-hidden],
+.home-reserve-link > span[aria-hidden],
+.bracket-link > span[aria-hidden] {
+  display: inline-block;
+  transition: transform 180ms ease-out;
+}
+
 .site-nav a,
 .site-nav a:hover,
 .site-nav a:focus-visible,
@@ -416,6 +424,44 @@ button:focus-visible {
   text-underline-offset: 0.18em;
 }
 
+@media (hover: hover) {
+  .site-nav a:hover > span[aria-hidden]:first-child,
+  .home-pages a:hover > span[aria-hidden]:first-child,
+  .home-reserve-link:hover > span[aria-hidden]:first-child,
+  .bracket-link:hover > span[aria-hidden]:first-child {
+    transform: translateX(-2px);
+  }
+
+  .site-nav a:hover > span[aria-hidden]:last-child,
+  .home-pages a:hover > span[aria-hidden]:last-child,
+  .home-reserve-link:hover > span[aria-hidden]:last-child,
+  .bracket-link:hover > span[aria-hidden]:last-child {
+    transform: translateX(2px);
+  }
+}
+
+.site-nav a:focus-visible > span[aria-hidden]:first-child,
+.site-nav a:active > span[aria-hidden]:first-child,
+.home-pages a:focus-visible > span[aria-hidden]:first-child,
+.home-pages a:active > span[aria-hidden]:first-child,
+.home-reserve-link:focus-visible > span[aria-hidden]:first-child,
+.home-reserve-link:active > span[aria-hidden]:first-child,
+.bracket-link:focus-visible > span[aria-hidden]:first-child,
+.bracket-link:active > span[aria-hidden]:first-child {
+  transform: translateX(-2px);
+}
+
+.site-nav a:focus-visible > span[aria-hidden]:last-child,
+.site-nav a:active > span[aria-hidden]:last-child,
+.home-pages a:focus-visible > span[aria-hidden]:last-child,
+.home-pages a:active > span[aria-hidden]:last-child,
+.home-reserve-link:focus-visible > span[aria-hidden]:last-child,
+.home-reserve-link:active > span[aria-hidden]:last-child,
+.bracket-link:focus-visible > span[aria-hidden]:last-child,
+.bracket-link:active > span[aria-hidden]:last-child {
+  transform: translateX(2px);
+}
+
 .reserve-tip {
   display: none;
 }
@@ -473,9 +519,24 @@ button:focus-visible {
 
 .pie-strip {
   margin-top: 1.75rem;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
   cursor: grab;
-  touch-action: pan-y;
+  touch-action: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pie-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.pie-strip.is-free {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
 }
 
 .home .pie-strip {
@@ -488,13 +549,8 @@ button:focus-visible {
 
 .pie-track {
   display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-.pie-set {
-  display: flex;
   gap: 0.75rem;
+  width: max-content;
   padding-right: 0.75rem;
 }
 
@@ -504,6 +560,8 @@ button:focus-visible {
   height: 15.5rem;
   margin: 0;
   flex: none;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
   background: var(--paper);
 }
 
@@ -829,8 +887,13 @@ button:focus-visible {
   background: var(--paper);
   border-bottom: 1px dashed transparent;
   transform: translate3d(0, -110%, 0);
+  opacity: 0;
   visibility: hidden;
-  transition: transform 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+  transition:
+    transform 250ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 250ms ease-out,
+    visibility 0s linear 250ms;
 }
 
 .sticky-bar::before {
@@ -846,8 +909,14 @@ button:focus-visible {
 
 .sticky-bar-on {
   transform: translate3d(0, 0, 0);
+  opacity: 1;
   visibility: visible;
+  pointer-events: auto;
   border-bottom-color: var(--ink);
+  transition:
+    transform 250ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 250ms ease-out,
+    visibility 0s linear 0s;
   box-shadow:
     0 1px 6px rgba(0, 0, 0, 0.06),
     0 -100px 0 100px var(--paper);
@@ -863,7 +932,29 @@ button:focus-visible {
 }
 
 .sheet-enter {
-  animation: sheet-in 460ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation: sheet-in 230ms ease-out both;
+}
+
+html.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+}
+
+html.reveal-ready [data-reveal="1"] {
+  --reveal: 1;
+}
+
+html.reveal-ready [data-reveal="2"] {
+  --reveal: 2;
+}
+
+html.reveal-ready [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 460ms ease-out,
+    transform 460ms ease-out;
+  transition-delay: calc(var(--reveal, 0) * 55ms);
 }
 
 .missing {
@@ -1005,10 +1096,10 @@ button:focus-visible {
 
 @keyframes sheet-in {
   from {
-    transform: translateY(16px);
+    opacity: 0.42;
   }
   to {
-    transform: none;
+    opacity: 1;
   }
 }
 
@@ -1112,16 +1203,54 @@ body:has(.studio-root) .skip {
   .sheet-enter,
   .sticky-bar,
   .site-nav .nav-label::after,
-  .menu-row-tap {
+  .menu-row-tap,
+  .site-nav a > span[aria-hidden],
+  .home-pages a > span[aria-hidden],
+  .home-reserve-link > span[aria-hidden],
+  .bracket-link > span[aria-hidden] {
     animation: none;
     transition: none;
   }
 
+  .pie-strip {
+    scroll-behavior: auto;
+  }
+
+  html.reveal-ready [data-reveal],
+  html.reveal-ready [data-reveal].is-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .site-nav a > span[aria-hidden],
+  .home-pages a > span[aria-hidden],
+  .home-reserve-link > span[aria-hidden],
+  .bracket-link > span[aria-hidden],
+  .site-nav a:hover > span[aria-hidden],
+  .site-nav a:focus-visible > span[aria-hidden],
+  .site-nav a:active > span[aria-hidden],
+  .home-pages a:hover > span[aria-hidden],
+  .home-pages a:focus-visible > span[aria-hidden],
+  .home-pages a:active > span[aria-hidden],
+  .home-reserve-link:hover > span[aria-hidden],
+  .home-reserve-link:focus-visible > span[aria-hidden],
+  .home-reserve-link:active > span[aria-hidden],
+  .bracket-link:hover > span[aria-hidden],
+  .bracket-link:focus-visible > span[aria-hidden],
+  .bracket-link:active > span[aria-hidden] {
+    transform: none;
+  }
+
   .sticky-bar {
     transform: translate3d(0, 0, 0);
+    opacity: 1;
+    visibility: visible;
   }
 
   .sticky-bar:not(.sticky-bar-on) {
     transform: translate3d(0, -110%, 0);
+    opacity: 0;
+    visibility: hidden;
   }
 }

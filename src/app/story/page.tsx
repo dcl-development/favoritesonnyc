@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Reveal } from "@/components/Reveal";
 import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
 import { getStoryPhoto, type StoryPhoto } from "@/lib/cms";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 function StoryFigure({ photo }: { photo: StoryPhoto }) {
   if (photo.fromSanity) {
     return (
-      <figure className="story-photo">
+      <Reveal as="figure" className="story-photo">
         <Image
           className="story-photo-cms"
           src={photo.src}
@@ -25,12 +26,12 @@ function StoryFigure({ photo }: { photo: StoryPhoto }) {
           loading="lazy"
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
-      </figure>
+      </Reveal>
     );
   }
 
   return (
-    <figure className="story-photo">
+    <Reveal as="figure" className="story-photo">
       <Image
         src={photo.src}
         alt={photo.alt}
@@ -38,7 +39,7 @@ function StoryFigure({ photo }: { photo: StoryPhoto }) {
         sizes={storySizes}
         loading="lazy"
       />
-    </figure>
+    </Reveal>
   );
 }
 
@@ -49,7 +50,7 @@ export default async function StoryPage() {
     <Sheet title="our story">
       <div className="story-grid">
         <StoryFigure photo={photo} />
-        <div className="prose">
+        <Reveal className="prose" delay={1}>
           <p>
             Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s
             pizzeria on Forest Avenue. Danny is the owner, the pizzaiolo, and the
@@ -65,7 +66,7 @@ export default async function StoryPage() {
           <p>
             <a href={restaurant.press}>Click here for the SILive story.</a>
           </p>
-        </div>
+        </Reveal>
       </div>
     </Sheet>
   );

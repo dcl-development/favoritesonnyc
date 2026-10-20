@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { PieStrip } from "@/components/PieStrip";
+import { Reveal } from "@/components/Reveal";
 import { SignStrips } from "@/components/SignStrips";
 import { nav, restaurant } from "@/content/site";
 import { getPhotos } from "@/lib/cms";
@@ -43,7 +44,9 @@ export default async function Home() {
           <p>{restaurant.notice.title}.</p>
         </div>
       </div>
-      <PieStrip photos={photos} />
+      <Reveal>
+        <PieStrip photos={photos} />
+      </Reveal>
       <div className="home-foot">
         <Footer />
       </div>
