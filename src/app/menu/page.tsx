@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DashedRule } from "@/components/DashedRule";
+import { MenuJumps } from "@/components/MenuJumps";
 import { MenuRow } from "@/components/MenuRow";
 import { Sheet } from "@/components/Sheet";
 import { WineRow } from "@/components/WineRow";
@@ -31,10 +32,7 @@ export default async function MenuPage() {
 
   return (
     <Sheet title="menu">
-      <nav className="menu-jumps" aria-label="on this page">
-        <a href="#food">food</a>
-        <a href="#drinks">wine & drinks</a>
-      </nav>
+      <MenuJumps />
       <section id="food" className="menu-part">
         <p className="section-note">{`${restaurant.notice.title}. ${restaurant.notice.body}`}</p>
         {menu.empty ? (
