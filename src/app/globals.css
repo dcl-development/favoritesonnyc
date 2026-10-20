@@ -18,12 +18,13 @@
 
 html {
   margin: 0;
-  background: var(--paper);
+  min-height: 100%;
+  background: var(--wall);
 }
 
 body {
   margin: 0;
-  min-height: 100%;
+  min-height: 100dvh;
   background: var(--wall);
   color: var(--ink);
   font-family: var(--font-type);
@@ -528,6 +529,10 @@ button:focus-visible {
   overflow-x: clip;
 }
 
+.sheet:not(:has(.site-footer)) {
+  padding-bottom: calc(2.25rem + env(safe-area-inset-bottom, 0px));
+}
+
 .sheet-mast h1 {
   margin: 0.2rem 0 0;
   font-size: clamp(2rem, 6vw, 3rem);
@@ -781,7 +786,7 @@ button:focus-visible {
 
 .site-footer {
   margin-top: 1.75rem;
-  padding-bottom: 0.25rem;
+  padding-bottom: calc(0.25rem + env(safe-area-inset-bottom, 0px));
 }
 
 .footer-groups {
@@ -1018,7 +1023,7 @@ button:focus-visible {
     width: min(100% - 2.5rem, 52rem);
     margin-top: 1.25rem;
     margin-bottom: 1.25rem;
-    padding: 2rem 2.25rem 2.5rem;
+    padding: 2rem 2.25rem calc(2.5rem + env(safe-area-inset-bottom, 0px));
     border: 1px solid rgba(26, 20, 15, 0.14);
   }
 
