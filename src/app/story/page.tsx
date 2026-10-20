@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
-import { getStoryPhoto, type StoryPhoto } from "@/lib/cms";
+import { getStory, type StoryPhoto } from "@/lib/cms";
 
 const storySizes = "(max-width: 799px) calc(100vw - 2.3rem), 47.5rem";
 
@@ -44,25 +44,15 @@ function StoryFigure({ photo }: { photo: StoryPhoto }) {
 }
 
 export default async function StoryPage() {
-  const photo = await getStoryPhoto();
+  const story = await getStory();
 
   return (
     <Sheet title="our story">
       <div className="story-grid">
-        <StoryFigure photo={photo} />
+        <StoryFigure photo={story.photo} />
         <Reveal className="prose" delay={1}>
-          <p>
-            Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s
-            pizzeria on Forest Avenue. Danny is the owner, the pizzaiolo, and the
-            sommelier. The name is for his mother, Maryann, from her only son.
-          </p>
-          <p>
-            The pies are naturally leavened, New York style, baked in an electric
-            Moretti Forni. The wine is natural. Danny spent about six years on the
-            dough before the doors opened in September 2026, after kitchens at
-            Carbone and Locanda Verde, and after Bin 5, the wine bar he had in
-            Rosebank.
-          </p>
+          <p>{story.lead}</p>
+          <p>{story.body}</p>
           <p>
             <a href={restaurant.press}>Click here for the SILive story.</a>
           </p>

@@ -101,17 +101,17 @@ Use these when writing or editing public copy. The published Sanity menu and `sr
 - The beer list is those five, at $7–$9: Menabrea Bionda $8, Forst Doppelbock $7, Five Boroughs Gridlock hazy IPA $9, Killsboro Antipasto! pilsner $8, Athletic Run Wild $8.
 - Nut marks follow the printed menu: beet salad, butternut squash, olive oil cake, and tartufo.
 
-## Open questions
+**Decisions from Danny**
 
-Leave these as printed until Danny confirms a change. Do not guess a correction into the menu.
-
-- Cellario, Langhe Timorasso: the grape field repeats the producer name, “Cellario”.
-- “Vini Barraci” is the spelling on the supplied wine list. Confirm it against the bottle before changing it.
-- Day Wines’ tasting note says “naval orange”. It may have meant “navel”.
-- Porchetta & peppers lists mozz, long hots, and parm. Porchetta itself is missing from that ingredient line.
-- Glass and bottle pour sizes are not on the wine list.
-- Graceanne’s name and title are not confirmed for a credit line. The story page currently uses Graceanne Belmonte-Ippolito, from Danny’s public Facebook intro. Her role at the restaurant is not established.
-- Photo reuse permissions are not on file. Do not treat social screenshots or press photos as licensed site assets.
+- Cellario, Langhe Timorasso: Cellario is the producer. The grape field reads `timorasso` (`2024, piedmont · 13% · timorasso`).
+- The Sicily white is `barraco, “fior di bianco”`, lowercase like the other producers. The published document keeps the id `wine-vini-barraci`, so a later seed updates that bottle instead of adding a second one.
+- Day Wines’ tasting note reads `navel orange, dried mango, grippy`.
+- Porchetta & peppers stays `mozz, long hots, parm`.
+- Wine prices are glass and bottle. Pour sizes stay off the list.
+- Graceanne stays in the opening of Our Story, as written: “Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s pizzeria on Forest Avenue.” Danny can edit that paragraph, and the one under it, in Studio. The SILive link stays in the page.
+- Reuse of the site photos is granted.
+- Athletic Run Wild is the only nonalcoholic drink. Nothing else is added.
+- Allergies stay on the note under the menu. There is no separate dietary line.
 
 ## Sanity
 
@@ -122,14 +122,14 @@ The owner can edit:
 - **Food menu.** Dishes in Small plates, Red pies, White pies, and Dolci. Each item has available tonight (on, or off / 86), name, ingredients, price, section, a nuts flag, and sort order.
 - **Wine & drinks.** Wines (sparkling, white & orange, red, sweet) with year/place/grapes, a tasting note, glass price, and bottle price. Cocktails and beer are separate “pour” documents with name, optional note, and price. The same on/off and sort order fields apply.
 - **Homepage photos.** Image with a hotspot, a short label, alt text, and sort order. These replace the photo strip when at least one complete photo is published.
-- **Our Story.** One document, id `story`. A photo with a hotspot, plus alt text required once an image is uploaded. The hotspot is what stays in the frame. Leave the photo empty to keep the kitchen picture.
+- **Our Story.** One document, id `story`. Opening paragraph and second paragraph (this is where Graceanne is named), then a photo with a hotspot. Alt text is required once an image is uploaded. The hotspot is what stays in the frame. Leave the photo empty to keep the kitchen picture. Leave a paragraph empty to keep the wording in `src/content/site.ts`.
 
-Hours, the phone, the address, the reservation URL, the service notice, and the story paragraphs are not in Studio. Change those in `src/content/site.ts`, `src/app/visit/page.tsx`, and `src/app/story/page.tsx`.
+Hours, the phone, the address, the reservation URL, the service notice, and the SILive link are not in Studio. Change those in `src/content/site.ts` and `src/app/visit/page.tsx`.
 
 Fallbacks when Sanity cannot be reached (`catch` in `src/lib/cms.ts`):
 
 - Menu and drinks use `src/content/menu.ts`.
-- The Our Story photo uses `/photos/kitchen.jpg` and the alt text in `site.ts`.
+- Our Story uses the two paragraphs in `storyCopy`, the kitchen photo `/photos/kitchen.jpg`, and the alt text in `site.ts`.
 - Homepage photos use the seven files listed in `site.ts`.
 
 A successful fetch that returns no documents is different. An empty food list or an empty drinks list shows “the board is blank tonight” / “the list is blank tonight”. An empty homepage photo list hides the strip. An Our Story document with no image still uses the kitchen photo.

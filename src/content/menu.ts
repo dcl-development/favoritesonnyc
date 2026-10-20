@@ -137,13 +137,13 @@ export const whiteWines: Wine[] = [
   },
   {
     name: "cellario, langhe timorasso",
-    meta: "2024, piedmont · 13% · cellario",
+    meta: "2024, piedmont · 13% · timorasso",
     note: "stone fruit, honey, waxy minerality",
     glass: 16,
     bottle: 56,
   },
   {
-    name: "vini barraci, “fior di bianco”",
+    name: "barraco, “fior di bianco”",
     meta: "2025, sicily · 12% · catarratto, grillo, zibibbo",
     note: "zesty citrus, wild thyme, sea-spray",
     glass: 19,
@@ -152,7 +152,7 @@ export const whiteWines: Wine[] = [
   {
     name: "day wines, “vin de days l’orange”",
     meta: "2023, oregon · 12.5% · riesling, gewürz blend",
-    note: "naval orange, dried mango, grippy",
+    note: "navel orange, dried mango, grippy",
     glass: 18,
     bottle: 63,
   },

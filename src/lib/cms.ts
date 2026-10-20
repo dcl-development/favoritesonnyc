@@ -14,7 +14,7 @@ import {
   type Pour,
   type Wine,
 } from "@/content/menu";
-import { photos as staticPhotos, storyPhoto, type Photo } from "@/content/site";
+import { photos as staticPhotos, storyCopy, storyPhoto, type Photo } from "@/content/site";
 import { client } from "@/sanity/lib/client";
 import { storyPhotoUrl, type StoryImageField } from "@/sanity/lib/image";
 import {
@@ -215,22 +215,46 @@ const fallbackStoryPhoto: StoryPhoto = {
   fromSanity: false,
 };
 
-export async function getStoryPhoto(): Promise<StoryPhoto> {
+function storyParagraph(value: unknown, fallback: string) {
+  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+}
+
+export type Story = {
+  photo: StoryPhoto;
+  lead: string;
+  body: string;
+};
+
+const fallbackStory: Story = {
+  photo: fallbackStoryPhoto,
+  lead: storyCopy.lead,
+  body: storyCopy.body,
+};
+
+export async function getStory(): Promise<Story> {
   try {
     const story = await client.fetch(STORY_QUERY, {}, fetchOptions);
     const image = story?.image as (StoryImageField & { alt?: string | null }) | null | undefined;
-    if (!image?.asset?._ref) return fallbackStoryPhoto;
+    let photo = fallbackStoryPhoto;
 
-    const src = storyPhotoUrl(image);
-    if (!src) return fallbackStoryPhoto;
+    if (image?.asset?._ref) {
+      const src = storyPhotoUrl(image);
+      if (src) {
+        photo = {
+          src,
+          alt: image.alt?.trim() || "Favorite Son",
+          fromSanity: true,
+        };
+      }
+    }
 
     return {
-      src,
-      alt: image.alt?.trim() || "Favorite Son",
-      fromSanity: true,
+      photo,
+      lead: storyParagraph(story?.lead, storyCopy.lead),
+      body: storyParagraph(story?.body, storyCopy.body),
     };
   } catch {
-    return fallbackStoryPhoto;
+    return fallbackStory;
   }
 }
 
