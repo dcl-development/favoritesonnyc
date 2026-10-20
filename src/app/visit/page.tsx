@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Reveal } from "@/components/Reveal";
 import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
 
@@ -25,7 +26,7 @@ export default function VisitPage() {
   return (
     <Sheet title="visit" footer={false}>
       <div className="visit-grid">
-        <div className="visit-copy">
+        <Reveal className="visit-copy">
           <p>
             <a href={restaurant.maps.google}>
               {restaurant.address.street}
@@ -47,7 +48,9 @@ export default function VisitPage() {
           </ul>
           <p>
             <a className="bracket-link" href={restaurant.reserve} target="_blank" rel="noopener">
-              [ book a reservation ]
+              <span aria-hidden="true">[ </span>
+              book a reservation
+              <span aria-hidden="true"> ]</span>
             </a>
           </p>
           <p>
@@ -58,8 +61,8 @@ export default function VisitPage() {
             parties of 8 or more, please{" "}
             <a href={`tel:${restaurant.phoneTel}`}>call</a>.
           </p>
-        </div>
-        <figure className="visit-photo">
+        </Reveal>
+        <Reveal as="figure" className="visit-photo" delay={1}>
           <Image
             src="/photos/storefront.jpg"
             alt="Danny Ippolito outside Favorite Son at 1210 Forest Avenue."
@@ -67,7 +70,7 @@ export default function VisitPage() {
             sizes="(max-width: 720px) 100vw, 400px"
             priority
           />
-        </figure>
+        </Reveal>
       </div>
     </Sheet>
   );
