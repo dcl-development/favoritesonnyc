@@ -8,6 +8,22 @@ export const story = defineType({
   icon: ImageIcon,
   fields: [
     defineField({
+      name: "lead",
+      title: "Opening paragraph",
+      type: "text",
+      rows: 4,
+      description:
+        "The first paragraph on Our Story. This is where Graceanne is named. Leave the wording as it is unless Danny changes it.",
+    }),
+    defineField({
+      name: "body",
+      title: "Second paragraph",
+      type: "text",
+      rows: 5,
+      description:
+        "The oven, the dough, and Danny’s kitchens. The SILive link under this paragraph stays in the page.",
+    }),
+    defineField({
       name: "image",
       title: "Photo",
       type: "image",
@@ -34,11 +50,11 @@ export const story = defineType({
     }),
   ],
   preview: {
-    select: { media: "image", alt: "image.alt" },
-    prepare({ media, alt }) {
+    select: { media: "image", alt: "image.alt", lead: "lead" },
+    prepare({ media, alt, lead }) {
       return {
         title: "Our story",
-        subtitle: alt || "Kitchen photo until you add one",
+        subtitle: lead || alt || "Kitchen photo until you add one",
         media,
       };
     },

@@ -34,6 +34,12 @@ function slug(value: string) {
     .replace(/^-|-$/g, "");
 }
 
+function wineId(name: string) {
+  // The published Barraco bottle kept this id when the producer spelling was corrected.
+  if (name.startsWith("barraco,")) return "wine-vini-barraci";
+  return `wine-${slug(name)}`;
+}
+
 const dishes = [
   ...smallPlates.map((item, order) => ({ ...item, section: "smallPlates", order })),
   ...redPies.map((item, order) => ({ ...item, section: "redPies", order })),
@@ -71,7 +77,7 @@ for (const dish of dishes) {
 
 for (const wine of wines) {
   transaction.createOrReplace({
-    _id: `wine-${slug(wine.name)}`,
+    _id: wineId(wine.name),
     _type: "wine",
     name: wine.name,
     meta: wine.meta,
