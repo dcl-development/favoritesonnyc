@@ -1,8 +1,16 @@
 import type { Metadata, Viewport } from "next";
+import { Cutive } from "next/font/google";
 import { PieLight } from "@/components/PieLight";
 import { StickyBar } from "@/components/StickyBar";
 import { restaurant } from "@/content/site";
 import "./globals.css";
+
+const cutive = Cutive({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-cutive",
+});
 
 const description =
   "100% sourdough pizza, natural wine, and cocktails at 1210 Forest Avenue, Staten Island. Wednesday–Monday, 5–10. Closed Tuesday. Dine-in, walk-in.";
@@ -73,7 +81,7 @@ const structuredData = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="reveal-ready">
+    <html lang="en" className={`reveal-ready ${cutive.variable}`}>
       <body>
         <noscript>
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>

@@ -5,7 +5,7 @@
   --paper: #f8f4eb;
   --ink: #1a140f;
   --soft: #4a3d34;
-  --font-type: "American Typewriter", "ITC American Typewriter", "Courier New", serif;
+  --font-type: "American Typewriter", "ITC American Typewriter", var(--font-cutive), "Courier New", serif;
   color-scheme: light;
 }
 
