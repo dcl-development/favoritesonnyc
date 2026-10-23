@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { SanityImage } from "@/components/SanityImage";
 import type { Photo } from "@/content/site";
+import { isSanityImageSrc } from "@/lib/sanityImageLoader";
 
 export function PieStrip({ photos }: { photos: Photo[] }) {
   const scroller = useRef<HTMLDivElement>(null);
@@ -153,18 +155,25 @@ export function PieStrip({ photos }: { photos: Photo[] }) {
       onPointerCancel={endDrag}
     >
       <div className="pie-track">
-        {photos.map((photo) => (
-          <figure className="pie-frame" key={photo.src}>
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              fill
-              sizes="(max-width: 700px) 70vw, 280px"
-              draggable={false}
-            />
-            <figcaption>{photo.label}</figcaption>
-          </figure>
-        ))}
+        {photos.map((photo) => {
+          const shared = {
+            src: photo.src,
+            alt: photo.alt,
+            fill: true as const,
+            sizes: "(max-width: 388px) 72vw, 17.5rem",
+            draggable: false,
+          };
+          return (
+            <figure className="pie-frame" key={photo.src}>
+              {isSanityImageSrc(photo.src) ? (
+                <SanityImage {...shared} />
+              ) : (
+                <Image {...shared} />
+              )}
+              <figcaption>{photo.label}</figcaption>
+            </figure>
+          );
+        })}
       </div>
     </div>
   );

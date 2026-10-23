@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
+import { SanityImage } from "@/components/SanityImage";
 import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
 import { getStory, type StoryPhoto } from "@/lib/cms";
 
-const storySizes = "(max-width: 799px) calc(100vw - 2.3rem), 47.5rem";
+const storySizes =
+  "(max-width: 719px) calc(100vw - 2.3rem), min(22.5rem, calc((100vw - 7rem) * 0.4737))";
 
 export const metadata: Metadata = {
   title: "our story",
@@ -17,7 +19,7 @@ function StoryFigure({ photo }: { photo: StoryPhoto }) {
   if (photo.fromSanity) {
     return (
       <Reveal as="figure" className="story-photo">
-        <Image
+        <SanityImage
           className="story-photo-cms"
           src={photo.src}
           alt={photo.alt}
