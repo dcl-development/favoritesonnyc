@@ -180,8 +180,8 @@ button:focus-visible {
 .pie-flicker {
   opacity: 0;
   animation: pie-flicker 8.5s step-end infinite;
-  /* Burst sits at 72.94% of the cycle. A negative delay starts that snap 2s after load. */
-  animation-delay: calc(2s - 8.5s * 0.7294);
+  /* Phase so the first flicker burst aligns with first paint (72.94% of the cycle). */
+  animation-delay: calc(-8.5s * 0.7294);
 }
 
 .pie-mark-tiny .pie-flicker {
@@ -200,6 +200,8 @@ button:focus-visible {
 .pie-glint {
   opacity: 0;
   animation: pie-glint 10.5s ease-in-out infinite;
+  /* Phase past the idle lead-in so the shine sweep is visible on first paint (14% of the cycle). */
+  animation-delay: calc(-10.5s * 0.14);
 }
 
 .pie-mark-tiny .pie-glint {
