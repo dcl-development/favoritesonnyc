@@ -17,7 +17,7 @@ Those records point the site at Vercel. Production is [www.favoritesonnyc.com](h
 
 The Vercel project is under the `jakedcl` account. Pushes to `main` deploy to production. Pull request branches get preview deployments.
 
-The GitHub repo is [jakedcl/favoritesonnyc](https://github.com/jakedcl/favoritesonnyc).
+The GitHub repo is [dcl-development/favoritesonnyc](https://github.com/dcl-development/favoritesonnyc).
 
 ## Stack and local development
 
