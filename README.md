@@ -17,7 +17,7 @@ For how the site is hosted, how to edit it, and what not to change, read [docs/H
 
 ## Stack
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Sanity, deployed on Vercel. The repo is [jakedcl/favoritesonnyc](https://github.com/jakedcl/favoritesonnyc).
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Sanity, deployed on Vercel. The repo is [dcl-development/favoritesonnyc](https://github.com/dcl-development/favoritesonnyc).
 
 ## Running it locally
 
