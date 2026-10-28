@@ -2,6 +2,10 @@
 
 Website for Favorite Son Pizzeria & Wine Bar, 1210 Forest Ave, Staten Island. Production: www.favoritesonnyc.com (apex redirects there).
 
+## Dev framework
+
+This repo follows Jake's dev framework: [jakedcl/dev-framework](https://github.com/jakedcl/dev-framework) (start at its `AGENTS.md`). The framework is the source of truth; if anything in this file conflicts with it, the framework wins.
+
 ## Stack
 - Next.js 16.3 (App Router), React 19.2, TypeScript, Tailwind CSS 4.
 - Sanity 6 + next-sanity 13. Project `gdzx3zp3`, dataset `production`. Studio is embedded at `/studio` (`/admin` redirects).
