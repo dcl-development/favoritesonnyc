@@ -7,17 +7,17 @@ import { restaurant } from "@/content/site";
 export const metadata: Metadata = {
   title: "visit",
   description:
-    "Favorite Son is at 1210 Forest Avenue, Staten Island. Wednesday–Monday, 5–10. Closed Tuesday. Walk-in, dine-in.",
+    "Favorite Son is at 1210 Forest Avenue, Staten Island. Open every day, 4–9. Walk-in, dine-in.",
 };
 
 const days = [
-  ["wednesday", "5–10"],
-  ["thursday", "5–10"],
-  ["friday", "5–10"],
-  ["saturday", "5–10"],
-  ["sunday", "5–10"],
-  ["monday", "5–10"],
-  ["tuesday", "closed"],
+  ["monday", "4–9"],
+  ["tuesday", "4–9"],
+  ["wednesday", "4–9"],
+  ["thursday", "4–9"],
+  ["friday", "4–9"],
+  ["saturday", "4–9"],
+  ["sunday", "4–9"],
 ];
 
 const instagramHandle = `@${new URL(restaurant.instagram).pathname.split("/").filter(Boolean)[0]}`;

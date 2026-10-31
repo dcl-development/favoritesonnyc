@@ -8,7 +8,7 @@ export function StatusLine({
 }: {
   variant?: "live" | "quiet";
 }) {
-  const [label, setLabel] = useState("wednesday–monday, 5–10");
+  const [label, setLabel] = useState("every day, 4–9");
 
   useEffect(() => {
     const update = () => {

@@ -13,7 +13,7 @@ const cutive = Cutive({
 });
 
 const description =
-  "100% sourdough pizza, natural wine, and cocktails at 1210 Forest Avenue, Staten Island. Wednesday–Monday, 5–10. Closed Tuesday. Dine-in, walk-in.";
+  "100% sourdough pizza, natural wine, and cocktails at 1210 Forest Avenue, Staten Island. Open every day, 4–9. Dine-in, walk-in.";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -60,15 +60,16 @@ const structuredData = {
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
     dayOfWeek: [
+      "Monday",
+      "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
       "Saturday",
       "Sunday",
-      "Monday",
     ],
-    opens: "17:00",
-    closes: "22:00",
+    opens: "16:00",
+    closes: "21:00",
   },
   acceptsReservations: true,
   potentialAction: {
