@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HoursLabel } from "@/components/HoursProvider";
 import { restaurant } from "@/content/site";
 import { DashedRule } from "./DashedRule";
 import { StatusLine } from "./StatusLine";
@@ -20,7 +21,9 @@ export function Footer() {
           </p>
         </div>
         <div className="footer-group">
-          <p>{restaurant.hoursLabel}</p>
+          <p>
+            <HoursLabel />
+          </p>
           <p>
             <StatusLine variant="quiet" />
           </p>

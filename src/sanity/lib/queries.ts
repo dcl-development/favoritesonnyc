@@ -31,6 +31,12 @@ export const STORY_QUERY = defineQuery(
   }`,
 );
 
+export const HOURS_QUERY = defineQuery(
+  `*[_id == "hours"][0]{
+    label, monday, tuesday, wednesday, thursday, friday, saturday, sunday
+  }`,
+);
+
 export const PHOTOS_QUERY = defineQuery(
   `*[_type == "photo" && defined(image.asset)] | order(order asc) {
     _id,

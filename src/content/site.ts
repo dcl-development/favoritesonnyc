@@ -22,7 +22,6 @@ export const restaurant = {
       "https://www.google.com/maps/search/?api=1&query=1210+Forest+Avenue+Staten+Island+NY+10310",
   },
   reserve: "https://toast.app/r/favorite-son-llc-1210-forest-avenue",
-  hoursLabel: "every day · 4–9",
   notice: {
     title: "no takeout, no slices",
     body: "walk-ins welcome, reservations available.",

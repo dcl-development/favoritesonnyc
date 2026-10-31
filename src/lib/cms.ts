@@ -15,10 +15,12 @@ import {
   type Wine,
 } from "@/content/menu";
 import { photos as staticPhotos, storyCopy, storyPhoto, type Photo } from "@/content/site";
+import { DEFAULT_HOURS, normalizeHours, type Hours, type RawHours } from "@/lib/hours";
 import { client } from "@/sanity/lib/client";
 import { storyPhotoUrl, type StoryImageField } from "@/sanity/lib/image";
 import {
   DISHES_QUERY,
+  HOURS_QUERY,
   PHOTOS_QUERY,
   POURS_QUERY,
   STORY_QUERY,
@@ -268,6 +270,15 @@ export async function getPhotos(): Promise<Photo[]> {
     });
   } catch {
     return staticPhotos;
+  }
+}
+
+export async function getHours(): Promise<Hours> {
+  try {
+    const hours = (await client.fetch(HOURS_QUERY, {}, fetchOptions)) as RawHours;
+    return normalizeHours(hours);
+  } catch {
+    return DEFAULT_HOURS;
   }
 }
 

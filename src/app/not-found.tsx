@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HoursLabel } from "@/components/HoursProvider";
 import { restaurant } from "@/content/site";
 
 export default function NotFound() {
@@ -6,7 +7,9 @@ export default function NotFound() {
     <main className="missing">
       <h1 className="strip-name">that page is off tonight</h1>
       <p>{restaurant.address.line}</p>
-      <p>{restaurant.hoursLabel}</p>
+      <p>
+        <HoursLabel />
+      </p>
       <p>
         <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
       </p>
