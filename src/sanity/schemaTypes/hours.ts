@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { ClockIcon } from "@sanity/icons/Clock";
+import { DayHoursField, DayHoursInput } from "../components/DayHoursInput";
+import { TIME_OPTIONS } from "./hoursOptions";
 
 const DAYS = [
   ["monday", "Monday"],
@@ -11,16 +13,6 @@ const DAYS = [
   ["sunday", "Sunday"],
 ] as const;
 
-// Every half hour from 6:00 am to midnight, stored as 24-hour "HH:MM".
-const TIMES = Array.from({ length: 37 }, (_, i) => {
-  const minutes = 6 * 60 + i * 30;
-  const h24 = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  const value = `${String(h24).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
-  if (h24 === 24) return { title: "midnight", value };
-  const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
-  return { title: `${h12}:${String(m).padStart(2, "0")} ${h24 < 12 ? "am" : "pm"}`, value };
-});
 
 type Day = { closed?: boolean; opens?: string; closes?: string };
 
@@ -29,7 +21,7 @@ function dayField(name: string, title: string) {
     name,
     title,
     type: "object",
-    options: { columns: 3 },
+    components: { field: DayHoursField, input: DayHoursInput },
     initialValue: { closed: false, opens: "16:00", closes: "21:00" },
     fields: [
       defineField({
@@ -42,14 +34,14 @@ function dayField(name: string, title: string) {
         name: "opens",
         title: "Opens",
         type: "string",
-        options: { list: TIMES },
+        options: { list: TIME_OPTIONS },
         hidden: ({ parent }) => Boolean((parent as Day | undefined)?.closed),
       }),
       defineField({
         name: "closes",
         title: "Closes",
         type: "string",
-        options: { list: TIMES },
+        options: { list: TIME_OPTIONS },
         hidden: ({ parent }) => Boolean((parent as Day | undefined)?.closed),
       }),
     ],
