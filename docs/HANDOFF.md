@@ -74,7 +74,7 @@ https://toast.app/r/favorite-son-llc-1210-forest-avenue
 
 Home uses `[ reservations ]`. Visit uses `[ book a reservation ]`. Both open that URL in a new tab. Parties of 8 or more are asked to call. On a fine-pointer desktop, hovering the home reservations link shows that note. It is also in the visit paragraph.
 
-Hours are Wednesday through Monday, 5–10, closed Tuesday, in America/New_York. `src/lib/hours.ts` turns that into the “open until 10” / “opens at 5” line in the footer and the sticky bar. The visit page prints the seven days by hand. None of this is a Sanity field.
+Hours are every day, 4–9, in America/New_York. `src/lib/hours.ts` turns that into the “open until 9” / “opens at 4” line in the footer and the sticky bar. The visit page prints the seven days by hand. None of this is a Sanity field.
 
 ## Business facts and content rules
 
@@ -85,7 +85,7 @@ Use these when writing or editing public copy. The published Sanity menu and `sr
 - Legal name: Favorite Son Pizzeria & Wine Bar. The wordmark on the site is lowercase “favorite son”.
 - Address: 1210 Forest Avenue, Staten Island, NY 10310. Say “Forest Avenue, Staten Island.” Westerleigh and Port Richmond are both used elsewhere, and the neighborhood name is not settled.
 - Danny Ippolito is the contact: danny@favoritesonnyc.com, 929-805-0063.
-- Hours: Wednesday–Monday, 5–10pm. Closed Tuesday. The restaurant opened September 9, 2026.
+- Hours: every day, 4–9pm. The restaurant opened September 9, 2026.
 - Instagram: [@favoritesonnyc](https://www.instagram.com/favoritesonnyc/). Danny’s account is [@shaolinsomm](https://www.instagram.com/shaolinsomm/).
 - Google listing: https://www.google.com/maps?cid=1258756891494654008. The site’s address link is a maps search for the street address.
 - The Facebook page linked from Danny is labeled Unofficial. Do not link it.
