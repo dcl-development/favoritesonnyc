@@ -1,6 +1,6 @@
 # Favorite Son handoff
 
-This is the operating manual for the Favorite Son website. The public site is a small Next.js app. The owner edits the menu, drinks, homepage photos, and the Our Story photo in Sanity. Hours, the service notice, reservations, and the neon sign live in the repo.
+This is the operating manual for the Favorite Son website. The public site is a small Next.js app. The owner edits the opening hours, menu, drinks, homepage photos, and the Our Story photo in Sanity. The service notice, reservations, and the neon sign live in the repo.
 
 Background research that is not shown on the site is in [`favorite-son-research-brief.md`](../favorite-son-research-brief.md) at the repo root. That file is the in-repo copy. Jake holds the original research archive (ChatGPT, September 24–25, 2026).
 
@@ -74,7 +74,7 @@ https://toast.app/r/favorite-son-llc-1210-forest-avenue
 
 Home uses `[ reservations ]`. Visit uses `[ book a reservation ]`. Both open that URL in a new tab. Parties of 8 or more are asked to call. On a fine-pointer desktop, hovering the home reservations link shows that note. It is also in the visit paragraph.
 
-Hours are every day, 4–9, in America/New_York. `src/lib/hours.ts` turns that into the “open until 9” / “opens at 4” line in the footer and the sticky bar. The visit page prints the seven days by hand. None of this is a Sanity field.
+Hours live in Sanity: the singleton document `hours` (“Opening hours”, first item in the Studio desk). Each day has Opens / Closes (half-hour picks) and a “Closed all day” toggle; Studio blocks a close time that isn’t after the open time. An optional “Short hours line” overrides the footer/404 text. `getHours()` in `src/lib/cms.ts` reads it on the same 60-second revalidation as the menu, and `src/lib/hours.ts` derives everything from it in America/New_York: the visit page list, the footer and 404 line (“every day · 4–9”), the “open until 9” / “opens at 4” status line in the footer, sticky bar and sign, the meta descriptions, and the JSON-LD `openingHoursSpecification`. Layout passes the hours to client components through `HoursProvider`. If the document is missing or a day is invalid, that day falls back to 4–9.
 
 ## Business facts and content rules
 
@@ -85,7 +85,7 @@ Use these when writing or editing public copy. The published Sanity menu and `sr
 - Legal name: Favorite Son Pizzeria & Wine Bar. The wordmark on the site is lowercase “favorite son”.
 - Address: 1210 Forest Avenue, Staten Island, NY 10310. Say “Forest Avenue, Staten Island.” Westerleigh and Port Richmond are both used elsewhere, and the neighborhood name is not settled.
 - Danny Ippolito is the contact: danny@favoritesonnyc.com, 929-805-0063.
-- Hours: every day, 4–9pm. The restaurant opened September 9, 2026.
+- Hours: every day, 4–9pm (seeded in Sanity). The restaurant opened September 9, 2026.
 - Instagram: [@favoritesonnyc](https://www.instagram.com/favoritesonnyc/). Danny’s account is [@shaolinsomm](https://www.instagram.com/shaolinsomm/).
 - Google listing: https://www.google.com/maps?cid=1258756891494654008. The site’s address link is a maps search for the street address.
 - The Facebook page linked from Danny is labeled Unofficial. Do not link it.
@@ -122,9 +122,10 @@ The owner can edit:
 - **Food menu.** Dishes in Small plates, Red pies, White pies, and Dolci. Each item has available tonight (on, or off / 86), name, ingredients, price, section, a nuts flag, and sort order.
 - **Wine & drinks.** Wines (sparkling, white & orange, red, sweet) with year/place/grapes, a tasting note, glass price, and bottle price. Cocktails and beer are separate “pour” documents with name, optional note, and price. The same on/off and sort order fields apply.
 - **Homepage photos.** Image with a hotspot, a short label, alt text, and sort order. These replace the photo strip when at least one complete photo is published.
+- **Opening hours.** One document, id `hours`, first in the desk. Opens / Closes per day, or Closed all day. Updates the visit page, footer, status line, search descriptions, and Google structured data.
 - **Our Story.** One document, id `story`. Opening paragraph and second paragraph (this is where Graceanne is named), then a photo with a hotspot. Alt text is required once an image is uploaded. The hotspot is what stays in the frame. Leave the photo empty to keep the kitchen picture. Leave a paragraph empty to keep the wording in `src/content/site.ts`.
 
-Hours, the phone, the address, the reservation URL, the service notice, and the SILive link are not in Studio. Change those in `src/content/site.ts` and `src/app/visit/page.tsx`.
+The phone, the address, the reservation URL, the service notice, and the SILive link are not in Studio. Change those in `src/content/site.ts` and `src/app/visit/page.tsx`.
 
 Fallbacks when Sanity cannot be reached (`catch` in `src/lib/cms.ts`):
 

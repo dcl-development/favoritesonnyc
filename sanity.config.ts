@@ -29,12 +29,12 @@ export default defineConfig({
   document: {
     newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === "global") {
-        return prev.filter((template) => template.templateId !== "story");
+        return prev.filter((template) => !["story", "hours"].includes(template.templateId));
       }
       return prev;
     },
     actions: (prev, { schemaType }) => {
-      if (schemaType === "story") {
+      if (schemaType === "story" || schemaType === "hours") {
         return prev.filter((action) => action.action !== "duplicate");
       }
       return prev;

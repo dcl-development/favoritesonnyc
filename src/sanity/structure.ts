@@ -1,5 +1,6 @@
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
 import { BottleIcon } from "@sanity/icons/Bottle";
+import { ClockIcon } from "@sanity/icons/Clock";
 import { IceCreamIcon } from "@sanity/icons/IceCream";
 import { ImageIcon } from "@sanity/icons/Image";
 import { LemonIcon } from "@sanity/icons/Lemon";
@@ -68,6 +69,13 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title("Edit the website")
     .items([
+      S.listItem()
+        .title("Opening hours")
+        .icon(ClockIcon)
+        .id("hours")
+        .child(
+          S.document().schemaType("hours").documentId("hours").title("Opening hours"),
+        ),
       S.listItem()
         .title("Food menu")
         .icon(LemonIcon)

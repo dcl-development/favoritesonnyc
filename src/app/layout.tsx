@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Cutive } from "next/font/google";
 import { PieLight } from "@/components/PieLight";
+import { HoursProvider } from "@/components/HoursProvider";
 import { StickyBar } from "@/components/StickyBar";
+import { getHours } from "@/lib/cms";
+import { hoursSentence, openingHoursSpecification, type Hours } from "@/lib/hours";
 import { restaurant } from "@/content/site";
 import "./globals.css";
 
@@ -12,8 +15,9 @@ const cutive = Cutive({
   variable: "--font-cutive",
 });
 
-const description =
-  "100% sourdough pizza, natural wine, and cocktails at 1210 Forest Avenue, Staten Island. Open every day, 4–9. Dine-in, walk-in.";
+function describe(hours: Hours) {
+  return `100% sourdough pizza, natural wine, and cocktails at 1210 Forest Avenue, Staten Island. ${hoursSentence(hours)} Dine-in, walk-in.`;
+}
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -22,7 +26,9 @@ export const viewport: Viewport = {
   themeColor: "#f8f4eb",
 };
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const description = describe(await getHours());
+  return {
   metadataBase: new URL(restaurant.url),
   title: {
     default: "favorite son",
@@ -38,9 +44,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
-};
+  };
+}
 
-const structuredData = {
+const structuredData = (hours: Hours) => ({
   "@context": "https://schema.org",
   "@type": "Restaurant",
   name: restaurant.legalName,
@@ -57,20 +64,7 @@ const structuredData = {
     postalCode: restaurant.address.postal,
     addressCountry: "US",
   },
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ],
-    opens: "16:00",
-    closes: "21:00",
-  },
+  openingHoursSpecification: openingHoursSpecification(hours),
   acceptsReservations: true,
   potentialAction: {
     "@type": "ReserveAction",
@@ -78,9 +72,10 @@ const structuredData = {
   },
   sameAs: [restaurant.instagram],
   hasMenu: `${restaurant.url}/menu`,
-};
+});
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const hours = await getHours();
   return (
     <html lang="en" className={`reveal-ready ${cutive.variable}`}>
       <body>
@@ -89,14 +84,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </noscript>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(hours)) }}
         />
         <a className="skip" href="#content">
           skip to content
         </a>
-        <PieLight />
-        <StickyBar />
-        <div id="content">{children}</div>
+        <HoursProvider hours={hours}>
+          <PieLight />
+          <StickyBar />
+          <div id="content">{children}</div>
+        </HoursProvider>
       </body>
     </html>
   );
