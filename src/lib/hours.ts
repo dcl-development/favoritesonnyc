@@ -209,14 +209,20 @@ export function hoursRows(hours: Hours) {
   return DAY_KEYS.map((day) => ({ day, hours: rangeLabel(hours.days[day]) }));
 }
 
+/** The visit page lists special dates that touch the next 30 days. */
+const VISIT_DAYS = 30;
+
 /** Rows for upcoming special dates on the visit page. */
 export function specialRows(hours: Hours, today = nyNow().date) {
-  return upcomingSpecials(hours, today).map((entry) => ({
-    date: entry.date,
-    day: dateSpan(entry),
-    hours: rangeLabel(entry),
-    note: entry.note,
-  }));
+  const horizon = addDays(today, VISIT_DAYS);
+  return upcomingSpecials(hours, today)
+    .filter((entry) => entry.date <= horizon)
+    .map((entry) => ({
+      date: entry.date,
+      day: dateSpan(entry),
+      hours: rangeLabel(entry),
+      note: entry.note,
+    }));
 }
 
 type Group = { start: number; end: number; label: string };

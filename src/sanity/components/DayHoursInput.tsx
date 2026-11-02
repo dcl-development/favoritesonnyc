@@ -184,12 +184,15 @@ export function SpecialDateInput(props: ObjectInputProps<Special>) {
           id={`${id}-note`}
           fontSize={2}
           padding={3}
-          maxLength={40}
+          maxLength={25}
           placeholder="thanksgiving"
           value={value?.note ?? ""}
           onChange={(event) => setField("note", event.currentTarget.value)}
           readOnly={readOnly}
         />
+        <Text size={1} muted>
+          Up to 25 characters, so it fits on the sign.
+        </Text>
       </Stack>
       {errors.length ? (
         <Card padding={3} radius={2} tone="critical">
