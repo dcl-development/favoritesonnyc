@@ -131,7 +131,9 @@ export const hours = defineType({
               name: "note",
               title: "Note",
               type: "string",
-              validation: (rule) => rule.max(40),
+              description: "Up to 25 characters, so it fits on the sign.",
+              validation: (rule) =>
+                rule.max(25).error("Keep it to 25 characters so it fits on the sign."),
             }),
           ],
           validation: (rule) =>
