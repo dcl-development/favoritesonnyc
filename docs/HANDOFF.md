@@ -63,8 +63,7 @@ The visit paragraph is fixed copy: no takeout, no slices, walk-ins welcome, rese
 From `src/content/site.ts`:
 
 - Address: 1210 Forest Avenue, Staten Island, NY 10310
-- Phone: 929-805-0063
-- Owner email: danny@favoritesonnyc.com
+- Phone and owner email: see the client row in Notion
 - Instagram: [@favoritesonnyc](https://www.instagram.com/favoritesonnyc/)
 - Press: the SILive story, linked from the Our Story page
 
@@ -86,7 +85,7 @@ Use these when writing or editing public copy. The published Sanity menu and `sr
 
 - Legal name: Favorite Son Pizzeria & Wine Bar. The wordmark on the site is lowercase “favorite son”.
 - Address: 1210 Forest Avenue, Staten Island, NY 10310. Say “Forest Avenue, Staten Island.” Westerleigh and Port Richmond are both used elsewhere, and the neighborhood name is not settled.
-- Danny Ippolito is the contact: danny@favoritesonnyc.com, 929-805-0063.
+- Danny Ippolito is the contact. His email and phone are on the client row in Notion.
 - Hours: every day, 4–9pm (seeded in Sanity). The restaurant opened September 9, 2026.
 - Instagram: [@favoritesonnyc](https://www.instagram.com/favoritesonnyc/). Danny’s account is [@shaolinsomm](https://www.instagram.com/shaolinsomm/).
 - Google listing: https://www.google.com/maps?cid=1258756891494654008. The site’s address link is a maps search for the street address.
