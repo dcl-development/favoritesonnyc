@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
 import { getHours } from "@/lib/cms";
-import { hoursRows, hoursSentence } from "@/lib/hours";
+import { hoursRows, hoursSentence, specialRows } from "@/lib/hours";
 
 export async function generateMetadata(): Promise<Metadata> {
   const hours = await getHours();
@@ -17,7 +17,9 @@ export async function generateMetadata(): Promise<Metadata> {
 const instagramHandle = `@${new URL(restaurant.instagram).pathname.split("/").filter(Boolean)[0]}`;
 
 export default async function VisitPage() {
-  const days = hoursRows(await getHours());
+  const hours = await getHours();
+  const days = hoursRows(hours);
+  const specials = specialRows(hours);
   return (
     <Sheet title="visit" footer={false}>
       <div className="visit-grid">
@@ -41,6 +43,17 @@ export default async function VisitPage() {
               </li>
             ))}
           </ul>
+          {specials.length ? (
+            <ul className="hours-list hours-special" aria-label="special dates">
+              {specials.map((row) => (
+                <li key={row.date}>
+                  <span>{row.day}</span>
+                  <span>{row.hours}</span>
+                  {row.note ? <span className="hours-note">{row.note}</span> : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
           <p>
             <a className="bracket-link" href={restaurant.reserve} target="_blank" rel="noopener">
               <span aria-hidden="true">[ </span>

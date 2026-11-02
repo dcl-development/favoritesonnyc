@@ -4,7 +4,12 @@ import { PieLight } from "@/components/PieLight";
 import { HoursProvider } from "@/components/HoursProvider";
 import { StickyBar } from "@/components/StickyBar";
 import { getHours } from "@/lib/cms";
-import { hoursSentence, openingHoursSpecification, type Hours } from "@/lib/hours";
+import {
+  hoursSentence,
+  openingHoursSpecification,
+  specialOpeningHoursSpecification,
+  type Hours,
+} from "@/lib/hours";
 import { restaurant } from "@/content/site";
 import "./globals.css";
 
@@ -65,6 +70,9 @@ const structuredData = (hours: Hours) => ({
     addressCountry: "US",
   },
   openingHoursSpecification: openingHoursSpecification(hours),
+  ...(hours.special.length
+    ? { specialOpeningHoursSpecification: specialOpeningHoursSpecification(hours) }
+    : {}),
   acceptsReservations: true,
   potentialAction: {
     "@type": "ReserveAction",

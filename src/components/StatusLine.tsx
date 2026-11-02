@@ -1,26 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { hoursShort, serviceStatus } from "@/lib/hours";
+import { hoursShort, serviceStatus, type ServiceStatus } from "@/lib/hours";
 import { useHours } from "./HoursProvider";
 
-export function StatusLine({
-  variant = "live",
-}: {
-  variant?: "live" | "quiet";
-}) {
+/**
+ * Live line for the sticky bar and the home sign: "open until 9", "opens fri at 4".
+ * When a special date is within a week, it takes turns with the notice
+ * ("closed thu nov 26 · thanksgiving") every few seconds.
+ */
+export function StatusLine() {
   const hours = useHours();
-  const [label, setLabel] = useState(() => hoursShort(hours));
+  const [status, setStatus] = useState<ServiceStatus>(() => ({ status: hoursShort(hours) }));
+  const [showNotice, setShowNotice] = useState(false);
 
   useEffect(() => {
-    const update = () => {
-      const status = serviceStatus(hours);
-      setLabel(variant === "quiet" ? status.quiet : status.live);
-    };
+    const update = () => setStatus(serviceStatus(hours));
     update();
     const id = window.setInterval(update, 60_000);
     return () => window.clearInterval(id);
-  }, [variant, hours]);
+  }, [hours]);
 
-  return <span>{label}</span>;
+  useEffect(() => {
+    if (!status.notice) return;
+    const id = window.setInterval(() => setShowNotice((on) => !on), 5_000);
+    return () => window.clearInterval(id);
+  }, [status.notice]);
+
+  return <span>{showNotice && status.notice ? status.notice : status.status}</span>;
 }
