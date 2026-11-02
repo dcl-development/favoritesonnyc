@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 import { ImageIcon } from "@sanity/icons/Image";
 
 export const story = defineType({
@@ -8,20 +8,40 @@ export const story = defineType({
   icon: ImageIcon,
   fields: [
     defineField({
-      name: "lead",
-      title: "Opening paragraph",
-      type: "text",
-      rows: 4,
-      description:
-        "The first paragraph on Our Story. This is where Graceanne is named. Leave the wording as it is unless Danny changes it.",
-    }),
-    defineField({
-      name: "body",
-      title: "Second paragraph",
-      type: "text",
-      rows: 5,
-      description:
-        "The oven, the dough, and Danny’s kitchens. The SILive link under this paragraph stays in the page.",
+      name: "text",
+      title: "Story",
+      type: "array",
+      description: "The words on the Our Story page. Press Enter for a new paragraph. Bold, italic and links only.",
+      of: [
+        defineArrayMember({
+          type: "block",
+          styles: [{ title: "Normal", value: "normal" }],
+          lists: [],
+          marks: {
+            decorators: [
+              { title: "Bold", value: "strong" },
+              { title: "Italic", value: "em" },
+            ],
+            annotations: [
+              {
+                name: "link",
+                title: "Link",
+                type: "object",
+                fields: [
+                  defineField({
+                    name: "href",
+                    title: "Link",
+                    type: "url",
+                    description: "A web address (https://…) or an email (mailto:…).",
+                    validation: (rule) =>
+                      rule.required().uri({ scheme: ["https", "mailto"] }),
+                  }),
+                ],
+              },
+            ],
+          },
+        }),
+      ],
     }),
     defineField({
       name: "image",
@@ -50,11 +70,17 @@ export const story = defineType({
     }),
   ],
   preview: {
-    select: { media: "image", alt: "image.alt", lead: "lead" },
-    prepare({ media, alt, lead }) {
+    select: { media: "image", alt: "image.alt", text: "text" },
+    prepare({ media, alt, text }) {
+      const first = Array.isArray(text)
+        ? (text as { children?: { text?: string }[] }[])
+            .flatMap((block) => block.children ?? [])
+            .map((child) => child.text ?? "")
+            .join("")
+        : "";
       return {
         title: "Our story",
-        subtitle: lead || alt || "Kitchen photo until you add one",
+        subtitle: first || alt || "Kitchen photo until you add one",
         media,
       };
     },

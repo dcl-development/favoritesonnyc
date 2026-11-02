@@ -39,10 +39,29 @@ export const storyPhoto = {
   alt: "Danny Ippolito and Graceanne Belmonte-Ippolito in the kitchen.",
 } as const;
 
-export const storyCopy = {
-  lead: "Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s pizzeria on Forest Avenue. Danny is the owner, the pizzaiolo, and the sommelier. The name is for his mother, Maryann, from her only son.",
-  body: "The pies are naturally leavened, New York style, baked in an electric Moretti Forni. The wine is natural. Danny spent about six years on the dough before the doors opened in September 2026, after kitchens at Carbone and Locanda Verde, and after Bin 5, the wine bar he had in Rosebank.",
-} as const;
+const storyLead =
+  "Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s pizzeria on Forest Avenue. Danny is the owner, the pizzaiolo, and the sommelier. The name is for his mother, Maryann, from her only son.";
+const storyBody =
+  "The pies are naturally leavened, New York style, baked in an electric Moretti Forni. The wine is natural. Danny spent about six years on the dough before the doors opened in September 2026, after kitchens at Carbone and Locanda Verde, and after Bin 5, the wine bar he had in Rosebank.";
+
+function paragraph(key: string, text: string, link?: string) {
+  return {
+    _type: "block" as const,
+    _key: key,
+    style: "normal" as const,
+    markDefs: link ? [{ _type: "link" as const, _key: `${key}-link`, href: link }] : [],
+    children: [
+      { _type: "span" as const, _key: `${key}-span`, text, marks: link ? [`${key}-link`] : [] },
+    ],
+  };
+}
+
+/** Our Story text (Portable Text). Used when Sanity's "Story" field is empty or unreachable. */
+export const storyText = [
+  paragraph("lead", storyLead),
+  paragraph("body", storyBody),
+  paragraph("press", "Click here for the SILive story.", restaurant.press),
+];
 
 export type Photo = {
   src: string;

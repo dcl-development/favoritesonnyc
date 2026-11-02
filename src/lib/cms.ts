@@ -14,7 +14,8 @@ import {
   type Pour,
   type Wine,
 } from "@/content/menu";
-import { photos as staticPhotos, storyCopy, storyPhoto, type Photo } from "@/content/site";
+import type { PortableTextBlock } from "@portabletext/react";
+import { photos as staticPhotos, storyPhoto, storyText, type Photo } from "@/content/site";
 import { DEFAULT_HOURS, normalizeHours, type Hours, type RawHours } from "@/lib/hours";
 import { client } from "@/sanity/lib/client";
 import { storyPhotoUrl, type StoryImageField } from "@/sanity/lib/image";
@@ -217,20 +218,26 @@ const fallbackStoryPhoto: StoryPhoto = {
   fromSanity: false,
 };
 
-function storyParagraph(value: unknown, fallback: string) {
-  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+/** Use the Sanity text only if at least one paragraph has words in it. */
+function storyBlocks(value: unknown): PortableTextBlock[] {
+  if (!Array.isArray(value)) return storyText;
+  const hasWords = value.some(
+    (block) =>
+      block?._type === "block" &&
+      Array.isArray(block.children) &&
+      block.children.some((child: { text?: unknown }) => typeof child?.text === "string" && child.text.trim()),
+  );
+  return hasWords ? (value as PortableTextBlock[]) : storyText;
 }
 
 export type Story = {
   photo: StoryPhoto;
-  lead: string;
-  body: string;
+  text: PortableTextBlock[];
 };
 
 const fallbackStory: Story = {
   photo: fallbackStoryPhoto,
-  lead: storyCopy.lead,
-  body: storyCopy.body,
+  text: storyText,
 };
 
 export async function getStory(): Promise<Story> {
@@ -252,8 +259,7 @@ export async function getStory(): Promise<Story> {
 
     return {
       photo,
-      lead: storyParagraph(story?.lead, storyCopy.lead),
-      body: storyParagraph(story?.body, storyCopy.body),
+      text: storyBlocks(story?.text),
     };
   } catch {
     return fallbackStory;
