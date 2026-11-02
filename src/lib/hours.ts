@@ -16,8 +16,11 @@ export type DayKey = (typeof DAY_KEYS)[number];
 
 export type DayHours = { closed: boolean; opens: string; closes: string };
 
-/** A date-specific override. `date` is "YYYY-MM-DD" (New York calendar day). */
-export type SpecialDate = DayHours & { date: string; note?: string };
+/**
+ * A date-specific override. `date` is the first "YYYY-MM-DD" day (New York calendar) and
+ * `until` the last day, inclusive. For a single day, `until` equals `date`.
+ */
+export type SpecialDate = DayHours & { date: string; until: string; note?: string };
 
 export type Hours = { days: Record<DayKey, DayHours>; special: SpecialDate[] };
 
@@ -41,7 +44,9 @@ function toMinutes(time: string) {
 }
 
 type RawDay = { closed?: boolean | null; opens?: string | null; closes?: string | null } | null;
-type RawSpecial = (NonNullable<RawDay> & { date?: string | null; note?: string | null }) | null;
+type RawSpecial =
+  | (NonNullable<RawDay> & { date?: string | null; until?: string | null; note?: string | null })
+  | null;
 export type RawHours =
   | (Partial<Record<DayKey, RawDay>> & { specialDates?: RawSpecial[] | null })
   | null;
@@ -65,18 +70,26 @@ export function normalizeHours(raw: RawHours | undefined): Hours {
     days[day] = clean ?? FALLBACK_DAY;
   }
 
-  const seen = new Set<string>();
-  const special: SpecialDate[] = [];
+  const candidates: SpecialDate[] = [];
   for (const entry of raw.specialDates ?? []) {
     const date = entry?.date ?? "";
-    if (!DATE.test(date) || seen.has(date)) continue;
+    if (!DATE.test(date)) continue;
     const clean = cleanDay(entry);
     if (!clean) continue;
-    seen.add(date);
+    // "until" is optional; empty or not after the first day means a single day.
+    const rawUntil = entry?.until ?? "";
+    const until = DATE.test(rawUntil) && rawUntil > date ? rawUntil : date;
     const note = entry?.note?.trim();
-    special.push({ ...clean, date, ...(note ? { note } : {}) });
+    candidates.push({ ...clean, date, until, ...(note ? { note } : {}) });
   }
-  special.sort((a, b) => a.date.localeCompare(b.date));
+  candidates.sort((a, b) => a.date.localeCompare(b.date));
+  // Studio blocks overlaps; if one slips through, the earlier entry wins.
+  const special: SpecialDate[] = [];
+  for (const entry of candidates) {
+    const last = special[special.length - 1];
+    if (last && entry.date <= last.until) continue;
+    special.push(entry);
+  }
 
   if (!any && !special.length) return DEFAULT_HOURS;
   return { days, special };
@@ -106,6 +119,7 @@ export function keepTogether(text: string) {
     .replace(/\b(mon|tue|wed|thu|fri|sat|sun) (jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec) (\d+)/g, `$1${NBSP}$2${NBSP}$3`)
     .replace(/(\d)–(\d)/g, `$1${WJ}–${WJ}$2`)
     .replace(/ · /g, `${NBSP}· `)
+    .replace(/ – /g, `${NBSP}– `)
     .replace(/ ([^ ]+)$/, `${NBSP}$1`);
 }
 
@@ -171,14 +185,21 @@ function shortWeekday(date: string) {
 
 /** The hours that apply on a given New York date: a special date wins over the weekly hours. */
 export function hoursOn(hours: Hours, date: string): DayHours & { special?: SpecialDate } {
-  const special = hours.special.find((entry) => entry.date === date);
+  const special = hours.special.find((entry) => entry.date <= date && date <= entry.until);
   if (special) return { ...special, special };
   return hours.days[weekdayKey(date)];
 }
 
-/** Special dates from today on (past dates drop off automatically). */
+/** Special dates that haven't ended (past ones drop off after their last day). */
 export function upcomingSpecials(hours: Hours, today: string) {
-  return hours.special.filter((entry) => entry.date >= today);
+  return hours.special.filter((entry) => entry.until >= today);
+}
+
+/** "thu nov 26" or "thu nov 26 – sun nov 29". */
+export function dateSpan(entry: SpecialDate) {
+  return entry.until === entry.date
+    ? shortDate(entry.date)
+    : `${shortDate(entry.date)} – ${shortDate(entry.until)}`;
 }
 
 /* ---------- weekly summaries ---------- */
@@ -192,7 +213,7 @@ export function hoursRows(hours: Hours) {
 export function specialRows(hours: Hours, today = nyNow().date) {
   return upcomingSpecials(hours, today).map((entry) => ({
     date: entry.date,
-    day: shortDate(entry.date),
+    day: dateSpan(entry),
     hours: rangeLabel(entry),
     note: entry.note,
   }));
@@ -296,7 +317,7 @@ export function specialOpeningHoursSpecification(hours: Hours, today = nyNow().d
     opens: entry.closed ? "00:00" : entry.opens,
     closes: entry.closed ? "00:00" : entry.closes === "24:00" ? "23:59" : entry.closes,
     validFrom: entry.date,
-    validThrough: entry.date,
+    validThrough: entry.until,
   }));
 }
 
@@ -311,8 +332,19 @@ export type ServiceStatus = {
 
 const NOTICE_DAYS = 7;
 
+function dayWord(date: string, today: string) {
+  if (date === today) return "today";
+  if (date === addDays(today, 1)) return "tomorrow";
+  return shortDate(date);
+}
+
 function noticeFor(entry: SpecialDate, today: string) {
-  const when = entry.date === today ? "today" : entry.date === addDays(today, 1) ? "tomorrow" : shortDate(entry.date);
+  const when =
+    entry.until === entry.date
+      ? dayWord(entry.date, today)
+      : entry.date <= today
+        ? `through ${shortDate(entry.until)}`
+        : `${shortDate(entry.date)} – ${shortDate(entry.until)}`;
   const head = entry.closed ? `closed ${when}` : `${when} · ${rangeLabel(entry)}`;
   return entry.note ? `${head} · ${entry.note}` : head;
 }
@@ -324,8 +356,8 @@ export function serviceStatus(hours: Hours, now = new Date()): ServiceStatus {
   const upcoming = upcomingSpecials(hours, today).find(
     (entry) =>
       entry.date <= addDays(today, NOTICE_DAYS) &&
-      // today's special hours are over once it closes
-      !(entry.date === today && !entry.closed && minutes >= toMinutes(entry.closes)),
+      // on its last day, special opening hours are over once it closes
+      !(entry.until === today && !entry.closed && minutes >= toMinutes(entry.closes)),
   );
   const notice = upcoming ? noticeFor(upcoming, today) : undefined;
 

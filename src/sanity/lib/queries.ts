@@ -33,7 +33,7 @@ export const STORY_QUERY = defineQuery(
 export const HOURS_QUERY = defineQuery(
   `*[_id == "hours"][0]{
     monday, tuesday, wednesday, thursday, friday, saturday, sunday,
-    specialDates[]{ date, closed, opens, closes, note }
+    specialDates[]{ date, until, closed, opens, closes, note }
   }`,
 );
 
