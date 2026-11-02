@@ -93,11 +93,27 @@ function clock(time: string, withSuffix: boolean) {
   return `${base}${h24 < 12 ? "am" : "pm"}`;
 }
 
+const NBSP = "\u00a0";
+const WJ = "\u2060"; // word joiner: no line break at the en dash
+
+/**
+ * Keep short phrases on one line: "closes at 8", "open until 9", "thu nov 26".
+ * Also glues the last two words so a line never ends with a lone word or number.
+ */
+export function keepTogether(text: string) {
+  return text
+    .replace(/(\S+) (at|until) (\S+)/g, `$1${NBSP}$2${NBSP}$3`)
+    .replace(/\b(mon|tue|wed|thu|fri|sat|sun) (jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec) (\d+)/g, `$1${NBSP}$2${NBSP}$3`)
+    .replace(/(\d)–(\d)/g, `$1${WJ}–${WJ}$2`)
+    .replace(/ · /g, `${NBSP}· `)
+    .replace(/ ([^ ]+)$/, `${NBSP}$1`);
+}
+
 /** "4–9" for evening hours, "11am–9pm" when a day starts before noon. */
 export function rangeLabel(day: DayHours) {
   if (day.closed) return "closed";
   const morning = toMinutes(day.opens) < 12 * 60;
-  return `${clock(day.opens, morning)}–${clock(day.closes, morning)}`;
+  return `${clock(day.opens, morning)}${WJ}–${WJ}${clock(day.closes, morning)}`;
 }
 
 export function openLabel(time: string) {
@@ -243,7 +259,7 @@ export function hoursSentence(hours: Hours) {
       ? `Open ${open[0]}`
       : open.map(capitalize).join("; ");
   const tail = closed.length ? ` ${closed.map(capitalize).join(". ")}.` : "";
-  return `${first}.${tail}`;
+  return `${first}.${tail}`.replaceAll(WJ, "");
 }
 
 /* ---------- schema.org ---------- */

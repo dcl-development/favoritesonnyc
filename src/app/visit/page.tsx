@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
 import { getHours } from "@/lib/cms";
-import { hoursRows, hoursSentence, specialRows } from "@/lib/hours";
+import { hoursRows, hoursSentence, keepTogether, specialRows } from "@/lib/hours";
 
 export async function generateMetadata(): Promise<Metadata> {
   const hours = await getHours();
@@ -49,7 +49,7 @@ export default async function VisitPage() {
                 <li key={row.date}>
                   <span>{row.day}</span>
                   <span>{row.hours}</span>
-                  {row.note ? <span className="hours-note">{row.note}</span> : null}
+                  {row.note ? <span className="hours-note">{keepTogether(row.note)}</span> : null}
                 </li>
               ))}
             </ul>

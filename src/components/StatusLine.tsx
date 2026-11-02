@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { hoursShort, serviceStatus, type ServiceStatus } from "@/lib/hours";
+import { hoursShort, keepTogether, serviceStatus, type ServiceStatus } from "@/lib/hours";
 import { useHours } from "./HoursProvider";
 
 /**
@@ -27,5 +27,5 @@ export function StatusLine() {
     return () => window.clearInterval(id);
   }, [status.notice]);
 
-  return <span>{showNotice && status.notice ? status.notice : status.status}</span>;
+  return <span>{keepTogether(showNotice && status.notice ? status.notice : status.status)}</span>;
 }
