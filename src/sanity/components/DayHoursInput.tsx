@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import { Card, Flex, Grid, Label, Select, Stack, Switch, Text } from "@sanity/ui";
+import { Card, Flex, Grid, Label, Select, Stack, Switch, Text, TextInput } from "@sanity/ui";
 import { set, setIfMissing, unset, type FieldProps, type ObjectInputProps } from "sanity";
 import { TIME_OPTIONS } from "../schemaTypes/hoursOptions";
 
@@ -84,5 +84,103 @@ export function DayHoursInput(props: ObjectInputProps<Day>) {
         ))}
       </Stack>
     </Card>
+  );
+}
+
+type Special = Day & { date?: string; note?: string };
+
+/** One special date: date + Closed switch, then Opens / Closes, then an optional note. */
+export function SpecialDateInput(props: ObjectInputProps<Special>) {
+  const { value, onChange, readOnly, validation, id } = props;
+  const closed = Boolean(value?.closed);
+  const errors = validation.filter((item) => item.level === "error");
+
+  const setField = (field: keyof Special, next: string | boolean) =>
+    onChange([setIfMissing({}), next === "" ? unset([field]) : set(next, [field])]);
+
+  const timeSelect = (field: "opens" | "closes", label: string) => (
+    <Stack gap={2}>
+      <Label as="label" htmlFor={`${id}-${field}`} size={1} muted>
+        {label}
+      </Label>
+      <Select
+        id={`${id}-${field}`}
+        fontSize={2}
+        padding={3}
+        value={value?.[field] ?? ""}
+        onChange={(event: ChangeEvent<HTMLSelectElement>) => setField(field, event.currentTarget.value)}
+        disabled={readOnly}
+      >
+        <option value="">–</option>
+        {TIME_OPTIONS.map((time) => (
+          <option key={time.value} value={time.value}>
+            {time.title}
+          </option>
+        ))}
+      </Select>
+    </Stack>
+  );
+
+  return (
+    <Stack gap={4}>
+      <Flex align="flex-end" gap={3}>
+        <Stack gap={2} flex={1}>
+          <Label as="label" htmlFor={`${id}-date`} size={1} muted>
+            Date
+          </Label>
+          <TextInput
+            id={`${id}-date`}
+            type="date"
+            fontSize={2}
+            padding={3}
+            value={value?.date ?? ""}
+            onChange={(event) => setField("date", event.currentTarget.value)}
+            readOnly={readOnly}
+          />
+        </Stack>
+        <Flex as="label" align="center" gap={2} paddingBottom={2} style={{ cursor: "pointer" }}>
+          <Text size={1} muted>
+            Closed
+          </Text>
+          <Switch
+            checked={closed}
+            disabled={readOnly}
+            onChange={(event) => setField("closed", event.currentTarget.checked)}
+          />
+        </Flex>
+      </Flex>
+      {closed ? null : (
+        <Grid gridTemplateColumns={2} gap={3}>
+          {timeSelect("opens", "Opens")}
+          {timeSelect("closes", "Closes")}
+        </Grid>
+      )}
+      <Stack gap={2}>
+        <Label as="label" htmlFor={`${id}-note`} size={1} muted>
+          Note (optional)
+        </Label>
+        <TextInput
+          id={`${id}-note`}
+          fontSize={2}
+          padding={3}
+          maxLength={40}
+          placeholder="thanksgiving"
+          value={value?.note ?? ""}
+          onChange={(event) => setField("note", event.currentTarget.value)}
+          readOnly={readOnly}
+        />
+      </Stack>
+      {errors.length ? (
+        <Card padding={3} radius={2} tone="critical">
+          <Stack gap={2}>
+            {errors.map((item, index) => (
+              <Text key={index} size={1}>
+                {item.message}
+              </Text>
+            ))}
+          </Stack>
+        </Card>
+      ) : null}
+    </Stack>
   );
 }

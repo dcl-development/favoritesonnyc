@@ -74,7 +74,9 @@ https://toast.app/r/favorite-son-llc-1210-forest-avenue
 
 Home uses `[ reservations ]`. Visit uses `[ book a reservation ]`. Both open that URL in a new tab. Parties of 8 or more are asked to call. On a fine-pointer desktop, hovering the home reservations link shows that note. It is also in the visit paragraph.
 
-Hours live in Sanity: the singleton document `hours` (“Opening hours”, first item in the Studio desk). Each day has Opens / Closes (half-hour picks) and a “Closed all day” toggle; Studio blocks a close time that isn’t after the open time. An optional “Short hours line” overrides the footer/404 text. `getHours()` in `src/lib/cms.ts` reads it on the same 60-second revalidation as the menu, and `src/lib/hours.ts` derives everything from it in America/New_York: the visit page list, the footer and 404 line (“every day · 4–9”), the “open until 9” / “opens at 4” status line in the footer, sticky bar and sign, the meta descriptions, and the JSON-LD `openingHoursSpecification`. Layout passes the hours to client components through `HoursProvider`. If the document is missing or a day is invalid, that day falls back to 4–9.
+Hours live in Sanity, singleton `hours`: seven weekly days plus a `specialDates` list (date, closed or opens/closes, optional note). A special date overrides that day's weekly hours. `getHours()` (`src/lib/cms.ts`, 60-second revalidation) feeds `src/lib/hours.ts`, which derives everything in America/New_York: the visit page week plus upcoming special dates, the footer and 404 line (always generated), the sticky bar and home sign status line (alternates with a notice for a special date within 7 days), meta descriptions, and JSON-LD `openingHoursSpecification` + `specialOpeningHoursSpecification`. Past special dates drop off on their own. If Sanity is unreachable, the site uses 4–9 daily.
+
+**Google Business Profile is synced by hand.** The site can't change it; whenever hours or special dates change in Sanity, the GBP needs the same edit. The Studio field descriptions carry this reminder.
 
 ## Business facts and content rules
 
@@ -122,7 +124,7 @@ The owner can edit:
 - **Food menu.** Dishes in Small plates, Red pies, White pies, and Dolci. Each item has available tonight (on, or off / 86), name, ingredients, price, section, a nuts flag, and sort order.
 - **Wine & drinks.** Wines (sparkling, white & orange, red, sweet) with year/place/grapes, a tasting note, glass price, and bottle price. Cocktails and beer are separate “pour” documents with name, optional note, and price. The same on/off and sort order fields apply.
 - **Homepage photos.** Image with a hotspot, a short label, alt text, and sort order. These replace the photo strip when at least one complete photo is published.
-- **Opening hours.** One document, id `hours`, first in the desk. Opens / Closes per day, or Closed all day. Updates the visit page, footer, status line, search descriptions, and Google structured data.
+- **Opening hours.** One document, id `hours`, first in the desk. Weekly hours plus special dates.
 - **Our Story.** One document, id `story`. Opening paragraph and second paragraph (this is where Graceanne is named), then a photo with a hotspot. Alt text is required once an image is uploaded. The hotspot is what stays in the frame. Leave the photo empty to keep the kitchen picture. Leave a paragraph empty to keep the wording in `src/content/site.ts`.
 
 The phone, the address, the reservation URL, the service notice, and the SILive link are not in Studio. Change those in `src/content/site.ts` and `src/app/visit/page.tsx`.
