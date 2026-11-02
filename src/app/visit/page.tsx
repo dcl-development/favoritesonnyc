@@ -47,7 +47,7 @@ export default async function VisitPage() {
             <ul className="hours-list hours-special" aria-label="special dates">
               {specials.map((row) => (
                 <li key={row.date}>
-                  <span>{row.day}</span>
+                  <span>{keepTogether(row.day)}</span>
                   <span>{row.hours}</span>
                   {row.note ? <span className="hours-note">{keepTogether(row.note)}</span> : null}
                 </li>

@@ -3,6 +3,9 @@
 import type { ChangeEvent } from "react";
 import { Card, Flex, Grid, Label, Select, Stack, Switch, Text, TextInput } from "@sanity/ui";
 import { set, setIfMissing, unset, type FieldProps, type ObjectInputProps } from "sanity";
+
+export const SYNC_NOTE =
+  "This only changes the website. Google, Toast reservations, and Apple Maps or Yelp (if you use them) don’t update from here, so change your hours there too.";
 import { TIME_OPTIONS } from "../schemaTypes/hoursOptions";
 
 type Day = { closed?: boolean; opens?: string; closes?: string };
@@ -87,7 +90,7 @@ export function DayHoursInput(props: ObjectInputProps<Day>) {
   );
 }
 
-type Special = Day & { date?: string; note?: string };
+type Special = Day & { date?: string; until?: string; note?: string };
 
 /** One special date: date + Closed switch, then Opens / Closes, then an optional note. */
 export function SpecialDateInput(props: ObjectInputProps<Special>) {
@@ -149,6 +152,24 @@ export function SpecialDateInput(props: ObjectInputProps<Special>) {
           />
         </Flex>
       </Flex>
+      <Stack gap={2}>
+        <Label as="label" htmlFor={`${id}-until`} size={1} muted>
+          Until (optional)
+        </Label>
+        <TextInput
+          id={`${id}-until`}
+          type="date"
+          fontSize={2}
+          padding={3}
+          min={value?.date}
+          value={value?.until ?? ""}
+          onChange={(event) => setField("until", event.currentTarget.value)}
+          readOnly={readOnly}
+        />
+        <Text size={1} muted>
+          Only for more than one day in a row. Leave empty for a single day.
+        </Text>
+      </Stack>
       {closed ? null : (
         <Grid gridTemplateColumns={2} gap={3}>
           {timeSelect("opens", "Opens")}
@@ -181,6 +202,23 @@ export function SpecialDateInput(props: ObjectInputProps<Special>) {
           </Stack>
         </Card>
       ) : null}
+    </Stack>
+  );
+}
+
+/** The Opening hours form, with a "not synced" note on top. */
+export function HoursDocumentInput(props: ObjectInputProps) {
+  return (
+    <Stack gap={5}>
+      <Card padding={4} radius={2} tone="caution" border>
+        <Stack gap={3}>
+          <Text size={2} weight="semibold">
+            Heads up: other listings don’t update
+          </Text>
+          <Text size={2}>{SYNC_NOTE}</Text>
+        </Stack>
+      </Card>
+      {props.renderDefault(props)}
     </Stack>
   );
 }
