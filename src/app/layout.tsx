@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cutive } from "next/font/google";
+import localFont from "next/font/local";
 import { PieLight } from "@/components/PieLight";
 import { HoursProvider } from "@/components/HoursProvider";
 import { StickyBar } from "@/components/StickyBar";
@@ -13,11 +13,21 @@ import {
 import { restaurant } from "@/content/site";
 import "./globals.css";
 
-const cutive = Cutive({
+// Cutive is the fallback for devices without American Typewriter (Windows, Android).
+// Its vertical metrics are overridden to American Typewriter's (UPM 1000, hhea ascender 904,
+// descender -250, line gap 0) so text sits on the same baseline and centres the same way.
+// File: Google Fonts' Cutive v24 latin subset (OFL, see src/fonts/Cutive-OFL.txt).
+const cutive = localFont({
+  src: "../fonts/Cutive-Regular-latin.woff2",
   weight: "400",
-  subsets: ["latin"],
+  style: "normal",
   display: "swap",
   variable: "--font-cutive",
+  declarations: [
+    { prop: "ascent-override", value: "90.4%" },
+    { prop: "descent-override", value: "25%" },
+    { prop: "line-gap-override", value: "0%" },
+  ],
 });
 
 function describe(hours: Hours) {

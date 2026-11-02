@@ -248,6 +248,7 @@ button:focus-visible {
 }
 
 .strip {
+  text-wrap: balance;
   position: relative;
   z-index: 0;
   display: inline-block;
@@ -1265,4 +1266,9 @@ body:has(.studio-root) .skip {
     opacity: 0;
     visibility: hidden;
   }
+}
+
+/* Even wraps: short headings, labels and captions break into balanced lines. */
+:where(h1, h2, h3, figcaption, .home-label, .nav-label, .section-title, .column-label) {
+  text-wrap: balance;
 }
