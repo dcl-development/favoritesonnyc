@@ -2,7 +2,7 @@
 
 Research conducted September 24–25, 2026; updated with the user-supplied business details and three original menu PDFs. For website content, the user-supplied details and PDFs take precedence over the earlier third-party scans. The PDFs are not visibly dated, so this is source priority rather than a claim about their publication dates. The separate post catalog preserves the original research trail.
 
-**Confirmed website identity:** Favorite Son Pizzeria & Wine Bar · 1210 Forest Avenue, Staten Island, NY 10310 · Danny Ippolito · danny@favoritesonnyc.com · Wednesday–Monday, 5–10 PM; closed Tuesday. The user confirmed the street address; city/state/ZIP are corroborated by the restaurant profile. Holiday exceptions have not been supplied.
+**Confirmed website identity:** Favorite Son Pizzeria & Wine Bar · 1210 Forest Avenue, Staten Island, NY 10310 · Danny Ippolito (contact details on the client row in Notion) · Wednesday–Monday, 5–10 PM; closed Tuesday. The user confirmed the street address; city/state/ZIP are corroborated by the restaurant profile. Holiday exceptions have not been supplied.
 
 ## The central idea
 
@@ -17,7 +17,7 @@ Favorite Son is an Ippolito-family neighborhood pizzeria built around **100% sou
 | Website business name | **Favorite Son Pizzeria & Wine Bar** | Explicitly supplied by the user. Instagram uses the shorter display name “favorite son pizza & wine.” |
 | Short brand / other variant | Favorite Son; Favorite Son Pizza & Wine Bar | Short menu branding and public listing variants; use the user-supplied full name for business identity. |
 | Address | **1210 Forest Avenue, Staten Island, NY 10310** | Official profile, founding post, Google listing, menu directory. High confidence. |
-| Phone | **929-805-0063** | Google business panel and [WhereYouEat listing](https://whereyoueat.com/Favorite-Son-37115.html). Listed publicly; not test-called. |
+| Phone | See the client row in Notion | Google business panel and [WhereYouEat listing](https://whereyoueat.com/Favorite-Son-37115.html). Listed publicly; not test-called. |
 | Hours | **5–10 p.m., Wednesday through Monday; closed Tuesday** | Explicitly supplied by the user and corroborated by official profile. Holiday exceptions remain unspecified. |
 | Opening | **September 9, 2026** | September 8 local-time post announces opening the following day; September 10 post celebrates a sellout. [Opening announcement](https://www.instagram.com/shaolinsomm/reel/DdDIYsCRT-B/). |
 | Service | Dine-in only until further notice | September 23 owner announcement. |
@@ -29,7 +29,7 @@ Favorite Son is an Ippolito-family neighborhood pizzeria built around **100% sou
 | Outdoor seating | Present | Google business listing; opening coverage describes covered seating. Capacity, accessibility, and seasonal operation unverified. |
 | Neighborhood label | Sources disagree: Westerleigh vs. Port Richmond | Use “Forest Avenue, Staten Island” prominently until the owners choose their preferred neighborhood description. |
 | Website | No standalone official site located | Instagram bio links to the SILive feature; Google’s Website link points to Instagram. The supplied email uses favoritesonnyc.com, but a live website at that domain has not been verified. |
-| Business contact | **Danny Ippolito — danny@favoritesonnyc.com** | Explicitly supplied by the user for the website. No email sent. |
+| Business contact | **Danny Ippolito** (email on the client row in Notion) | Explicitly supplied by the user for the website. No email sent. |
 
 Google’s actual business panel showed **4.9/5 from 16 reviews** during research, with the address and phone above. This is a small, changing launch-period sample, not a fixed marketing claim. [Google Maps listing](https://www.google.com/maps?cid=1258756891494654008).
 
@@ -254,7 +254,7 @@ A health-data aggregator identifies restaurant record **50188718** and reports n
 
 ## Questions to send the owners before building final content
 
-1. Please supply original logo files and confirm domain/hosting access. Business name and contact email are now provided: Favorite Son Pizzeria & Wine Bar; danny@favoritesonnyc.com.
+1. Please supply original logo files and confirm domain/hosting access. Business name and contact email are now provided (see the client row in Notion).
 2. Is dine-in only still current? Any exceptions, large-party policy, waitlist, or confirmed reservation launch? The no-reservations policy has been dropped.
 3. Regular hours are confirmed as Wednesday–Monday, 5–10 PM. Are there holiday exceptions, a separate last seating, or a kitchen cutoff?
 4. Who should be credited as owners/team, and what is Graceanne’s preferred title and name?
