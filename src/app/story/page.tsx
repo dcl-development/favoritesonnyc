@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { SanityImage } from "@/components/SanityImage";
 import { Sheet } from "@/components/Sheet";
-import { restaurant } from "@/content/site";
+import { PortableText } from "@portabletext/react";
 import { getStory, type StoryPhoto } from "@/lib/cms";
 
 const storySizes =
@@ -53,11 +53,7 @@ export default async function StoryPage() {
       <div className="story-grid">
         <StoryFigure photo={story.photo} />
         <Reveal className="prose" delay={1}>
-          <p>{story.lead}</p>
-          <p>{story.body}</p>
-          <p>
-            <a href={restaurant.press}>Click here for the SILive story.</a>
-          </p>
+          <PortableText value={story.text} />
         </Reveal>
       </div>
     </Sheet>

@@ -20,8 +20,7 @@ export const POURS_QUERY = defineQuery(
 
 export const STORY_QUERY = defineQuery(
   `*[_id == "story"][0]{
-    lead,
-    body,
+    text,
     image {
       alt,
       crop,
