@@ -3,13 +3,16 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
-import { StatusLine } from "./StatusLine";
+import { keepTogether } from "@/lib/hours";
+import { StatusLine, useServiceStatus } from "./StatusLine";
 
-const strips = [
-  { key: "name", kind: "name" as const, text: restaurant.name },
-  { key: "tag", kind: "line" as const, text: restaurant.tagline },
-  { key: "status", kind: "line" as const, text: null },
-  { key: "street", kind: "line" as const, text: "1210 forest avenue" },
+type Strip = { key: string; kind: "name" | "line"; text: string | null };
+
+const baseStrips: Strip[] = [
+  { key: "name", kind: "name", text: restaurant.name },
+  { key: "tag", kind: "line", text: restaurant.tagline },
+  { key: "status", kind: "line", text: null },
+  { key: "street", kind: "line", text: "1210 forest avenue" },
 ];
 
 const drift = [
@@ -17,6 +20,7 @@ const drift = [
   { x: -12, y: 14, r: 1.2, ease: 0.08 },
   { x: 9, y: 7, r: -0.8, ease: 0.16 },
   { x: -14, y: -11, r: 1.8, ease: 0.06 },
+  { x: 11, y: 9, r: -1.1, ease: 0.12 },
 ];
 
 const introMs = 1600;
@@ -24,6 +28,12 @@ const introMs = 1600;
 export function SignStrips() {
   const papers = useRef<Array<HTMLParagraphElement | null>>([]);
   const board = useRef<HTMLDivElement>(null);
+  // A special date within a week gets its own strip under the status strip.
+  const { notice } = useServiceStatus();
+  const strips: Strip[] = notice
+    ? [...baseStrips.slice(0, 3), { key: "notice", kind: "line", text: keepTogether(notice) }, ...baseStrips.slice(3)]
+    : baseStrips;
+  const count = strips.length;
 
   useLayoutEffect(() => {
     const node = board.current;
@@ -145,7 +155,7 @@ export function SignStrips() {
       }
       window.cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [count]);
 
   return (
     <div className="sign">
