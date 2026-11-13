@@ -11,6 +11,9 @@ export default defineConfig({
   projectId,
   dataset,
   basePath: "/studio",
+  releases: {
+    enabled: false,
+  },
   plugins: [
     structureTool({
       title: "Edit the website",
