@@ -18,10 +18,12 @@ export const dish = defineType({
       name: "status",
       title: "Available tonight?",
       type: "string",
+      description:
+        "Don't show keeps the item here; delete it if it's off the menu for good.",
       options: {
         list: [
           { title: "Yes — show on the menu", value: "on" },
-          { title: "No — off tonight (86)", value: "off" },
+          { title: "No — don't show on the menu", value: "off" },
         ],
         layout: "radio",
       },
@@ -93,7 +95,7 @@ export const dish = defineType({
     prepare({ title, detail, section, status }) {
       const part = sectionLabels[section] ?? section;
       return {
-        title: status === "off" ? `${title} (off tonight)` : title,
+        title: status === "off" ? `${title} (don't show)` : title,
         subtitle: [part, detail].filter(Boolean).join(" · "),
       };
     },

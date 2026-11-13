@@ -3,8 +3,7 @@
 import type { Wine } from "@/content/menu";
 import { useMenuTap } from "./useMenuTap";
 
-export function WineRow({ name, meta, note, glass, bottle, status }: Wine) {
-  const off = status === "off";
+export function WineRow({ name, meta, note, glass, bottle }: Wine) {
   const { tapped, onPointerUp } = useMenuTap();
 
   return (
@@ -18,15 +17,9 @@ export function WineRow({ name, meta, note, glass, bottle, status }: Wine) {
         <p className="menu-note">{note}</p>
       </div>
       <p className="menu-price">
-        {off ? (
-          "off tonight"
-        ) : (
-          <>
-            {glass}
-            <span className="price-split"> / </span>
-            {bottle}
-          </>
-        )}
+        {glass}
+        <span className="price-split"> / </span>
+        {bottle}
       </p>
     </div>
   );

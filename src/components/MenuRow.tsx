@@ -1,11 +1,9 @@
 "use client";
 
-import { unavailable } from "@/content/site";
 import type { Dish } from "@/content/menu";
 import { useMenuTap } from "./useMenuTap";
 
-export function MenuRow({ name, detail, price, nuts, status }: Dish) {
-  const off = status === "off" || unavailable.includes(name);
+export function MenuRow({ name, detail, price, nuts }: Dish) {
   const { tapped, onPointerUp } = useMenuTap();
 
   return (
@@ -20,7 +18,7 @@ export function MenuRow({ name, detail, price, nuts, status }: Dish) {
         </p>
         {detail ? <p className="menu-detail">{detail}</p> : null}
       </div>
-      <p className="menu-price">{off ? "off tonight" : price}</p>
+      <p className="menu-price">{price}</p>
     </div>
   );
 }
