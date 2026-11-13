@@ -19,11 +19,11 @@ export const wine = defineType({
       title: "Available tonight?",
       type: "string",
       description:
-        "Hidden items stay in Studio and can be turned back on. Delete the document if it's off the list for good.",
+        "Don't show keeps the item here; delete it if it's off the menu for good.",
       options: {
         list: [
-          { title: "Yes — show on the list", value: "on" },
-          { title: "No — hide from the list tonight (86'd)", value: "off" },
+          { title: "Yes — show on the menu", value: "on" },
+          { title: "No — don't show on the menu", value: "off" },
         ],
         layout: "radio",
       },
@@ -101,7 +101,7 @@ export const wine = defineType({
     prepare({ title, meta, section, status }) {
       const part = sectionLabels[section] ?? section;
       return {
-        title: status === "off" ? `${title} (hidden tonight)` : title,
+        title: status === "off" ? `${title} (don't show)` : title,
         subtitle: [part, meta].filter(Boolean).join(" · "),
       };
     },
