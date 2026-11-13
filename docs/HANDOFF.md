@@ -120,8 +120,8 @@ Studio config is `sanity.config.ts`. Project `gdzx3zp3`, dataset `production`, A
 
 The owner can edit:
 
-- **Food menu.** Dishes in Small plates, Red pies, White pies, and Dolci. Each item has available tonight (on, or off / 86), name, ingredients, price, section, a nuts flag, and sort order.
-- **Wine & drinks.** Wines (sparkling, white & orange, red, sweet) with year/place/grapes, a tasting note, glass price, and bottle price. Cocktails and beer are separate “pour” documents with name, optional note, and price. The same on/off and sort order fields apply.
+- **Food menu.** Dishes in Small plates, Red pies, White pies, and Dolci. Each item has available tonight (show on the site, or hide for the night / 86), name, ingredients, price, section, a nuts flag, and sort order. Hidden items do not appear on the menu page; empty sections omit their headings.
+- **Wine & drinks.** Wines (sparkling, white & orange, red, sweet) with year/place/grapes, a tasting note, glass price, and bottle price. Cocktails and beer are separate “pour” documents with name, optional note, and price. The same show/hide and sort order fields apply.
 - **Homepage photos.** Image with a hotspot, a short label, alt text, and sort order. These replace the photo strip when at least one complete photo is published.
 - **Opening hours.** One document, id `hours`, first in the desk. Weekly hours plus special dates.
 - **Our Story.** One document, id `story`. Opening paragraph and second paragraph (this is where Graceanne is named), then a photo with a hotspot. Alt text is required once an image is uploaded. The hotspot is what stays in the frame. Leave the photo empty to keep the kitchen picture. Leave a paragraph empty to keep the wording in `src/content/site.ts`.
@@ -136,7 +136,7 @@ Fallbacks when Sanity cannot be reached (`catch` in `src/lib/cms.ts`):
 
 A successful fetch that returns no documents is different. An empty food list or an empty drinks list shows “the board is blank tonight” / “the list is blank tonight”. An empty homepage photo list hides the strip. An Our Story document with no image still uses the kitchen photo.
 
-`src/content/site.ts` also has an `unavailable` name list. The live 86 switch is the Sanity “Available tonight?” field. The static list stays empty unless someone is editing the file fallback.
+`src/content/site.ts` also has an `unavailable` name list for the static fallback only (it hides those names the same way as “off” in Studio). The live 86 switch is Sanity “Available tonight?” → hide from the menu tonight. The static list stays empty unless someone is editing the file fallback.
 
 ## Design
 

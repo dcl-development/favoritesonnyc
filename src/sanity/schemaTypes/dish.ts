@@ -18,10 +18,12 @@ export const dish = defineType({
       name: "status",
       title: "Available tonight?",
       type: "string",
+      description:
+        "Hidden items stay in Studio and can be turned back on. Delete the document if it's off the menu for good.",
       options: {
         list: [
           { title: "Yes — show on the menu", value: "on" },
-          { title: "No — off tonight (86)", value: "off" },
+          { title: "No — hide from the menu tonight (86'd)", value: "off" },
         ],
         layout: "radio",
       },
@@ -93,7 +95,7 @@ export const dish = defineType({
     prepare({ title, detail, section, status }) {
       const part = sectionLabels[section] ?? section;
       return {
-        title: status === "off" ? `${title} (off tonight)` : title,
+        title: status === "off" ? `${title} (hidden tonight)` : title,
         subtitle: [part, detail].filter(Boolean).join(" · "),
       };
     },

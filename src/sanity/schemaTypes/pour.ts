@@ -16,10 +16,12 @@ export const pour = defineType({
       name: "status",
       title: "Available tonight?",
       type: "string",
+      description:
+        "Hidden items stay in Studio and can be turned back on. Delete the document if it's off the list for good.",
       options: {
         list: [
           { title: "Yes — show on the list", value: "on" },
-          { title: "No — off tonight (86)", value: "off" },
+          { title: "No — hide from the list tonight (86'd)", value: "off" },
         ],
         layout: "radio",
       },
@@ -71,7 +73,7 @@ export const pour = defineType({
     prepare({ title, detail, section, status }) {
       const part = sectionLabels[section] ?? section;
       return {
-        title: status === "off" ? `${title} (off tonight)` : title,
+        title: status === "off" ? `${title} (hidden tonight)` : title,
         subtitle: [part, detail].filter(Boolean).join(" · "),
       };
     },

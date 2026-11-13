@@ -15,7 +15,7 @@ import {
   type Wine,
 } from "@/content/menu";
 import type { PortableTextBlock } from "@portabletext/react";
-import { photos as staticPhotos, storyPhoto, storyText, type Photo } from "@/content/site";
+import { photos as staticPhotos, storyPhoto, storyText, unavailable, type Photo } from "@/content/site";
 import { DEFAULT_HOURS, normalizeHours, type Hours, type RawHours } from "@/lib/hours";
 import { client } from "@/sanity/lib/client";
 import { storyPhotoUrl, type StoryImageField } from "@/sanity/lib/image";
@@ -48,21 +48,33 @@ export type DrinksBoard = {
   empty: boolean;
 };
 
+function visibleDish(item: Dish): boolean {
+  return item.status !== "off" && !unavailable.includes(item.name);
+}
+
+function visibleWine(item: Wine): boolean {
+  return item.status !== "off" && !unavailable.includes(item.name);
+}
+
+function visiblePour(item: Pour): boolean {
+  return item.status !== "off" && !unavailable.includes(item.name);
+}
+
 const staticMenu: MenuBoard = {
-  smallPlates: staticSmallPlates,
-  redPies: staticRedPies,
-  whitePies: staticWhitePies,
-  desserts: staticDesserts,
+  smallPlates: staticSmallPlates.filter(visibleDish),
+  redPies: staticRedPies.filter(visibleDish),
+  whitePies: staticWhitePies.filter(visibleDish),
+  desserts: staticDesserts.filter(visibleDish),
   empty: false,
 };
 
 const staticDrinks: DrinksBoard = {
-  sparkling: staticSparkling,
-  whiteWines: staticWhiteWines,
-  redWines: staticRedWines,
-  sweetWines: staticSweetWines,
-  cocktails: staticCocktails,
-  beers: staticBeers,
+  sparkling: staticSparkling.filter(visibleWine),
+  whiteWines: staticWhiteWines.filter(visibleWine),
+  redWines: staticRedWines.filter(visibleWine),
+  sweetWines: staticSweetWines.filter(visibleWine),
+  cocktails: staticCocktails.filter(visiblePour),
+  beers: staticBeers.filter(visiblePour),
   empty: false,
 };
 
