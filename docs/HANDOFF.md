@@ -76,7 +76,9 @@ Home uses `[ reservations ]`. Visit uses `[ book a reservation ]`. Both open tha
 
 Hours live in Sanity, singleton `hours`: seven weekly days plus a `specialDates` list (date, optional `until` for a range, closed or opens/closes, optional note; overlaps blocked in Studio). A special date overrides that day's weekly hours. `getHours()` (`src/lib/cms.ts`, 60-second revalidation) feeds `src/lib/hours.ts`, which derives everything in America/New_York: the visit page week plus upcoming special dates, the footer and 404 line (always generated), the sticky bar and home sign status line (alternates with a notice for a special date within 7 days), meta descriptions, and JSON-LD `openingHoursSpecification` + `specialOpeningHoursSpecification`. Past special dates drop off on their own. If Sanity is unreachable, the site uses 4–9 daily.
 
-**Google Business Profile is synced by hand.** The site can't change it; whenever hours or special dates change in Sanity, the GBP needs the same edit. The Studio field descriptions carry this reminder.
+**Google Business Profile is still synced by hand.** Whenever hours or special dates change in Sanity, the GBP needs the same edit. The Studio field descriptions carry this reminder.
+
+Automatic sync is being built in steps. Done: `src/lib/gbp.ts` converts the Sanity hours into the body of a Business Information API `locations.patch` call (weekly `regularHours`, plus `specialHours` expanded to one entry per day because Google caps each period under 24 hours; notes are not sent). `/api/gbp/preview` shows that payload and sends nothing. Not done: Google API access (Google reviews an application, up to 14 days, and a quota of 0 means not approved yet), OAuth credentials from an owner/manager of the profile, and the Sanity publish webhook that triggers the push. When it is built, the push must read Sanity strictly: `getHours()` falls back to 4–9 when Sanity is down, and that must never be sent to Google.
 
 ## Business facts and content rules
 
