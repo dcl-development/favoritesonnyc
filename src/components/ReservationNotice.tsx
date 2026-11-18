@@ -5,12 +5,10 @@ import { useEffect, useRef } from "react";
 import { reservationNotice, restaurant } from "@/content/site";
 
 const KEY = "fs-reservation-notice";
-const WINDOW_MS = reservationNotice.days * 24 * 60 * 60 * 1000;
 
 function seenRecently(): boolean {
   try {
-    const at = Number(localStorage.getItem(KEY));
-    return at > 0 && Date.now() - at < WINDOW_MS;
+    return sessionStorage.getItem(KEY) === "1";
   } catch {
     return false;
   }
@@ -18,13 +16,13 @@ function seenRecently(): boolean {
 
 function markSeen() {
   try {
-    localStorage.setItem(KEY, String(Date.now()));
+    sessionStorage.setItem(KEY, "1");
   } catch {
-    // Private mode or blocked storage: the notice just shows again next visit.
+    // Blocked storage: the notice just shows again on the next page load.
   }
 }
 
-/** Reservation policy popup. Opens once per visitor per `days`, on whatever page they land on. */
+/** Reservation policy popup. Opens once per browser session (tab or window), on whatever page they land on. */
 export function ReservationNotice() {
   const pathname = usePathname();
   const ref = useRef<HTMLDialogElement>(null);
