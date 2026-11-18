@@ -55,8 +55,11 @@ export function ReservationNotice() {
         <p key={text}>{text}</p>
       ))}
       <p>
-        Questions? Email <a href={`mailto:${restaurant.email}`}>{restaurant.email}</a> or call{" "}
-        <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>.
+        Questions?
+        <br />
+        <a href={`mailto:${restaurant.email}`}>{restaurant.email}</a>
+        <br />
+        <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
       </p>
       <form method="dialog">
         <button type="submit" className="notice-ok" autoFocus>
