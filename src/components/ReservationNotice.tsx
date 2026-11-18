@@ -55,6 +55,8 @@ export function ReservationNotice() {
         <p key={text}>{text}</p>
       ))}
       <p>
+        Questions?
+        <br />
         <a href={`mailto:${restaurant.email}`}>{restaurant.email}</a>
         <br />
         <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
