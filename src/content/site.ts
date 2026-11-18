@@ -39,73 +39,8 @@ export const storyPhoto = {
   alt: "Danny Ippolito and Graceanne Belmonte-Ippolito in the kitchen.",
 } as const;
 
-const storyLead =
-  "Favorite Son is Danny Ippolito and Graceanne Belmonte-Ippolito’s pizzeria on Forest Avenue. Danny is the owner, the pizzaiolo, and the sommelier. The name is for his mother, Maryann, from her only son.";
-const storyBody =
-  "The pies are naturally leavened, New York style, baked in an electric Moretti Forni. The wine is natural. Danny spent about six years on the dough before the doors opened in September 2026, after kitchens at Carbone and Locanda Verde, and after Bin 5, the wine bar he had in Rosebank.";
-
-function paragraph(key: string, text: string, link?: string) {
-  return {
-    _type: "block" as const,
-    _key: key,
-    style: "normal" as const,
-    markDefs: link ? [{ _type: "link" as const, _key: `${key}-link`, href: link }] : [],
-    children: [
-      { _type: "span" as const, _key: `${key}-span`, text, marks: link ? [`${key}-link`] : [] },
-    ],
-  };
-}
-
-/** Our Story text (Portable Text). Used when Sanity's "Story" field is empty or unreachable. */
-export const storyText = [
-  paragraph("lead", storyLead),
-  paragraph("body", storyBody),
-  paragraph("press", "Click here for the SILive story.", restaurant.press),
-];
-
 export type Photo = {
   src: string;
   alt: string;
   label: string;
 };
-
-export const photos: Photo[] = [
-  {
-    src: "/photos/signature.jpg",
-    alt: "A whole sourdough pie on a metal tray at the table, charred rim, tomato and mozzarella.",
-    label: "signature",
-  },
-  {
-    src: "/photos/slice.jpg",
-    alt: "A slice held up, open crumb, tomato, and stracciatella.",
-    label: "the slice",
-  },
-  {
-    src: "/photos/butternut.jpg",
-    alt: "Butternut squash pie with balsamic onion, basil, and pistachio.",
-    label: "butternut squash",
-  },
-  {
-    src: "/photos/sausage.jpg",
-    alt: "Sausage and onion pie in the box, six slices.",
-    label: "sausage & onion",
-  },
-  {
-    src: "/photos/nduja.jpg",
-    alt: "Stracciatella and ’nduja pie on a metal tray.",
-    label: "stracciatella & ’nduja",
-  },
-  {
-    src: "/photos/storefront.jpg",
-    alt: "Danny Ippolito outside Favorite Son at 1210 Forest Avenue, white apron, neon pie sign.",
-    label: "forest avenue",
-  },
-  {
-    src: "/photos/sign.jpg",
-    alt: "Paper sign on the wall: favorite son, pizza, wine and cocktails, 1210 forest avenue.",
-    label: "the sign",
-  },
-];
-
-/** Names that match a menu item exactly. Empty until something is 86’d. */
-export const unavailable: string[] = [];

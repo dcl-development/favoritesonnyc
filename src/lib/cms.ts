@@ -1,21 +1,6 @@
-import {
-  allergyNote,
-  beers as staticBeers,
-  cocktails as staticCocktails,
-  desserts as staticDesserts,
-  redPies as staticRedPies,
-  redWines as staticRedWines,
-  smallPlates as staticSmallPlates,
-  sparkling as staticSparkling,
-  sweetWines as staticSweetWines,
-  whitePies as staticWhitePies,
-  whiteWines as staticWhiteWines,
-  type Dish,
-  type Pour,
-  type Wine,
-} from "@/content/menu";
+import { allergyNote, type Dish, type Pour, type Wine } from "@/content/menu";
 import type { PortableTextBlock } from "@portabletext/react";
-import { photos as staticPhotos, storyPhoto, storyText, unavailable, type Photo } from "@/content/site";
+import { storyPhoto, type Photo } from "@/content/site";
 import { DEFAULT_HOURS, normalizeHours, type Hours, type RawHours } from "@/lib/hours";
 import { client } from "@/sanity/lib/client";
 import { storyPhotoUrl, type StoryImageField } from "@/sanity/lib/image";
@@ -46,36 +31,6 @@ export type DrinksBoard = {
   cocktails: Pour[];
   beers: Pour[];
   empty: boolean;
-};
-
-function visibleDish(item: Dish): boolean {
-  return item.status !== "off" && !unavailable.includes(item.name);
-}
-
-function visibleWine(item: Wine): boolean {
-  return item.status !== "off" && !unavailable.includes(item.name);
-}
-
-function visiblePour(item: Pour): boolean {
-  return item.status !== "off" && !unavailable.includes(item.name);
-}
-
-const staticMenu: MenuBoard = {
-  smallPlates: staticSmallPlates.filter(visibleDish),
-  redPies: staticRedPies.filter(visibleDish),
-  whitePies: staticWhitePies.filter(visibleDish),
-  desserts: staticDesserts.filter(visibleDish),
-  empty: false,
-};
-
-const staticDrinks: DrinksBoard = {
-  sparkling: staticSparkling.filter(visibleWine),
-  whiteWines: staticWhiteWines.filter(visibleWine),
-  redWines: staticRedWines.filter(visibleWine),
-  sweetWines: staticSweetWines.filter(visibleWine),
-  cocktails: staticCocktails.filter(visiblePour),
-  beers: staticBeers.filter(visiblePour),
-  empty: false,
 };
 
 function toDish(item: {
@@ -132,90 +87,82 @@ function toPour(item: {
 }
 
 export async function getMenu(): Promise<MenuBoard> {
-  try {
-    const dishes = await client.fetch(DISHES_QUERY, {}, fetchOptions);
-    if (!dishes.length) {
-      return {
-        smallPlates: [],
-        redPies: [],
-        whitePies: [],
-        desserts: [],
-        empty: true,
-      };
-    }
-
-    const board: MenuBoard = {
+  const dishes = await client.fetch(DISHES_QUERY, {}, fetchOptions);
+  if (!dishes.length) {
+    return {
       smallPlates: [],
       redPies: [],
       whitePies: [],
       desserts: [],
-      empty: false,
+      empty: true,
     };
-
-    for (const dish of dishes) {
-      const mapped = toDish(dish);
-      if (!mapped) continue;
-      if (dish.section === "smallPlates") board.smallPlates.push(mapped);
-      if (dish.section === "redPies") board.redPies.push(mapped);
-      if (dish.section === "whitePies") board.whitePies.push(mapped);
-      if (dish.section === "desserts") board.desserts.push(mapped);
-    }
-
-    return board;
-  } catch {
-    return staticMenu;
   }
+
+  const board: MenuBoard = {
+    smallPlates: [],
+    redPies: [],
+    whitePies: [],
+    desserts: [],
+    empty: false,
+  };
+
+  for (const dish of dishes) {
+    const mapped = toDish(dish);
+    if (!mapped) continue;
+    if (dish.section === "smallPlates") board.smallPlates.push(mapped);
+    if (dish.section === "redPies") board.redPies.push(mapped);
+    if (dish.section === "whitePies") board.whitePies.push(mapped);
+    if (dish.section === "desserts") board.desserts.push(mapped);
+  }
+
+  return board;
 }
 
 export async function getDrinks(): Promise<DrinksBoard> {
-  try {
-    const [wines, pours] = await Promise.all([
-      client.fetch(WINES_QUERY, {}, fetchOptions),
-      client.fetch(POURS_QUERY, {}, fetchOptions),
-    ]);
+  const [wines, pours] = await Promise.all([
+    client.fetch(WINES_QUERY, {}, fetchOptions),
+    client.fetch(POURS_QUERY, {}, fetchOptions),
+  ]);
 
-    if (!wines.length && !pours.length) {
-      return {
-        sparkling: [],
-        whiteWines: [],
-        redWines: [],
-        sweetWines: [],
-        cocktails: [],
-        beers: [],
-        empty: true,
-      };
-    }
-
-    const board: DrinksBoard = {
+  if (!wines.length && !pours.length) {
+    return {
       sparkling: [],
       whiteWines: [],
       redWines: [],
       sweetWines: [],
       cocktails: [],
       beers: [],
-      empty: false,
+      empty: true,
     };
-
-    for (const wine of wines) {
-      const mapped = toWine(wine);
-      if (!mapped) continue;
-      if (wine.section === "sparkling") board.sparkling.push(mapped);
-      if (wine.section === "white") board.whiteWines.push(mapped);
-      if (wine.section === "red") board.redWines.push(mapped);
-      if (wine.section === "sweet") board.sweetWines.push(mapped);
-    }
-
-    for (const drink of pours) {
-      const mapped = toPour(drink);
-      if (!mapped) continue;
-      if (drink.section === "cocktails") board.cocktails.push(mapped);
-      if (drink.section === "beers") board.beers.push(mapped);
-    }
-
-    return board;
-  } catch {
-    return staticDrinks;
   }
+
+  const board: DrinksBoard = {
+    sparkling: [],
+    whiteWines: [],
+    redWines: [],
+    sweetWines: [],
+    cocktails: [],
+    beers: [],
+    empty: false,
+  };
+
+  for (const wine of wines) {
+    const mapped = toWine(wine);
+    if (!mapped) continue;
+    if (wine.section === "sparkling") board.sparkling.push(mapped);
+    if (wine.section === "white") board.whiteWines.push(mapped);
+    if (wine.section === "red") board.redWines.push(mapped);
+    if (wine.section === "sweet") board.sweetWines.push(mapped);
+  }
+
+  for (const drink of pours) {
+    const mapped = toPour(drink);
+    if (!mapped) continue;
+    if (drink.section === "cocktails") board.cocktails.push(mapped);
+    if (drink.section === "beers") board.beers.push(mapped);
+  }
+
+  return board;
 }
 
 export type StoryPhoto = {
@@ -230,52 +177,31 @@ const fallbackStoryPhoto: StoryPhoto = {
   fromSanity: false,
 };
 
-/** Use the Sanity text only if at least one paragraph has words in it. */
-function storyBlocks(value: unknown): PortableTextBlock[] {
-  if (!Array.isArray(value)) return storyText;
-  const hasWords = value.some(
-    (block) =>
-      block?._type === "block" &&
-      Array.isArray(block.children) &&
-      block.children.some((child: { text?: unknown }) => typeof child?.text === "string" && child.text.trim()),
-  );
-  return hasWords ? (value as PortableTextBlock[]) : storyText;
-}
-
 export type Story = {
   photo: StoryPhoto;
   text: PortableTextBlock[];
 };
 
-const fallbackStory: Story = {
-  photo: fallbackStoryPhoto,
-  text: storyText,
-};
-
 export async function getStory(): Promise<Story> {
-  try {
-    const story = await client.fetch(STORY_QUERY, {}, fetchOptions);
-    const image = story?.image as (StoryImageField & { alt?: string | null }) | null | undefined;
-    let photo = fallbackStoryPhoto;
+  const story = await client.fetch(STORY_QUERY, {}, fetchOptions);
+  const image = story?.image as (StoryImageField & { alt?: string | null }) | null | undefined;
+  let photo = fallbackStoryPhoto;
 
-    if (image?.asset?._ref) {
-      const src = storyPhotoUrl(image);
-      if (src) {
-        photo = {
-          src,
-          alt: image.alt?.trim() || "Favorite Son",
-          fromSanity: true,
-        };
-      }
+  if (image?.asset?._ref) {
+    const src = storyPhotoUrl(image);
+    if (src) {
+      photo = {
+        src,
+        alt: image.alt?.trim() || "Favorite Son",
+        fromSanity: true,
+      };
     }
-
-    return {
-      photo,
-      text: storyBlocks(story?.text),
-    };
-  } catch {
-    return fallbackStory;
   }
+
+  return {
+    photo,
+    text: Array.isArray(story?.text) ? (story.text as PortableTextBlock[]) : [],
+  };
 }
 
 export async function getPhotos(): Promise<Photo[]> {
@@ -287,7 +213,7 @@ export async function getPhotos(): Promise<Photo[]> {
       return [{ src: photo.src, alt: photo.alt, label: photo.caption }];
     });
   } catch {
-    return staticPhotos;
+    return [];
   }
 }
 

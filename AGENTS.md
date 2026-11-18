@@ -9,15 +9,15 @@ This repo follows Jake's dev framework: [jakedcl/dev-framework](https://github.c
 The framework repo is private. Cloud agents open it with `git clone --depth 1 https://x-access-token:${DEV_FRAMEWORK_READ_TOKEN}@github.com/jakedcl/dev-framework /tmp/dev-framework` (the token is a Cursor secret; never print or commit it).
 
 ## Stack
-- Next.js 16.3 (App Router), React 19.2, TypeScript, Tailwind CSS 4.
+- Next.js 16.4 (App Router), React 19.3, TypeScript, Tailwind CSS 4.
 - Sanity 6 + next-sanity 13. Project `gdzx3zp3`, dataset `production`. Studio is embedded at `/studio` (`/admin` redirects).
 - Vercel: pushes to `main` deploy to production; PRs get preview URLs.
 
 ## Layout
 - `src/app/` home, `menu/` (food, then wine and drinks), `story/`, `visit/`, `studio/`. `/drinks` redirects to `/menu#drinks`.
 - `src/sanity/` env, `lib/`, `structure.ts`, `schemaTypes/` (dish, pour, wine, photo, story, templates).
-- `src/content/` fallback copy (`menu.ts`) used if Sanity is unreachable; hours and contact live in `site.ts`, not Sanity.
-- `src/marks/` the pie mark. `src/components/`, `src/lib/`. `scripts/seed-sanity.mts` seeds the menu (needs `SANITY_AUTH_TOKEN`).
+- `src/content/` menu types and the allergy note (`menu.ts`); contact and the service notice live in `site.ts`. Menu, photos, story text, and hours come from Sanity only (no static copies).
+- `src/marks/` the pie mark. `src/components/`, `src/lib/`.
 
 ## Commands
 - `npm run dev`, `npm run build`, `npm run start`, `npm run lint`. No env needed; Sanity defaults to production.
