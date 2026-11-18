@@ -7,7 +7,7 @@ export const restaurant = {
   phoneTel: "+19298050063",
   email: "danny@favoritesonnyc.com",
   instagram: "https://www.instagram.com/favoritesonnyc/",
-  url: "https://favoritesonnyc.com",
+  url: "https://www.favoritesonnyc.com",
   press:
     "https://www.silive.com/dining/2026/09/no-slices-no-delivery-no-shortcuts-favorite-son-brings-artisan-sourdough-pizza-to-staten-island.html",
   address: {

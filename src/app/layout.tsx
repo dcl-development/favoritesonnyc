@@ -12,6 +12,7 @@ import {
 } from "@/lib/hours";
 import { ReservationNotice } from "@/components/ReservationNotice";
 import { restaurant } from "@/content/site";
+import { ogImage } from "@/lib/seo";
 import "./globals.css";
 
 // Cutive is the fallback for devices without American Typewriter (Windows, Android).
@@ -54,9 +55,9 @@ export async function generateMetadata(): Promise<Metadata> {
   openGraph: {
     title: "favorite son",
     description,
-    url: restaurant.url,
+    url: "/",
     siteName: "favorite son",
-    images: [{ url: "/photos/og.jpg", width: 719, height: 960, alt: "Favorite Son on Forest Avenue" }],
+    images: [ogImage],
     locale: "en_US",
     type: "website",
   },

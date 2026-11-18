@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { PieStrip } from "@/components/PieStrip";
@@ -6,11 +7,16 @@ import { SignStrips } from "@/components/SignStrips";
 import { nav, restaurant } from "@/content/site";
 import { getPhotos } from "@/lib/cms";
 
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default async function Home() {
   const photos = await getPhotos();
 
   return (
     <main className="home">
+      <h1 className="sr-only">{restaurant.legalName}, Staten Island</h1>
       <SignStrips />
       <div className="home-stack">
         <nav className="home-pages" aria-label="pages">
