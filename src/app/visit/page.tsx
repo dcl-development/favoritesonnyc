@@ -5,13 +5,15 @@ import { Sheet } from "@/components/Sheet";
 import { restaurant } from "@/content/site";
 import { getHours } from "@/lib/cms";
 import { hoursRows, hoursSentence, keepTogether, specialRows } from "@/lib/hours";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const hours = await getHours();
-  return {
-    title: "visit",
-    description: `Favorite Son is at 1210 Forest Avenue, Staten Island. ${hoursSentence(hours)} Walk-in, dine-in.`,
-  };
+  return pageMetadata(
+    "/visit",
+    "visit",
+    `Favorite Son is at 1210 Forest Avenue, Staten Island. ${hoursSentence(hours)} Walk-in, dine-in.`,
+  );
 }
 
 const instagramHandle = `@${new URL(restaurant.instagram).pathname.split("/").filter(Boolean)[0]}`;

@@ -5,15 +5,16 @@ import { SanityImage } from "@/components/SanityImage";
 import { Sheet } from "@/components/Sheet";
 import { PortableText } from "@portabletext/react";
 import { getStory, type StoryPhoto } from "@/lib/cms";
+import { pageMetadata } from "@/lib/seo";
 
 const storySizes =
   "(max-width: 719px) calc(100vw - 2.3rem), min(22.5rem, calc((100vw - 7rem) * 0.4737))";
 
-export const metadata: Metadata = {
-  title: "our story",
-  description:
-    "Favorite Son is the Ippolito family’s sourdough pizzeria and wine bar on Forest Avenue, Staten Island.",
-};
+export const metadata: Metadata = pageMetadata(
+  "/story",
+  "our story",
+  "Favorite Son is the Ippolito family’s sourdough pizzeria and wine bar on Forest Avenue, Staten Island.",
+);
 
 function StoryFigure({ photo }: { photo: StoryPhoto }) {
   if (photo.fromSanity) {
@@ -25,7 +26,8 @@ function StoryFigure({ photo }: { photo: StoryPhoto }) {
           alt={photo.alt}
           fill
           sizes={storySizes}
-          loading="lazy"
+          loading="eager"
+        fetchPriority="high"
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
       </Reveal>
@@ -39,7 +41,8 @@ function StoryFigure({ photo }: { photo: StoryPhoto }) {
         alt={photo.alt}
         fill
         sizes={storySizes}
-        loading="lazy"
+        loading="eager"
+        fetchPriority="high"
       />
     </Reveal>
   );

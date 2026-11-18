@@ -5,6 +5,6 @@ import sanityImageLoader from "@/lib/sanityImageLoader";
 
 export type SanityImageProps = Omit<ImageProps, "loader">;
 
-export function SanityImage(props: SanityImageProps) {
-  return <Image {...props} loader={sanityImageLoader} />;
+export function SanityImage({ alt, ...props }: SanityImageProps) {
+  return <Image alt={alt} {...props} loader={sanityImageLoader} />;
 }

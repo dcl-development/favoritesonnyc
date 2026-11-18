@@ -332,7 +332,7 @@ export function PieStrip({ photos }: { photos: Photo[] }) {
               {isSanityImageSrc(photo.src) ? (
                 <SanityImage {...shared} />
               ) : (
-                <Image {...shared} />
+                <Image {...shared} alt={photo.alt} />
               )}
               <figcaption>{photo.label}</figcaption>
             </figure>

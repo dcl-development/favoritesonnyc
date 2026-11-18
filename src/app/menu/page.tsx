@@ -8,12 +8,13 @@ import { WineRow } from "@/components/WineRow";
 import type { Wine } from "@/content/menu";
 import { restaurant } from "@/content/site";
 import { allergyNote, getDrinks, getMenu } from "@/lib/cms";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "menu",
-  description:
-    "Small plates, 14-inch sourdough pies, dolci, natural wine, cocktails, and beer at Favorite Son. Whole pies, six slices. Dine-in on Forest Avenue.",
-};
+export const metadata: Metadata = pageMetadata(
+  "/menu",
+  "menu",
+  "Small plates, 14-inch sourdough pies, dolci, natural wine, cocktails, and beer at Favorite Son. Whole pies, six slices. Dine-in on Forest Avenue.",
+);
 
 function WineBlock({ title, wines }: { title: string; wines: Wine[] }) {
   if (wines.length === 0) return null;
