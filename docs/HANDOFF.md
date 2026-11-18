@@ -51,6 +51,7 @@ Pages revalidate from Sanity about every 60 seconds (`src/lib/cms.ts`). A Studio
 | `/drinks` | Permanent redirect (308) to `/menu#drinks`. Also `/drinks/*`. |
 | `/visit` | Address, phone, hours, `[ book a reservation ]`, Instagram, one paragraph, then the storefront photo. No site footer. |
 | `/story` | Our Story. The nav label is “our story”. The path is `/story`, not `/our-story`. |
+| `/reservations` | Temporary redirect (307) to the Toast Tables link in `site.ts`. `/reserve` does the same. Handy for Instagram, print, and menus. |
 | `/studio` | Sanity Studio. `/admin` redirects here. |
 | `/sitemap.xml`, `/robots.txt` | Generated. The sitemap lists `/`, `/menu`, `/visit`, and `/story`. |
 

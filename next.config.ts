@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { restaurant } from "./src/content/site";
 
 const sanityProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "gdzx3zp3";
 const sanityDataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
@@ -18,6 +19,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/admin", destination: "/studio", permanent: false },
       { source: "/admin/:path*", destination: "/studio/:path*", permanent: false },
+      // Short links for menus, Instagram bio, and print. Temporary so the Toast URL can change.
+      { source: "/reservations", destination: restaurant.reserve, permanent: false },
+      { source: "/reserve", destination: restaurant.reserve, permanent: false },
       { source: "/drinks", destination: "/menu#drinks", permanent: true },
       { source: "/drinks/:path*", destination: "/menu#drinks", permanent: true },
     ];
