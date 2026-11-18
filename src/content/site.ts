@@ -44,3 +44,14 @@ export type Photo = {
   alt: string;
   label: string;
 };
+
+/** Popup shown once per visitor every `days` days (see ReservationNotice). */
+export const reservationNotice = {
+  title: "Reservation policy",
+  paragraphs: [
+    "We now require a credit card and confirmation of your reservation to join us at our very small restaurant, to prevent no-call, no-shows.",
+    "Please make sure you confirm your booking. Toast will automatically cancel your reservation if it is not confirmed.",
+    "Parties of 8 or more, please call us.",
+  ],
+  days: 7,
+} as const;

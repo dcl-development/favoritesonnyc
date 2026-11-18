@@ -10,6 +10,7 @@ import {
   specialOpeningHoursSpecification,
   type Hours,
 } from "@/lib/hours";
+import { ReservationNotice } from "@/components/ReservationNotice";
 import { restaurant } from "@/content/site";
 import "./globals.css";
 
@@ -110,6 +111,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <HoursProvider hours={hours}>
           <PieLight />
           <StickyBar />
+          <ReservationNotice />
           <div id="content">{children}</div>
         </HoursProvider>
       </body>
