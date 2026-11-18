@@ -21,7 +21,7 @@ The GitHub repo is [dcl-development/favoritesonnyc](https://github.com/dcl-devel
 
 ## Stack and local development
 
-Next.js 16.3 (App Router), React 19, TypeScript, and Tailwind CSS 4. Sanity Studio is embedded at `/studio` through `next-sanity`. Node and npm are the toolchain. There is no Bun script.
+Next.js 16.4 (App Router), React 19.3, TypeScript, and Tailwind CSS 4. Sanity Studio is embedded at `/studio` through `next-sanity`. Node and npm are the toolchain. There is no Bun script.
 
 ```sh
 npm install
@@ -37,7 +37,7 @@ NEXT_PUBLIC_SANITY_PROJECT_ID=gdzx3zp3
 NEXT_PUBLIC_SANITY_DATASET=production
 ```
 
-`scripts/seed-sanity.mts` copies the static menu and homepage photos into Sanity. It needs a write token in `SANITY_AUTH_TOKEN`. That token is not in `.env.example` and should not be committed. Seeding writes to whatever project and dataset the env vars name, which defaults to production.
+There is no seed script. All content is created and edited in Studio.
 
 Pages revalidate from Sanity about every 60 seconds (`src/lib/cms.ts`). A Studio publish shows up on the site after that, or on the next deploy.
 
@@ -79,14 +79,14 @@ Hours live in Sanity, singleton `hours`: seven weekly days plus a `specialDates`
 
 ## Business facts and content rules
 
-Use these when writing or editing public copy. The published Sanity menu and `src/content/menu.ts` already follow the menu rules below.
+Use these when writing or editing public copy. The published Sanity menu already follows the menu rules below.
 
 **Identity**
 
 - Legal name: Favorite Son Pizzeria & Wine Bar. The wordmark on the site is lowercase “favorite son”.
 - Address: 1210 Forest Avenue, Staten Island, NY 10310. Say “Forest Avenue, Staten Island.” Westerleigh and Port Richmond are both used elsewhere, and the neighborhood name is not settled.
 - Danny Ippolito is the contact. His email and phone are on the client row in Notion.
-- Hours: every day, 4–9pm (seeded in Sanity). The restaurant opened September 9, 2026.
+- Hours: every day, 4–9pm (in Sanity). The restaurant opened September 9, 2026.
 - Instagram: [@favoritesonnyc](https://www.instagram.com/favoritesonnyc/). Danny’s account is [@shaolinsomm](https://www.instagram.com/shaolinsomm/).
 - Google listing: https://www.google.com/maps?cid=1258756891494654008. The site’s address link is a maps search for the street address.
 - The Facebook page linked from Danny is labeled Unofficial. Do not link it.
@@ -105,7 +105,7 @@ Use these when writing or editing public copy. The published Sanity menu and `sr
 **Decisions from Danny**
 
 - Cellario, Langhe Timorasso: Cellario is the producer. The grape field reads `timorasso` (`2024, piedmont · 13% · timorasso`).
-- The Sicily white is `barraco, “fior di bianco”`, lowercase like the other producers. The published document keeps the id `wine-vini-barraci`, so a later seed updates that bottle instead of adding a second one.
+- The Sicily white is `barraco, “fior di bianco”`, lowercase like the other producers.
 - Day Wines’ tasting note reads `navel orange, dried mango, grippy`.
 - Porchetta & peppers stays `mozz, long hots, parm`.
 - Wine prices are glass and bottle. Pour sizes stay off the list.
@@ -124,19 +124,20 @@ The owner can edit:
 - **Wine & drinks.** Wines (sparkling, white & orange, red, sweet) with year/place/grapes, a tasting note, glass price, and bottle price. Cocktails and beer are separate “pour” documents with name, optional note, and price. The same show/hide and sort order fields apply.
 - **Homepage photos.** Image with a hotspot, a short label, alt text, and sort order. These replace the photo strip when at least one complete photo is published.
 - **Opening hours.** One document, id `hours`, first in the desk. Weekly hours plus special dates.
-- **Our Story.** One document, id `story`. Opening paragraph and second paragraph (this is where Graceanne is named), then a photo with a hotspot. Alt text is required once an image is uploaded. The hotspot is what stays in the frame. Leave the photo empty to keep the kitchen picture. Leave a paragraph empty to keep the wording in `src/content/site.ts`.
+- **Our Story.** One document, id `story`. Opening paragraph and second paragraph (this is where Graceanne is named), then a photo with a hotspot. Alt text is required once an image is uploaded. The hotspot is what stays in the frame. Leave the photo empty to keep the kitchen picture.
 
 The phone, the address, the reservation URL, the service notice, and the SILive link are not in Studio. Change those in `src/content/site.ts` and `src/app/visit/page.tsx`.
 
-Fallbacks when Sanity cannot be reached (`catch` in `src/lib/cms.ts`):
+If Sanity cannot be reached (`src/lib/cms.ts`):
 
-- Menu and drinks use `src/content/menu.ts`.
-- Our Story uses the two paragraphs in `storyCopy`, the kitchen photo `/photos/kitchen.jpg`, and the alt text in `site.ts`.
-- Homepage photos use the seven files listed in `site.ts`.
+- Menu, drinks, and Our Story show the page's error screen with “try again”. There is no static copy of them in the repo.
+- The homepage photo strip is hidden.
+- Hours fall back to `DEFAULT_HOURS` in `src/lib/hours.ts` (4–9 daily), since the footer and sticky bar always need something.
+- Our Story always uses the kitchen photo `/photos/kitchen.jpg` unless a photo is published in Studio.
 
 A successful fetch that returns no documents is different. An empty food list or an empty drinks list shows “the board is blank tonight” / “the list is blank tonight”. An empty homepage photo list hides the strip. An Our Story document with no image still uses the kitchen photo.
 
-`src/content/site.ts` also has an `unavailable` name list for the static fallback only (it hides those names the same way as “off” in Studio). The live 86 switch is Sanity “Available tonight?” → hide from the menu tonight. The static list stays empty unless someone is editing the file fallback.
+The live 86 switch is Sanity “Available tonight?” → hide from the menu tonight.
 
 ## Design
 

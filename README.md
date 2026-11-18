@@ -17,7 +17,7 @@ For how the site is hosted, how to edit it, and what not to change, read [docs/H
 
 ## Stack
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Sanity, deployed on Vercel. The repo is [dcl-development/favoritesonnyc](https://github.com/dcl-development/favoritesonnyc).
+Next.js 16.4 (App Router), React 19.3, TypeScript, Tailwind CSS 4, Sanity, deployed on Vercel. The repo is [dcl-development/favoritesonnyc](https://github.com/dcl-development/favoritesonnyc).
 
 ## Running it locally
 
@@ -28,7 +28,7 @@ npm run dev
 
 Open http://localhost:3000. The Sanity project and dataset default to production (`gdzx3zp3` / `production`), so no setup is needed to view the site. To point it somewhere else, copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`.
 
-Other scripts: `npm run build`, `npm run start`, and `npm run lint`. `scripts/seed-sanity.mts` loads the static menu into Sanity and needs `SANITY_AUTH_TOKEN`.
+Other scripts: `npm run build`, `npm run start`, and `npm run lint`.
 
 ### Sanity images and Vercel
 

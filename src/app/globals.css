@@ -1272,3 +1272,60 @@ body:has(.studio-root) .skip {
 :where(h1, h2, h3, figcaption, .home-label, .nav-label, .section-title, .column-label) {
   text-wrap: balance;
 }
+
+/* Reservation policy popup (ReservationNotice). */
+.notice {
+  width: min(26rem, calc(100vw - 2.3rem));
+  max-height: calc(100dvh - 2.3rem);
+  margin: auto;
+  padding: 1.5rem 1.4rem 1.3rem;
+  overflow-y: auto;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.5;
+}
+
+.notice::backdrop {
+  background: rgb(26 20 15 / 0.62);
+}
+
+.notice-title {
+  margin: 0 0 0.9rem;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.notice p {
+  margin: 0 0 0.8rem;
+}
+
+.notice a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.notice-ok {
+  display: block;
+  width: 100%;
+  margin-top: 1.1rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.notice-ok:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body:has(dialog.notice[open]) {
+  overflow: hidden;
+}
