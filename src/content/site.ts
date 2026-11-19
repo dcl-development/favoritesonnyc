@@ -47,10 +47,10 @@ export type Photo = {
 
 /** Popup shown once per browser session (see ReservationNotice). */
 export const reservationNotice = {
-  title: "Reservation policy",
+  title: "Reservations & walk-ins",
   paragraphs: [
-    "We now require a credit card and confirmation of your reservation to join us at our very small restaurant, to prevent no-call, no-shows.",
-    "Please make sure you confirm your booking. Toast will automatically cancel your reservation if it is not confirmed.",
-    "Parties of 8 or more, please call us.",
+    "Walk-ins are always welcome! We’re a small room, so walk-in space is limited, but our heated, enclosed patio is nice and warm.",
+    "Reservations need a card to hold your table. Please confirm your booking so we can save your spot.",
+    "Parties of 8 or more, please give us a call.",
   ],
 } as const;

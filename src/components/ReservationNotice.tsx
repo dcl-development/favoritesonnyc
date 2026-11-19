@@ -22,7 +22,7 @@ function markSeen() {
   }
 }
 
-/** Reservation policy popup. Opens once per browser session (tab or window), on whatever page they land on. */
+/** Reservations and walk-ins popup. Opens once per browser session (tab or window), on whatever page they land on. */
 export function ReservationNotice() {
   const pathname = usePathname();
   const ref = useRef<HTMLDialogElement>(null);
