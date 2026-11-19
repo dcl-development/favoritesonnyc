@@ -22,7 +22,7 @@ function markSeen() {
   }
 }
 
-/** Reservation policy popup. Opens once per browser session (tab or window), on whatever page they land on. */
+/** Reservations and walk-ins popup. Opens once per browser session (tab or window), on whatever page they land on. */
 export function ReservationNotice() {
   const pathname = usePathname();
   const ref = useRef<HTMLDialogElement>(null);
@@ -53,10 +53,9 @@ export function ReservationNotice() {
         <p key={text}>{text}</p>
       ))}
       <p>
-        Questions?
-        <br />
+        Questions?{" "}
         <a href={`mailto:${restaurant.email}`}>{restaurant.email}</a>
-        <br />
+        {" / "}
         <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
       </p>
       <form method="dialog">

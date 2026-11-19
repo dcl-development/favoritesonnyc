@@ -67,7 +67,7 @@ export default async function VisitPage() {
             <a href={restaurant.instagram}>{instagramHandle}</a>
           </p>
           <p className="visit-notes">
-            {`${restaurant.notice.title}. ${restaurant.notice.body} there is covered outdoor seating. `}
+            {`${restaurant.notice.title}. ${restaurant.notice.body} there is a heated, enclosed patio. `}
             parties of 8 or more, please{" "}
             <a href={`tel:${restaurant.phoneTel}`}>call</a>.
           </p>

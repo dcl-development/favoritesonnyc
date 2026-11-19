@@ -57,7 +57,7 @@ Pages revalidate from Sanity about every 60 seconds (`src/lib/cms.ts`). A Studio
 
 Inner pages share `Sheet`: a small pie mark, the kicker, the page title, the same three bracket links, and a dashed rule. Visit passes `footer={false}`. Home, menu, and story keep the footer.
 
-The visit paragraph is fixed copy: no takeout, no slices, walk-ins welcome, reservations available, covered outdoor seating, and parties of 8 or more should call. “Call” is a `tel` link.
+The visit paragraph is fixed copy: no takeout, no slices, walk-ins welcome, reservations available, a heated, enclosed patio, and parties of 8 or more should call. “Call” is a `tel` link.
 
 ## Contact and reservations
 
@@ -74,7 +74,7 @@ https://toast.app/r/favorite-son-llc-1210-forest-avenue
 
 Home uses `[ reservations ]`. Visit uses `[ book a reservation ]`. Both open that URL in a new tab. Parties of 8 or more are asked to call. On a fine-pointer desktop, hovering the home reservations link shows that note. It is also in the visit paragraph.
 
-**Reservation policy popup.** A dialog opens on whatever page a visitor lands on, once per browser session (a new tab or window, or reopening the browser, shows it again; a reload does not). Dismissing it any way (Got it, Esc, tapping outside) counts. It says a credit card is required, the booking must be confirmed or Toast cancels it, and parties of 8 or more should call, then shows the email and phone. The copy is `reservationNotice` in `src/content/site.ts`; the component is `src/components/ReservationNotice.tsx`, mounted in `src/app/layout.tsx` and skipped on `/studio`. Memory is `sessionStorage` (key `fs-reservation-notice`), so to see it again, use a private window. `/reservations` and `/reserve` redirect to the Toast link (`next.config.ts`).
+**Reservations and walk-ins popup.** A dialog opens on whatever page a visitor lands on, once per browser session (a new tab or window, or reopening the browser, shows it again; a reload does not). Dismissing it any way (Got it, Esc, tapping outside) counts. It says walk-ins are welcome (small room, heated enclosed patio), reservations need a card and must be confirmed, and parties of 8 or more should call, then shows the email and phone. The copy is `reservationNotice` in `src/content/site.ts`; the component is `src/components/ReservationNotice.tsx`, mounted in `src/app/layout.tsx` and skipped on `/studio`. Memory is `sessionStorage` (key `fs-reservation-notice`), so to see it again, use a private window. `/reservations` and `/reserve` redirect to the Toast link (`next.config.ts`).
 
 Hours live in Sanity, singleton `hours`: seven weekly days plus a `specialDates` list (date, optional `until` for a range, closed or opens/closes, optional note; overlaps blocked in Studio). A special date overrides that day's weekly hours. `getHours()` (`src/lib/cms.ts`, 60-second revalidation) feeds `src/lib/hours.ts`, which derives everything in America/New_York: the visit page week plus upcoming special dates, the footer and 404 line (always generated), the sticky bar and home sign status line (alternates with a notice for a special date within 7 days), meta descriptions, and JSON-LD `openingHoursSpecification` + `specialOpeningHoursSpecification`. Past special dates drop off on their own. If Sanity is unreachable, the site uses 4–9 daily.
 
