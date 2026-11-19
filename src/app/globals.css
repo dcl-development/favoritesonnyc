@@ -1286,7 +1286,7 @@ body:has(.studio-root) .skip {
   text-wrap: balance;
 }
 
-/* Reservation policy popup (ReservationNotice). */
+/* Reservations and walk-ins popup (ReservationNotice). */
 .notice {
   width: min(26rem, calc(100vw - 2.3rem));
   max-height: calc(100dvh - 2.3rem);
@@ -1302,6 +1302,57 @@ body:has(.studio-root) .skip {
 
 .notice::backdrop {
   background: rgb(26 20 15 / 0.62);
+}
+
+@keyframes notice-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes notice-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.notice[open] {
+  animation: notice-in 200ms ease-out backwards;
+}
+
+.notice[open]::backdrop {
+  animation: notice-backdrop-in 200ms ease-out backwards;
+}
+
+@keyframes notice-out {
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes notice-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.notice[open][data-closing] {
+  animation: notice-out 150ms ease-in forwards;
+}
+
+.notice[open][data-closing]::backdrop {
+  animation: notice-backdrop-out 150ms ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notice[open],
+  .notice[open]::backdrop,
+  .notice[open][data-closing],
+  .notice[open][data-closing]::backdrop {
+    animation: none;
+  }
 }
 
 .notice-title {
