@@ -1325,9 +1325,32 @@ body:has(.studio-root) .skip {
   animation: notice-backdrop-in 200ms ease-out backwards;
 }
 
+@keyframes notice-out {
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes notice-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.notice[open][data-closing] {
+  animation: notice-out 150ms ease-in forwards;
+}
+
+.notice[open][data-closing]::backdrop {
+  animation: notice-backdrop-out 150ms ease-in forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .notice[open],
-  .notice[open]::backdrop {
+  .notice[open]::backdrop,
+  .notice[open][data-closing],
+  .notice[open][data-closing]::backdrop {
     animation: none;
   }
 }
