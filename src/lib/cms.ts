@@ -12,6 +12,7 @@ import {
   STORY_QUERY,
   WINES_QUERY,
 } from "@/sanity/lib/queries";
+import type { PHOTOS_QUERY_RESULT } from "../../sanity.types";
 
 const fetchOptions = { next: { revalidate: 60 } };
 
@@ -208,7 +209,7 @@ export async function getPhotos(): Promise<Photo[]> {
   try {
     const photos = await client.fetch(PHOTOS_QUERY, {}, fetchOptions);
     if (!photos.length) return [];
-    return photos.flatMap((photo: { src?: string | null; caption?: string | null; alt?: string | null }) => {
+    return photos.flatMap((photo: PHOTOS_QUERY_RESULT[number]) => {
       if (!photo.src || !photo.caption || !photo.alt) return [];
       return [{ src: photo.src, alt: photo.alt, label: photo.caption }];
     });
