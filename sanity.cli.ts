@@ -6,4 +6,10 @@ export default defineCliConfig({
     projectId,
     dataset,
   },
+  typegen: {
+    path: "./src/**/*.{ts,tsx,js,jsx}",
+    schema: "./schema.json",
+    generates: "./sanity.types.ts",
+    overloadClientMethods: true,
+  },
 });

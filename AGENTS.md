@@ -15,6 +15,7 @@ Website for Favorite Son Pizzeria & Wine Bar, 1210 Forest Ave, Staten Island. Pr
 
 ## Commands
 - `npm run dev`, `npm run build`, `npm run start`, `npm run lint`. No env needed; Sanity defaults to production.
+- `npm run typegen` — regenerate `schema.json` and `sanity.types.ts` after schema or GROQ query changes.
 
 ## Read first
 - `docs/HANDOFF.md` covers hosting, editing, and what not to change. `favorite-son-research-brief.md` is background only, not site copy.
