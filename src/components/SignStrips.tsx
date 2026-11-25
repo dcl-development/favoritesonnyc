@@ -126,7 +126,16 @@ export function SignStrips() {
       frame = window.requestAnimationFrame(tick);
     };
 
+    // The sheen on the metal follows the cursor; leaving the window parks it back at the top.
+    const moveSheen = (event: PointerEvent) => {
+      const rect = board.current?.getBoundingClientRect();
+      if (!rect) return;
+      board.current?.style.setProperty("--sheen-x", `${event.clientX - rect.left}px`);
+      board.current?.style.setProperty("--sheen-y", `${event.clientY - rect.top}px`);
+    };
+
     const onMove = (event: PointerEvent) => {
+      moveSheen(event);
       handedOff = true;
       target.nx = event.clientX / window.innerWidth - 0.5;
       target.ny = event.clientY / window.innerHeight - 0.5;
@@ -135,6 +144,8 @@ export function SignStrips() {
 
     const onLeave = (event: PointerEvent) => {
       if (event.relatedTarget) return;
+      board.current?.style.removeProperty("--sheen-x");
+      board.current?.style.removeProperty("--sheen-y");
       handedOff = true;
       target.nx = 0;
       target.ny = 0;
