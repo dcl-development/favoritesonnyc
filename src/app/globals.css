@@ -242,51 +242,44 @@ button:focus-visible {
   width: 100%;
 }
 
-/* The teal board: painted corrugated metal under a white frame, lit from above.
-   Height is locked to whole --stripe-period rows by SignStrips, so the ribs never get cut. */
+/* The teal board: painted corrugated metal ribs with the wall showing through the gaps,
+   under a white frame, lit from above. SignStrips locks the height to whole --stripe-period
+   rows, and the pattern is phased (gap first, rib last) so the bottom edge always ends on a rib. */
 .sign-board {
   --stripe-period: 16px;
+  --rib-gap: 4px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: calc(100% - 1.5rem);
   padding: 1.35rem 0.85rem 1.5rem;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    #dcebe7 0 1.5px,
-    #9cbfbb 1.5px,
-    #8ab0af 6px,
-    #7ba2a4 9.5px,
-    #5f878b 13px,
-    #4a7074 var(--stripe-period)
-  );
-  box-shadow:
-    0 1px 0 rgba(26, 20, 15, 0.25),
-    0 6px 14px -6px rgba(26, 20, 15, 0.45);
 }
 
-/* Everything that sits on the metal but under the paper strips: panel seams, screws,
-   white frame, light falloff, grain, and the sheen that follows the cursor. */
+/* The metal: ribs, light falloff, seams, grain and the cursor sheen, all cut into ribs by
+   the mask so the wall shows through the gaps. Sits under the paper strips. */
 .sign-board::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat,
-    no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat;
+  -webkit-mask-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 var(--rib-gap),
+    #000 var(--rib-gap) var(--stripe-period)
+  );
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 var(--rib-gap),
+    #000 var(--rib-gap) var(--stripe-period)
+  );
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat, repeat;
   background-image:
     radial-gradient(
       26rem 12rem at var(--sheen-x, 50%) var(--sheen-y, -10%),
       rgba(255, 255, 255, 0.2),
       transparent 70%
     ),
-    radial-gradient(circle at 50% 45%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px),
-    radial-gradient(circle at 50% 45%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px),
-    radial-gradient(circle at 50% 45%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px),
-    radial-gradient(circle at 50% 45%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px),
-    linear-gradient(#fbf8ef, #e4ddcc),
-    linear-gradient(#e4ddcc, #fbf8ef),
     linear-gradient(rgba(14, 30, 33, 0.26), transparent),
     linear-gradient(transparent, rgba(14, 30, 33, 0.24)),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.16), transparent 38%, rgba(14, 30, 33, 0.12)),
@@ -297,35 +290,65 @@ button:focus-visible {
       rgba(14, 30, 33, 0.3) 238px 239px,
       rgba(255, 255, 255, 0.22) 239px 240px
     ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .16 0 0 0 0 .18 .7 0 0 0 -.26'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .16 0 0 0 0 .18 .7 0 0 0 -.26'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(
+      to bottom,
+      #4a7074 0 var(--rib-gap),
+      #dcebe7 var(--rib-gap) calc(var(--rib-gap) + 1.5px),
+      #9cbfbb calc(var(--rib-gap) + 1.5px),
+      #8ab0af 10px,
+      #7ba2a4 13px,
+      #4a7074 var(--stripe-period)
+    );
   background-size:
     auto,
-    9px 9px,
-    9px 9px,
-    9px 9px,
-    9px 9px,
-    100% 6px,
-    100% 6px,
     100% 20px,
     100% 20px,
     100% 100%,
     100% 100%,
     240px 100%,
-    180px 180px;
+    180px 180px,
+    100% 100%;
   background-position:
     0 0,
-    14px 14px,
-    calc(100% - 14px) 14px,
-    14px calc(100% - 14px),
-    calc(100% - 14px) calc(100% - 14px),
-    0 0,
-    0 100%,
     0 6px,
     0 calc(100% - 6px),
     0 0,
     0 0,
     0 0,
+    0 0,
     0 0;
+}
+
+/* The frame and hardware: white trim top and bottom, and four screws on ribs. Not masked,
+   and clear of the paper strips. */
+.sign-board::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(#fbf8ef, #e4ddcc),
+    linear-gradient(#e4ddcc, #fbf8ef),
+    radial-gradient(circle at 50% 50%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px),
+    radial-gradient(circle at 50% 50%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px),
+    radial-gradient(circle at 50% 50%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px),
+    radial-gradient(circle at 50% 50%, #e6eeec 0 1.2px, #7d9b9b 1.8px 2.6px, transparent 3px);
+  background-size:
+    100% 6px,
+    100% 6px,
+    9px 9px,
+    9px 9px,
+    9px 9px,
+    9px 9px;
+  background-position:
+    0 0,
+    0 100%,
+    14px 21.5px,
+    calc(100% - 14px) 21.5px,
+    14px calc(100% - 17.5px),
+    calc(100% - 14px) calc(100% - 17.5px);
 }
 
 .strip {
