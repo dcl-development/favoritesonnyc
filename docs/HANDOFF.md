@@ -169,6 +169,10 @@ The sticky bar is fixed to `top: 0` and hidden with `translate3d(0, -110%, 0)` u
 
 Menu rows indent 4px on hover only when the device actually hovers. A touch tap plays a 1 second indent that returns to zero. Food and drinks jump links smooth-scroll, offset by the sticky bar, and write the hash with `history.replaceState`. Reduced motion jumps instantly.
 
+## The sign at night (home)
+
+The teal board, the barn lamps, and the red wash around the pie are all CSS, drawn to look like the real storefront at night. `SignStrips` reads the live status (`open` in `serviceStatus`, `src/lib/hours.ts`) and sets `data-lights="on"` or `"dim"` on `.sign`. Lights are on until the site knows the doors are shut: while closed (before opening, after close, or a closed special date) the lamp bulbs go grey, the cones disappear, and the red wash drops to about a third. It re-checks every minute, in New York time. Pieces: `src/components/SignLamps.tsx` (lamps and cones), `.sign::before` (neon spill, flickers on the same schedule as the tube), `.sign-board::before` and `::after` (ribs, frame, screws, cursor sheen), and `.home-reserve-link` (neon tube button). All of it is static under reduced motion. The pie mark itself is untouched.
+
 ## Neon sign
 
 Do not reshape the mark. The paths in `src/marks/pie-mark.svg` and `src/marks/pie-geometry.ts` are locked. `PieMark` draws that geometry at `WEIGHT` 1.125 (strokes 12.5% heavier than the locked widths). Color and glow are a style on top of the paths.

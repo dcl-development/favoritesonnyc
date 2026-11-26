@@ -1484,3 +1484,231 @@ body:has(.studio-root) .skip {
 body:has(dialog.notice[open]) {
   overflow: hidden;
 }
+
+/* ---------- the sign at night: neon spill, barn lamps, lights that follow the hours ---------- */
+
+.sign {
+  --lit: 1;
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+.sign[data-lights="dim"] {
+  --lit: 0.3;
+}
+
+/* Red light from the neon pie washing onto the wall. Flickers on the same schedule as the tube. */
+.sign::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 6.3rem;
+  left: 50%;
+  width: 52rem;
+  height: 30rem;
+  translate: -50% -50%;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(232, 50, 70, calc(0.34 * var(--lit))),
+    rgba(232, 50, 70, calc(0.14 * var(--lit))) 45%,
+    transparent
+  );
+  animation:
+    spill-flicker 8.5s step-end infinite,
+    spill-breathe 6.8s ease-in-out infinite;
+  animation-delay: calc(0.15s - 8.5s * 0.7294), 0s;
+}
+
+@keyframes spill-breathe {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.05;
+  }
+}
+
+@keyframes spill-flicker {
+  0% {
+    opacity: 1;
+  }
+  72.94% {
+    opacity: 0.7;
+  }
+  73.88% {
+    opacity: 1;
+  }
+  75.18% {
+    opacity: 0.7;
+  }
+  75.71% {
+    opacity: 1;
+  }
+  76.88% {
+    opacity: 0.7;
+  }
+  77.71% {
+    opacity: 1;
+  }
+  78.35% {
+    opacity: 0.7;
+  }
+  78.82% {
+    opacity: 1;
+  }
+  80.24% {
+    opacity: 0.7;
+  }
+  81.29% {
+    opacity: 1;
+  }
+  82.18% {
+    opacity: 0.7;
+  }
+  82.76% {
+    opacity: 1;
+  }
+  84.06% {
+    opacity: 0.7;
+  }
+  84.76% {
+    opacity: 1;
+  }
+  85.29% {
+    opacity: 0.7;
+  }
+  86.29% {
+    opacity: 1;
+  }
+}
+
+
+.sign-lamps {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Lamps may stick up above the board; the light cones stop at its edges. */
+  clip-path: inset(-4rem 0 0 0);
+}
+
+.sign-lamp {
+  position: absolute;
+  bottom: calc(100% - 3px);
+  width: 2.3rem;
+  aspect-ratio: 40 / 44;
+  translate: -50% 0;
+}
+
+.sign-lamp-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.sign-bulb {
+  fill: #fff0c2;
+  filter: drop-shadow(0 0 3px rgba(255, 214, 140, 0.95));
+}
+
+.sign[data-lights="dim"] .sign-bulb {
+  fill: #a39a8d;
+  filter: none;
+}
+
+/* The pool of light each lamp throws down the ribs. */
+.sign-cone {
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  width: 15rem;
+  height: 9.5rem;
+  translate: -50% 0;
+  clip-path: polygon(41% 0, 59% 0, 100% 100%, 0 100%);
+  background: linear-gradient(
+    rgba(255, 224, 160, calc(0.5 * var(--lit))),
+    rgba(255, 224, 160, calc(0.16 * var(--lit))) 55%,
+    transparent
+  );
+}
+
+@media (max-width: 719px) {
+  .sign::before {
+    width: 34rem;
+    height: 22rem;
+  }
+
+  .sign-lamp-extra {
+    display: none;
+  }
+
+  .sign-cone {
+    width: 10rem;
+    height: 8rem;
+  }
+}
+
+/* [reservations] as a neon tube sign. */
+.home-reserve-link {
+  padding: 0.15rem 1.4rem;
+  border: 2px solid #ff5a68;
+  border-radius: 999px;
+  color: #bf1829;
+  text-shadow: 0 0 6px rgba(255, 70, 90, 0.5);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 236, 232, 0.7),
+    inset 0 0 9px rgba(255, 60, 80, 0.28),
+    0 0 7px rgba(255, 60, 80, 0.55),
+    0 0 22px rgba(255, 60, 80, 0.28);
+  transition:
+    box-shadow 200ms ease,
+    text-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+.home-reserve-link > span[aria-hidden] {
+  display: none;
+}
+
+.home-reserve-link:hover,
+.home-reserve-link:focus-visible {
+  border-color: #ff7783;
+  text-shadow: 0 0 9px rgba(255, 70, 90, 0.8);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 244, 240, 0.9),
+    inset 0 0 12px rgba(255, 60, 80, 0.4),
+    0 0 10px rgba(255, 60, 80, 0.85),
+    0 0 34px rgba(255, 60, 80, 0.45);
+  animation: neon-on 420ms steps(1) both;
+}
+
+.home-reserve-link:hover .home-label,
+.home-reserve-link:focus-visible .home-label {
+  text-decoration: none;
+}
+
+@keyframes neon-on {
+  0% {
+    opacity: 0.55;
+  }
+  16% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.7;
+  }
+  44% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign::before,
+  .home-reserve-link {
+    animation: none;
+  }
+}

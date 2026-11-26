@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
+import { SignLamps } from "./SignLamps";
 import { keepTogether } from "@/lib/hours";
 import { StatusLine, useServiceStatus } from "./StatusLine";
 
@@ -29,7 +30,9 @@ export function SignStrips() {
   const papers = useRef<Array<HTMLParagraphElement | null>>([]);
   const board = useRef<HTMLDivElement>(null);
   // A special date within a week gets its own strip under the status strip.
-  const { notice } = useServiceStatus();
+  const { notice, open } = useServiceStatus();
+  // Lights are on until we know the doors are shut (server render and first paint stay lit).
+  const lights = open === false ? "dim" : "on";
   const strips: Strip[] = notice
     ? [...baseStrips.slice(0, 3), { key: "notice", kind: "line", text: keepTogether(notice) }, ...baseStrips.slice(3)]
     : baseStrips;
@@ -169,9 +172,10 @@ export function SignStrips() {
   }, [count]);
 
   return (
-    <div className="sign">
+    <div className="sign" data-lights={lights}>
       <PieMark className="pie-mark pie-mark-home" />
       <div className="sign-board" ref={board}>
+        <SignLamps />
         <div className="sign-papers">
           {strips.map((strip, index) => (
             <p
