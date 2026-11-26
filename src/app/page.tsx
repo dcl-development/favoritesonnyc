@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { PieStrip } from "@/components/PieStrip";
+import { ReserveSign } from "@/components/ReserveSign";
 import { Reveal } from "@/components/Reveal";
 import { SignStrips } from "@/components/SignStrips";
 import { nav, restaurant } from "@/content/site";
@@ -34,10 +35,9 @@ export default async function Home() {
             href={restaurant.reserve}
             target="_blank"
             rel="noopener"
+            aria-label="reservations"
           >
-            <span aria-hidden="true">[ </span>
-            <span className="home-label">reservations</span>
-            <span aria-hidden="true"> ]</span>
+            <ReserveSign />
           </a>
           <a className="reserve-tip" href={`tel:${restaurant.phoneTel}`}>
             <span>
