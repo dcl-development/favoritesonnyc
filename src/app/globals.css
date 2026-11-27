@@ -1637,34 +1637,31 @@ body:has(dialog.notice[open]) {
   overflow: visible;
 }
 
-.reserve-tube {
-  animation: spill-flicker 11.3s step-end infinite;
-  animation-delay: -3.1s;
-}
-
-/* A shine runs along each letter in turn, left to right, then rests. Same slow cycle as the
-   one that circles the pie. pathLength is 100, so a short dash travels the whole letter. */
+/* The shine that circles the "o": a short bright dash travels once around the letter, then
+   rests. Same slow cycle and shape of timing as the one around the pie. pathLength is 100. */
 .reserve-glint {
   stroke-dasharray: 34 140;
   stroke-dashoffset: 34;
   opacity: 0;
   animation: reserve-glint 10.5s ease-in-out infinite;
-  animation-delay: calc(0.7s + var(--i) * 0.27s);
+  /* starts about 0.2s after load */
+  animation-delay: calc(0.2s - 10.5s * 0.06);
 }
 
 @keyframes reserve-glint {
-  0% {
+  0%,
+  6% {
     stroke-dashoffset: 34;
     opacity: 0;
   }
-  1.5% {
-    opacity: 0.95;
+  14% {
+    opacity: 0.85;
   }
-  9% {
+  32% {
     stroke-dashoffset: -100;
-    opacity: 0.7;
+    opacity: 0.55;
   }
-  10%,
+  40%,
   100% {
     stroke-dashoffset: -100;
     opacity: 0;
@@ -1680,11 +1677,6 @@ body:has(dialog.notice[open]) {
 .home-reserve-link:hover,
 .home-reserve-link:focus-visible {
   filter: brightness(1.18) saturate(1.1);
-}
-
-.home-reserve-link:hover .reserve-tube,
-.home-reserve-link:focus-visible .reserve-tube {
-  animation: none;
 }
 
 .home-reserve-link:focus-visible {
@@ -1722,7 +1714,6 @@ body:has(dialog.notice[open]) {
 
 @media (prefers-reduced-motion: reduce) {
   .pie-halo,
-  .reserve-tube,
   .reserve-letter,
   .reserve-letter[data-buzz],
   .reserve-glint {
