@@ -1623,7 +1623,7 @@ body:has(dialog.notice[open]) {
   position: relative;
   display: block;
   width: min(20rem, 84vw);
-  aspect-ratio: 198 / 34;
+  aspect-ratio: 188.2 / 34;
   padding: 0.25rem 0;
   transition: filter 200ms ease;
 }

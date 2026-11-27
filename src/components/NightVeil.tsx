@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { PIE_TUBE } from "@/marks/pie-geometry";
+import { letters, VIEWBOX } from "./ReserveSign";
 
 /**
  * Switches the page between "lit" and "moonlight". With the lights on this tint is nearly
@@ -25,39 +27,73 @@ export function NightVeil() {
       const base = home.getBoundingClientRect();
       if (!base.width) return;
 
-      const centre = (el: Element, lower = 0.5) => {
-        const r = el.getBoundingClientRect();
-        if (!r.width || !r.height) return null;
-        return {
-          x: Math.round(r.left - base.left + r.width / 2),
-          y: Math.round(r.top - base.top + r.height * lower),
-        };
-      };
-
-      // mask alpha: 0 = fully lit, 1 = full night. All layers intersect.
-      const pool = (at: { x: number; y: number }, radius: string, stops: string) =>
-        `radial-gradient(circle ${radius} at ${at.x}px ${at.y}px, ${stops})`;
-
       const layers: string[] = [];
 
-      // The neon pie lights the wall around it, always. It is the one light that never goes out.
-      const pie = home.querySelector(".pie-mark-home");
-      const pieAt = pie && centre(pie);
-      if (pieAt) {
-        layers.push(pool(pieAt, "5.6rem", "rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.9) 76%, #000 100%"));
+      // The two neon signs never go out. Their light is cut out of the night tint in the shape of
+      // the tubes themselves (the pie's rings, the lettering), blurred in three widths, so the
+      // glow wraps each letter instead of bursting from a centre.
+      const pieEl = home.querySelector(".pie-mark-home");
+      const wordEl = home.querySelector(".reserve-art");
+      const pieBox = pieEl?.getBoundingClientRect();
+      const wordBox = wordEl?.getBoundingClientRect();
+      const tubes: string[] = [];
+      // Blur radii in screen pixels, widest first; each sign converts them to its own units.
+      const levels = [
+        { blur: 22, opacity: 0.42 },
+        { blur: 9, opacity: 0.55 },
+        { blur: 3, opacity: 0.9 },
+      ];
+      const nested = (
+        id: string,
+        box: DOMRect,
+        viewBox: string,
+        unitsPerPx: number,
+        width: number,
+        paths: string,
+      ) => {
+        const filters = levels
+          .map(
+            (l, i) =>
+              `<filter id="${id}${i}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="${(l.blur * unitsPerPx).toFixed(2)}"/></filter>`,
+          )
+          .join("");
+        const groups = levels
+          .map(
+            (l, i) =>
+              `<g filter="url(#${id}${i})" opacity="${l.opacity}" fill="none" stroke="#000" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${paths}</g>`,
+          )
+          .join("");
+        return `<svg x="${(box.left - base.left).toFixed(1)}" y="${(box.top - base.top).toFixed(1)}" width="${box.width.toFixed(1)}" height="${box.height.toFixed(1)}" viewBox="${viewBox}" overflow="visible"><defs>${filters}</defs>${groups}</svg>`;
+      };
+      if (pieBox && pieBox.width) {
+        const paths = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust]
+          .map((t) => `<path d="${t.d}"/>`)
+          .join("");
+        tubes.push(nested("p", pieBox, "0 0 286 320", 286 / pieBox.width, 11 * 1.125, paths));
       }
-
-      // The neon reservations lettering never goes out either: a long, low pool along the word.
-      const reserve = home.querySelector(".home-reserve-link");
-      const reserveRect = reserve?.getBoundingClientRect();
-      if (reserveRect && reserveRect.width) {
-        const x = Math.round(reserveRect.left - base.left + reserveRect.width / 2);
-        const y = Math.round(reserveRect.top - base.top + reserveRect.height / 2);
-        const rx = Math.round(reserveRect.width * 0.62);
-        const ry = Math.round(reserveRect.height * 1.7);
-        layers.push(
-          `radial-gradient(ellipse ${rx}px ${ry}px at ${x}px ${y}px, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.9) 80%, #000 100%)`,
+      if (wordBox && wordBox.width) {
+        const paths = letters
+          .map((l) => `<path transform="translate(${l.x} 0)" d="${l.d}"/>`)
+          .join("");
+        tubes.push(
+          nested(
+            "w",
+            wordBox,
+            `${VIEWBOX.x} ${VIEWBOX.y} ${VIEWBOX.w} ${VIEWBOX.h}`,
+            VIEWBOX.w / wordBox.width,
+            2.6,
+            paths,
+          ),
         );
+      }
+      if (tubes.length) {
+        const w = Math.round(base.width);
+        const h = Math.round(base.height);
+        const svg =
+          `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">` +
+          `<defs><mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="#fff"/>${tubes.join("")}</mask></defs>` +
+          `<rect width="${w}" height="${h}" fill="#000" mask="url(#m)"/></svg>`;
+        layers.push(`url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`);
       }
 
       // The moon: a faint cool wash from the top right, so nothing is ever pitch dark.
@@ -66,6 +102,8 @@ export function NightVeil() {
       const image = layers.join(", ");
       node.style.maskImage = image;
       node.style.setProperty("-webkit-mask-image", image);
+      node.style.maskRepeat = "no-repeat";
+      node.style.setProperty("-webkit-mask-repeat", "no-repeat");
     };
 
     const schedule = () => {

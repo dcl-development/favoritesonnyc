@@ -6,26 +6,31 @@
 
 type Glyph = { w: number; d: string };
 
-// One continuous stroke per letter. Baseline y=14, x-height top y=4, ascender top y=0.
-const GLYPHS: Record<string, Glyph> = {
-  r: { w: 8, d: "M1 14 V4 M1 8.5 C1 5.2 3.4 4 7 4" },
-  e: { w: 12, d: "M1 9 H11 C11 6 9 4 6 4 C3 4 1 6 1 9 C1 12 3 14 6 14 C8 14 9.6 13.2 10.6 12" },
+// Typewriter slab lettering, to match the site's type. Each letter is a few strokes of tube
+// (the stem, its serifs, the bowl), the way a neon bender would shape it. Baseline y=14,
+// x-height top y=4, ascender top y=0.
+export const GLYPHS: Record<string, Glyph> = {
+  r: { w: 11, d: "M1.4 4.4 L4.6 4 V14 M1.2 14 H8.4 M4.6 8.6 C4.6 5.6 6.4 4 9.6 4 C10.2 4 10.6 4.1 11 4.2" },
+  e: { w: 12, d: "M1.2 9 H10.8 C10.8 6 8.8 4 6 4 C3 4 1.2 6 1.2 9 C1.2 12 3 14 6 14 C8 14 9.6 13.2 10.8 11.8" },
   s: {
     w: 11,
-    d: "M10 6 C9 4.6 7.6 4 6 4 C3.6 4 2.4 5.2 2.4 6.6 C2.4 8.2 4 8.8 6 9.2 C8 9.6 9.8 10.2 9.8 11.8 C9.8 13.2 8.4 14 6 14 C4.2 14 2.6 13.4 1.8 12.2",
+    d: "M9.8 6 C8.8 4.6 7.6 4 6 4 C3.6 4 2.4 5.2 2.4 6.6 C2.4 8.2 4 8.8 6 9.2 C8 9.6 9.8 10.2 9.8 11.8 C9.8 13.2 8.4 14 6 14 C4.2 14 2.6 13.4 1.6 12.2",
   },
-  v: { w: 12, d: "M1 4 L6 14 L11 4" },
-  a: { w: 11, d: "M10 4 V14 M10 9 C10 6 8 4 5.5 4 C3 4 1 6 1 9 C1 12 3 14 5.5 14 C8 14 10 12 10 9" },
-  t: { w: 10, d: "M5 0.5 V11.5 C5 13.2 6 14 8 14 H9 M1.5 4 H8.5" },
-  i: { w: 4, d: "M2 4 V14 M2 0.6 V1.2" },
-  o: { w: 12, d: "M6 4 C3 4 1 6 1 9 C1 12 3 14 6 14 C9 14 11 12 11 9 C11 6 9 4 6 4 Z" },
-  n: { w: 11.5, d: "M1 14 V4 M1 8 C1 5 3.5 4 6 4 C9 4 10.5 5.6 10.5 8.5 V14" },
+  v: { w: 13, d: "M0.8 4 H5.4 M8 4 H12.2 M3 4 L6.6 14 L10.2 4" },
+  a: {
+    w: 12,
+    d: "M2 5.6 C3.2 4.4 4.6 4 6 4 C8.6 4 9.8 5.4 9.8 7.8 V13.4 C9.8 13.8 10.2 14 10.8 14 M9.8 9.4 H6.2 C3.6 9.4 2.2 10.4 2.2 12 C2.2 13.4 3.4 14 5.2 14 C7.6 14 9.8 12.8 9.8 11.2",
+  },
+  t: { w: 11, d: "M4.8 0.6 V11.6 C4.8 13.2 5.8 14 7.6 14 H9.6 M1 4 H8.4" },
+  i: { w: 10, d: "M2 4.4 L5 4 V14 M1.2 14 H8.8 M5 0.4 V1.4" },
+  o: { w: 12, d: "M6 4 C3 4 1.2 6 1.2 9 C1.2 12 3 14 6 14 C9 14 10.8 12 10.8 9 C10.8 6 9 4 6 4 Z" },
+  n: { w: 15, d: "M1.8 4.4 L5 4 V14 M1.2 14 H8.6 M5 8 C5 5.4 6.8 4 9 4 C11.4 4 12.6 5.4 12.6 8 V14 M10 14 H14.2" },
 };
 
 const WORD = "reservations";
-const GAP = 5.5;
+const GAP = 3.2;
 
-const letters = (() => {
+export const letters = (() => {
   let x = 0;
   return WORD.split("").map((char, index) => {
     const glyph = GLYPHS[char];
@@ -35,7 +40,8 @@ const letters = (() => {
   });
 })();
 
-const WIDTH = letters[letters.length - 1].x + GLYPHS.s.w; // right edge of the last letter
+export const WIDTH = letters[letters.length - 1].x + GLYPHS.s.w; // right edge of the last letter
+export const VIEWBOX = { x: -6, y: -9, w: WIDTH + 12, h: 34 };
 
 function Layer({ stroke, width, className }: { stroke: string; width: number; className?: string }) {
   return (
@@ -65,7 +71,7 @@ export function ReserveSign() {
   return (
     <svg
       className="reserve-art"
-      viewBox={`-6 -9 ${WIDTH + 12} 34`}
+      viewBox={`${VIEWBOX.x} ${VIEWBOX.y} ${VIEWBOX.w} ${VIEWBOX.h}`}
       fill="none"
       aria-hidden="true"
     >
@@ -97,10 +103,10 @@ export function ReserveSign() {
       </defs>
       <g className="reserve-tube">
         <g filter="url(#reserve-halo)">
-          <Layer stroke="#ff3a24" width={2.4} />
+          <Layer stroke="#ff3a24" width={2.6} />
         </g>
-        <Layer stroke="#ff3a24" width={2.4} />
-        <Layer stroke="#fff1e4" width={0.9} />
+        <Layer stroke="#ff3a24" width={2.6} />
+        <Layer stroke="#fff1e4" width={1} />
       </g>
     </svg>
   );
