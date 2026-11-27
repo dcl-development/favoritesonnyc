@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
 import { SignLamps } from "./SignLamps";
 import { keepTogether } from "@/lib/hours";
 import { tearStyle } from "@/lib/tear";
-import { lampsOff, restoreLights, subscribeLights, toggleLights } from "@/lib/lights";
+import { restoreLights } from "@/lib/lights";
 import { StatusLine, useServiceStatus } from "./StatusLine";
 
 // href: where tapping the strip goes. The name strip is just the name.
@@ -42,17 +42,10 @@ export function SignStrips() {
   const board = useRef<HTMLDivElement>(null);
   // A special date within a week gets its own strip under the status strip.
   const { notice } = useServiceStatus();
-  const lampsAreOff = useSyncExternalStore(subscribeLights, lampsOff, () => false);
-
   useEffect(() => {
     restoreLights();
   }, []);
 
-  // Tapping the sign switches the lamps, except when the tap lands on a link (a strip).
-  const flip = (event: React.MouseEvent) => {
-    if ((event.target as HTMLElement).closest("a")) return;
-    toggleLights();
-  };
   const strips: Strip[] = notice
     ? [...baseStrips.slice(0, 3), { key: "notice", kind: "line", text: keepTogether(notice), href: "/visit", hint: "hours and directions" }, ...baseStrips.slice(3)]
     : baseStrips;
@@ -194,18 +187,7 @@ export function SignStrips() {
   }, [count]);
 
   return (
-    <div className="sign" onClick={flip}>
-      <button
-        type="button"
-        className="lights-toggle"
-        aria-pressed={!lampsAreOff}
-        onClick={(event) => {
-          event.stopPropagation();
-          toggleLights();
-        }}
-      >
-        barn lamps {lampsAreOff ? "off" : "on"}: press to {lampsAreOff ? "turn on" : "turn off"}
-      </button>
+    <div className="sign">
       <PieMark className="pie-mark pie-mark-home" />
       <div className="sign-board" ref={board}>
         <SignLamps />
