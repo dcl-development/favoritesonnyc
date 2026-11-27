@@ -1519,7 +1519,12 @@ body:has(dialog.notice[open]) {
 /* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
 /* Solid red glass in the light, a hot core in the dark. */
 .reserve-core {
-  opacity: calc(0.3 + 0.7 * (1 - var(--lamps)));
+  opacity: calc(0.45 + 0.55 * (1 - var(--lamps)));
+}
+
+/* The highlight follows the cursor a little, as the pie's does (its offsets are in px). */
+.reserve-highlight {
+  transform: translate(calc(var(--pie-lx, 0px) * 0.35), calc(var(--pie-ly, 0px) * 0.35));
 }
 
 .pie-halo-level,
@@ -1646,7 +1651,8 @@ body:has(dialog.notice[open]) {
   width: min(20rem, 84vw);
   aspect-ratio: 188.2 / 34;
   padding: 0.25rem 0;
-  transition: filter 200ms ease;
+  /* Always as bright as it was on hover. */
+  filter: brightness(1.18) saturate(1.1);
 }
 
 .reserve-art {
@@ -1694,10 +1700,6 @@ body:has(dialog.notice[open]) {
   animation-delay: -1.7s;
 }
 
-.home-reserve-link:hover,
-.home-reserve-link:focus-visible {
-  filter: brightness(1.18) saturate(1.1);
-}
 
 .home-reserve-link:focus-visible {
   outline: 2px dashed var(--ink);

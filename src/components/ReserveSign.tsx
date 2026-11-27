@@ -109,11 +109,21 @@ export function ReserveSign() {
             <Layer stroke="#ff2a3c" width={2.4} />
           </g>
         </g>
-        {/* a thin tube: a crisp coloured edge around a near-white core, then the halo does the rest */}
-        <Layer stroke="#e8142a" width={2.4} />
-        {/* the hot core only really shows in the dark; against a lit wall the tube reads as solid red */}
+        {/* the glass: a deeper red edge, the bright body, then a pale core */}
+        <g opacity={0.55}>
+          <Layer stroke="#9a0a18" width={2.9} />
+        </g>
+        <Layer stroke="#ff2a30" width={2.3} />
         <g className="reserve-core">
-          <Layer stroke="#ff9c8f" width={0.8} />
+          <Layer stroke="#ffd2c8" width={0.8} />
+        </g>
+        {/* what makes the pie look round: a thin pale highlight a little up and to the left of the
+            tube's centre, as if light is reflecting off one side of the glass. It shifts slightly
+            with the cursor, like the pie's does. */}
+        <g className="reserve-highlight">
+          <g transform="translate(-0.5 -0.5)" opacity={0.6}>
+            <Layer stroke="#f7fcff" width={0.5} />
+          </g>
         </g>
         {/* The shine circles the "o", like the one around the pie logo. */}
         <g fill="none" stroke="#fff" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
