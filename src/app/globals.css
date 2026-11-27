@@ -1836,3 +1836,45 @@ html[data-lights="off"] {
     transition: none;
   }
 }
+
+/* The three lower strips are links. The link fills the strip, and the strip itself is the thing
+   that drifts with the cursor, so the clickable area moves with the paper. */
+.strip-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.strip {
+  transition: scale 160ms ease-out;
+}
+
+.strip:has(.strip-link):hover,
+.strip:has(.strip-link:focus-visible) {
+  scale: 1.035;
+}
+
+.strip-link:focus-visible {
+  outline: 2px dashed var(--ink);
+  outline-offset: 0.35rem;
+}
+
+/* The board stands off the wall: a shadow under and beside it, and each rib throws a little
+   shadow into the gap beneath it. */
+.sign-board {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(30, 24, 18, 0.42) 0,
+    rgba(30, 24, 18, 0.14) var(--rib-gap),
+    transparent var(--rib-gap),
+    transparent var(--stripe-period)
+  );
+}
+
+.sign-board::after {
+  box-shadow:
+    0 1px 2px rgba(26, 20, 15, 0.35),
+    5px 11px 16px -6px rgba(26, 20, 15, 0.5),
+    0 22px 28px -14px rgba(26, 20, 15, 0.28);
+}

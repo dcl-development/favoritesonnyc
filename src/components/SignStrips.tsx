@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
@@ -8,13 +9,21 @@ import { keepTogether } from "@/lib/hours";
 import { lampsOff, restoreLights, subscribeLights, toggleLights } from "@/lib/lights";
 import { StatusLine, useServiceStatus } from "./StatusLine";
 
-type Strip = { key: string; kind: "name" | "line"; text: string | null };
+// href: where tapping the strip goes. The name strip is just the name.
+type Strip = {
+  key: string;
+  kind: "name" | "line";
+  text: string | null;
+  href?: string;
+  /** Read out after the text so a screen reader knows where the link goes. */
+  hint?: string;
+};
 
 const baseStrips: Strip[] = [
   { key: "name", kind: "name", text: restaurant.name },
-  { key: "tag", kind: "line", text: restaurant.tagline },
-  { key: "status", kind: "line", text: null },
-  { key: "street", kind: "line", text: "1210 forest avenue" },
+  { key: "tag", kind: "line", text: restaurant.tagline, href: "/menu", hint: "see the menu" },
+  { key: "status", kind: "line", text: null, href: "/visit", hint: "hours and directions" },
+  { key: "street", kind: "line", text: "1210 forest avenue", href: "/visit", hint: "hours and directions" },
 ];
 
 const drift = [
@@ -38,9 +47,13 @@ export function SignStrips() {
     restoreLights();
   }, []);
 
-  const flip = toggleLights;
+  // Tapping the sign switches the lamps, except when the tap lands on a link (a strip).
+  const flip = (event: React.MouseEvent) => {
+    if ((event.target as HTMLElement).closest("a")) return;
+    toggleLights();
+  };
   const strips: Strip[] = notice
-    ? [...baseStrips.slice(0, 3), { key: "notice", kind: "line", text: keepTogether(notice) }, ...baseStrips.slice(3)]
+    ? [...baseStrips.slice(0, 3), { key: "notice", kind: "line", text: keepTogether(notice), href: "/visit", hint: "hours and directions" }, ...baseStrips.slice(3)]
     : baseStrips;
   const count = strips.length;
 
@@ -185,7 +198,7 @@ export function SignStrips() {
         aria-pressed={!lampsAreOff}
         onClick={(event) => {
           event.stopPropagation();
-          flip();
+          toggleLights();
         }}
       >
         barn lamps {lampsAreOff ? "off" : "on"}: press to {lampsAreOff ? "turn on" : "turn off"}
@@ -203,7 +216,16 @@ export function SignStrips() {
               className={`strip strip-${strip.kind}`}
               style={{ ["--i" as string]: index }}
             >
-              {strip.key === "status" ? <StatusLine /> : strip.text}
+              {strip.href ? (
+                <Link href={strip.href} className="strip-link">
+                  {strip.key === "status" ? <StatusLine /> : strip.text}
+                  <span className="sr-only">, {strip.hint}</span>
+                </Link>
+              ) : strip.key === "status" ? (
+                <StatusLine />
+              ) : (
+                strip.text
+              )}
             </p>
           ))}
         </div>
