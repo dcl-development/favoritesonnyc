@@ -1987,7 +1987,10 @@ body:has(.home) {
 
 .wall-region-hero {
   justify-content: flex-start;
-  padding: 0;
+  /* The sign casts a shadow below it, so the first stone band needs real room under it. The
+     region is rounded up to whole courses, which on a phone left only ~24px; this guarantees
+     at least 3rem however the rounding falls. */
+  padding: 0 0 3rem;
 }
 
 .wall-region .home-stack {
