@@ -1749,12 +1749,29 @@ html:has(.home) {
 body:has(.home) {
   --wall: #efebe1;
   background-color: #efebe1;
-  background-image: url("/textures/block-wall.svg");
-  background-size: 816px auto;
+  /* The wall is atmosphere, not the headline: a wash of the paint colour calms it behind the
+     content column and lets it show at the sides. */
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(239, 235, 225, 0.3),
+      rgba(239, 235, 225, 0.86) 26%,
+      rgba(239, 235, 225, 0.86) 74%,
+      rgba(239, 235, 225, 0.3)
+    ),
+    url("/textures/block-wall.svg");
+  background-size:
+    100% 100%,
+    816px auto;
 }
 
 @media (max-width: 719px) {
   body:has(.home) {
-    background-size: 612px auto;
+    background-image:
+      linear-gradient(rgba(239, 235, 225, 0.8), rgba(239, 235, 225, 0.8)),
+      url("/textures/block-wall.svg");
+    background-size:
+      100% 100%,
+      612px auto;
   }
 }
