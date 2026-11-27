@@ -1051,7 +1051,15 @@ button:focus-visible {
 }
 
 .sheet-enter {
-  animation: sheet-in 230ms ease-out both;
+  /* "backwards", not "both": a finished fade must leave nothing behind. A held opacity keeps the
+     page in its own layer, and the home page's night tint (mix-blend-mode) can then no longer
+     blend with the wall behind it. */
+  animation: sheet-in 230ms ease-out backwards;
+}
+
+/* The home page is lit by blending over the wall, so it never fades in inside a layer. */
+.sheet-enter:has(.home) {
+  animation: none;
 }
 
 html.reveal-ready [data-reveal] {
@@ -1734,12 +1742,32 @@ html:has(.home) {
 
 body:has(.home) {
   --wall: #efebe1;
-  /* Height of one course of blocks in the wall tile (264px tile, 4 courses, at 816px wide).
-     WallAlign uses it to land the stone bands on mortar joints. */
-  --wall-course: 66px;
   background-color: #efebe1;
-  /* The wall is atmosphere, not the headline: a wash of the paint colour calms it behind the
-     content column and lets it show at the sides. */
+  /* Height of one course of blocks in the wall tile (264px tile, 4 courses, at 816px wide), and
+     the tile's width. WallAlign uses the course height to size each wall region. */
+  --wall-course: 66px;
+  --wall-tile: 816px;
+}
+
+@media (max-width: 719px) {
+  body:has(.home) {
+    --wall-course: 49.5px;
+    --wall-tile: 612px;
+  }
+}
+
+/* The wall is laid in pieces, one per section, with a stone band between them, like a real
+   wall. Each piece starts at a joint and WallAlign makes it a whole number of courses tall,
+   so every row of blocks ends cleanly at a band instead of being sliced through. The wash of
+   paint colour calms the texture behind the content: heavy mid-page, lighter at the sides. */
+.wall-region {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px 0;
+  background-color: #efebe1;
   background-image:
     linear-gradient(
       to right,
@@ -1751,19 +1779,32 @@ body:has(.home) {
     url("/textures/block-wall.svg");
   background-size:
     100% 100%,
-    816px auto;
+    var(--wall-tile) auto;
+  background-repeat: no-repeat, repeat;
+  background-position:
+    0 0,
+    center top;
 }
 
 @media (max-width: 719px) {
-  body:has(.home) {
-    --wall-course: 49.5px;
+  .wall-region {
     background-image:
       linear-gradient(rgba(239, 235, 225, 0.8), rgba(239, 235, 225, 0.8)),
       url("/textures/block-wall.svg");
-    background-size:
-      100% 100%,
-      612px auto;
   }
+}
+
+.wall-region-hero {
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.wall-region .home-stack {
+  margin: 0 auto;
+}
+
+.wall-region .home-foot {
+  margin-top: 0;
 }
 
 /* Stone bands between the sections of the home page. Half the height of the old tiled ones. */
@@ -1771,7 +1812,6 @@ body:has(.home) {
   position: relative;
   z-index: 1;
   height: 11px;
-  margin-top: var(--home-group);
   background-image: url("/textures/stone-band.svg");
   background-size: 816px 11px;
   background-repeat: repeat-x;

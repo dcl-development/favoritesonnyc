@@ -23,9 +23,12 @@ export default async function Home() {
       <h1 className="sr-only">{restaurant.legalName}, Staten Island</h1>
       <NightVeil />
       <WallAlign />
-      <SignStrips />
+      <div className="wall-region wall-region-hero">
+        <SignStrips />
+      </div>
       <StoneBand />
-      <div className="home-stack">
+      <div className="wall-region">
+        <div className="home-stack">
         <nav className="home-pages" aria-label="pages">
           {nav.map((item) => (
             <Link key={item.href} href={item.href}>
@@ -55,18 +58,23 @@ export default async function Home() {
           <p>whole pies, 14 inches, cut into six.</p>
           <p>{restaurant.notice.title}.</p>
         </div>
+        </div>
       </div>
       {photos.length > 0 ? (
         <>
           <StoneBand />
-          <Reveal>
-            <PieStrip photos={photos} />
-          </Reveal>
+          <div className="wall-region">
+            <Reveal>
+              <PieStrip photos={photos} />
+            </Reveal>
+          </div>
         </>
       ) : null}
       <StoneBand />
-      <div className="home-foot">
-        <Footer />
+      <div className="wall-region wall-region-foot">
+        <div className="home-foot">
+          <Footer />
+        </div>
       </div>
     </main>
   );
