@@ -61,7 +61,7 @@ export function NightVeil() {
         const filters = levels
           .map(
             (l, i) =>
-              `<filter id="${id}${i}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="${(l.blur * unitsPerPx).toFixed(2)}"/></filter>`,
+              `<filter id="${id}${i}" x="-50%" y="-500%" width="200%" height="1100%"><feGaussianBlur stdDeviation="${(l.blur * unitsPerPx).toFixed(2)}"/></filter>`,
           )
           .join("");
         const groups = levels
