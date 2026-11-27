@@ -1994,6 +1994,13 @@ body:has(.home) {
   padding: 0 0 3.25rem;
 }
 
+@media (max-width: 719px) {
+  .wall-region-hero {
+    /* One more block course on phones so the white frame/shadow clears the first stone band. */
+    padding-bottom: calc(3.25rem + var(--wall-course));
+  }
+}
+
 .wall-region .home-stack {
   margin: 0 auto;
 }
