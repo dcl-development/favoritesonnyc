@@ -2059,14 +2059,17 @@ html[data-lights="off"] {
   min-height: 100dvh;
 }
 
-/* Nearly clear with the lights on; a cool night tint over the whole page when the sign is tapped off. */
+/* The cool night tint over the whole page. It is only there once the sign's lamps are off: while
+   they are on (the default) its opacity is 0, so the browser has no page-sized blend layer to
+   render and scrolling stays smooth on slower phones. It fades in with the lamps. */
 .night-veil {
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
   mix-blend-mode: multiply;
-  background: color-mix(in srgb, #f4f6fb calc(var(--lamps) * 100%), #7885ab);
+  background: #7885ab;
+  opacity: calc(1 - var(--lamps));
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -2096,6 +2099,10 @@ html[data-lights="off"] {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+  /* The whole piece of paper is the tap target, not just the line of text: the link grows out to
+     the strip's own padding (the negative margins cancel the extra width and height). */
+  margin: -0.35rem -0.95rem -0.45rem;
+  padding: 0.35rem 0.95rem 0.45rem;
 }
 
 .strip {
@@ -2128,4 +2135,32 @@ html[data-lights="off"] {
     0 1px 2px rgba(26, 20, 15, 0.35),
     5px 11px 16px -6px rgba(26, 20, 15, 0.5),
     0 22px 28px -14px rgba(26, 20, 15, 0.28);
+}
+
+/* On touch screens, contact links are given room to be tapped: a phone number or an address in a
+   19px-tall line is easy to miss. Desktop (a fine pointer) keeps the tighter look. */
+@media (pointer: coarse) {
+  .footer-group {
+    gap: 0;
+  }
+
+  .footer-group a,
+  .visit-copy > p > a,
+  .section-note a,
+  .prose a {
+    display: inline-block;
+    padding-block: 0.6rem;
+  }
+}
+
+/* The booking link on the menu page should look like a link, not like the grey note around it. */
+.section-note .bracket-link {
+  color: var(--ink);
+}
+
+@media (pointer: coarse) {
+  .missing a {
+    display: inline-block;
+    padding-block: 0.6rem;
+  }
 }

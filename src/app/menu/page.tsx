@@ -51,6 +51,13 @@ export default async function MenuPage() {
       <MenuJumps />
       <section id="food" className="menu-part">
         <p className="section-note">{`${restaurant.notice.title}. ${restaurant.notice.body}`}</p>
+        <p className="section-note">
+          <a className="bracket-link" href={restaurant.reserve} target="_blank" rel="noopener">
+            <span aria-hidden="true">[ </span>
+            book a reservation
+            <span aria-hidden="true"> ]</span>
+          </a>
+        </p>
         {menu.empty ? (
           <p className="empty-copy">the board is blank tonight. ask the floor.</p>
         ) : !hasFood ? (
