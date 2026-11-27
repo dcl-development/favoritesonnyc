@@ -368,35 +368,41 @@ button:focus-visible {
   animation-delay: calc(var(--i) * 70ms);
 }
 
+/* The paper: its own torn outline (--tear, from src/lib/tear.ts), a faint bow of light across
+   it as if it curls off the metal, an occasional crease, and a little grain. */
 .strip::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--paper);
-  clip-path: polygon(
-    1% 8%,
-    6% 1%,
-    14% 6%,
-    24% 0%,
-    36% 5%,
-    48% 1%,
-    61% 6%,
-    73% 0%,
-    84% 5%,
-    94% 1%,
-    100% 8%,
-    99% 92%,
-    93% 100%,
-    82% 94%,
-    70% 100%,
-    56% 95%,
-    43% 100%,
-    30% 94%,
-    16% 100%,
-    6% 94%,
-    0% 90%
-  );
+  clip-path: var(--tear);
+  background:
+    linear-gradient(
+      var(--crease-tilt, 90deg),
+      transparent calc(var(--crease-at, -10%) - 7px),
+      rgba(255, 255, 255, 0.28) var(--crease-at, -10%),
+      rgba(70, 55, 35, 0.05) calc(var(--crease-at, -10%) + 1px),
+      transparent calc(var(--crease-at, -10%) + 9px)
+    ),
+    radial-gradient(
+      140% 220% at var(--curl-at, 0%) 50%,
+      transparent 55%,
+      rgba(80, 62, 40, 0.07)
+    ),
+    linear-gradient(to bottom, #fcfaf4, var(--paper) 45%, #ede7da),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .5 -.2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-blend-mode: normal, normal, normal, multiply;
+}
+
+/* The fibres: a whiter, slightly larger tear behind the paper, which shows as a thin ragged
+   fringe along the torn edges, the way a real rip exposes the paper's lighter core. */
+.strip::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  clip-path: var(--fray);
+  background: #fffdf7;
 }
 
 .strip-name {

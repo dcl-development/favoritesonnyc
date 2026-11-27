@@ -6,6 +6,7 @@ import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
 import { SignLamps } from "./SignLamps";
 import { keepTogether } from "@/lib/hours";
+import { tearStyle } from "@/lib/tear";
 import { lampsOff, restoreLights, subscribeLights, toggleLights } from "@/lib/lights";
 import { StatusLine, useServiceStatus } from "./StatusLine";
 
@@ -216,7 +217,7 @@ export function SignStrips() {
                 papers.current[index] = node;
               }}
               className={`strip strip-${strip.kind}`}
-              style={{ ["--i" as string]: index }}
+              style={{ ["--i" as string]: index, ...tearStyle(strip.key) }}
             >
               {strip.href ? (
                 <Link href={strip.href} className="strip-link">
