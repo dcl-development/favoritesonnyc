@@ -1642,6 +1642,35 @@ body:has(dialog.notice[open]) {
   animation-delay: -3.1s;
 }
 
+/* A shine runs along each letter in turn, left to right, then rests. Same slow cycle as the
+   one that circles the pie. pathLength is 100, so a short dash travels the whole letter. */
+.reserve-glint {
+  stroke-dasharray: 34 140;
+  stroke-dashoffset: 34;
+  opacity: 0;
+  animation: reserve-glint 10.5s ease-in-out infinite;
+  animation-delay: calc(0.7s + var(--i) * 0.27s);
+}
+
+@keyframes reserve-glint {
+  0% {
+    stroke-dashoffset: 34;
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 0.95;
+  }
+  9% {
+    stroke-dashoffset: -100;
+    opacity: 0.7;
+  }
+  10%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
 /* One letter on the tube is a little worn and buzzes now and then. */
 .reserve-letter[data-buzz] {
   animation: spill-flicker 7.1s step-end infinite;
@@ -1695,7 +1724,8 @@ body:has(dialog.notice[open]) {
   .pie-halo,
   .reserve-tube,
   .reserve-letter,
-  .reserve-letter[data-buzz] {
+  .reserve-letter[data-buzz],
+  .reserve-glint {
     animation: none !important;
   }
 }
