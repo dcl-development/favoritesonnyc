@@ -334,8 +334,6 @@ export type ServiceStatus = {
   status: string;
   /** Nearest special date in the next 7 days, e.g. "closed thu nov 26 · thanksgiving". */
   notice?: string;
-  /** True only while the doors are open right now. Drives the "lights" on the home sign. */
-  open?: boolean;
 };
 
 const NOTICE_DAYS = 7;
@@ -373,10 +371,10 @@ export function serviceStatus(hours: Hours, now = new Date()): ServiceStatus {
     const opens = toMinutes(day.opens);
     const closes = toMinutes(day.closes);
     if (minutes >= opens && minutes < closes) {
-      return { status: `open until ${openLabel(day.closes)}`, notice, open: true };
+      return { status: `open until ${openLabel(day.closes)}`, notice };
     }
     if (minutes < opens) {
-      return { status: `opens at ${openLabel(day.opens)}`, notice, open: false };
+      return { status: `opens at ${openLabel(day.opens)}`, notice };
     }
   }
 
@@ -385,8 +383,8 @@ export function serviceStatus(hours: Hours, now = new Date()): ServiceStatus {
     const next = hoursOn(hours, date);
     if (next.closed) continue;
     const when = ahead === 1 ? "tomorrow" : ahead < 7 ? shortWeekday(date) : shortDate(date);
-    return { status: `opens ${when} at ${openLabel(next.opens)}`, notice, open: false };
+    return { status: `opens ${when} at ${openLabel(next.opens)}`, notice };
   }
 
-  return { status: "closed for now", notice, open: false };
+  return { status: "closed for now", notice };
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { PieStrip } from "@/components/PieStrip";
 import { ReserveSign } from "@/components/ReserveSign";
+import { NightVeil } from "@/components/NightVeil";
 import { Reveal } from "@/components/Reveal";
 import { SignStrips } from "@/components/SignStrips";
 import { StoneBand } from "@/components/StoneBand";
@@ -19,6 +20,7 @@ export default async function Home() {
   return (
     <main className="home">
       <h1 className="sr-only">{restaurant.legalName}, Staten Island</h1>
+      <NightVeil />
       <SignStrips />
       <StoneBand />
       <div className="home-stack">

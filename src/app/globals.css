@@ -1494,10 +1494,6 @@ body:has(dialog.notice[open]) {
   overflow-x: clip;
 }
 
-.sign[data-lights="dim"] {
-  --lit: 0.3;
-}
-
 /* Red light from the neon pie washing onto the wall. Flickers on the same schedule as the tube. */
 .sign::before {
   content: "";
@@ -1611,13 +1607,8 @@ body:has(dialog.notice[open]) {
 }
 
 .sign-bulb {
-  fill: #fff0c2;
-  filter: drop-shadow(0 0 3px rgba(255, 214, 140, 0.95));
-}
-
-.sign[data-lights="dim"] .sign-bulb {
-  fill: #a39a8d;
-  filter: none;
+  fill: color-mix(in srgb, #fff0c2 calc(var(--lamps) * 100%), #8a8378);
+  filter: drop-shadow(0 0 3px rgba(255, 214, 140, calc(0.95 * var(--lamps))));
 }
 
 /* The pool of light each lamp throws down the ribs. */
@@ -1630,8 +1621,8 @@ body:has(dialog.notice[open]) {
   translate: -50% 0;
   clip-path: polygon(41% 0, 59% 0, 100% 100%, 0 100%);
   background: linear-gradient(
-    rgba(255, 224, 160, calc(0.5 * var(--lit))),
-    rgba(255, 224, 160, calc(0.16 * var(--lit))) 55%,
+    rgba(255, 224, 160, calc(0.5 * var(--lamps))),
+    rgba(255, 224, 160, calc(0.16 * var(--lamps))) 55%,
     transparent
   );
 }
@@ -1792,5 +1783,79 @@ body:has(.home) {
   .stone-band {
     height: 8px;
     background-size: 612px 8px;
+  }
+}
+
+/* ---------- always night: the barn lamps are a switch, the neon never goes out ---------- */
+
+@property --lamps {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+:root {
+  --lamps: 1;
+  transition: --lamps 650ms ease;
+}
+
+html[data-lights="off"] {
+  --lamps: 0;
+}
+
+.home {
+  position: relative;
+  /* The night tint covers the whole page, even when the content is shorter than the screen. */
+  min-height: 100dvh;
+}
+
+/* A cool tint over the whole page; NightVeil cuts holes in it around each light. */
+.night-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background: color-mix(in srgb, #9fa9c8 calc(var(--lamps) * 100%), #7d89af);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* Tapping the sign switches the lamps. A real button underneath is there for keyboards. */
+.home .sign {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.lights-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lights-toggle:focus-visible {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.3rem 0.6rem;
+  clip-path: none;
+  top: 0.4rem;
+  left: 0.4rem;
+  z-index: 5;
+  background: var(--paper);
+  color: var(--ink);
+  outline: 2px dashed var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    transition: none;
   }
 }
