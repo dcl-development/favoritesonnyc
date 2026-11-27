@@ -60,7 +60,7 @@ function Layer({ stroke, width, className }: { stroke: string; width: number; cl
           transform={`translate(${letter.x} 0)`}
           className="reserve-letter"
           style={{ ["--i" as string]: letter.index }}
-          data-buzz={letter.index === 5 ? "" : undefined}
+          data-flick={letter.index === 2 ? "a" : letter.index === 10 ? "b" : undefined}
         />
       ))}
     </g>

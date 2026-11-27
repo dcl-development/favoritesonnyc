@@ -1605,6 +1605,61 @@ body:has(dialog.notice[open]) {
   }
 }
 
+/* The same flicker on a cycle twice as long: every burst keeps its length. */
+@keyframes spill-flicker-half {
+  0% {
+    opacity: 1;
+  }
+  36.47% {
+    opacity: 0.7;
+  }
+  36.94% {
+    opacity: 1;
+  }
+  37.59% {
+    opacity: 0.7;
+  }
+  37.855% {
+    opacity: 1;
+  }
+  38.44% {
+    opacity: 0.7;
+  }
+  38.855% {
+    opacity: 1;
+  }
+  39.175% {
+    opacity: 0.7;
+  }
+  39.41% {
+    opacity: 1;
+  }
+  40.12% {
+    opacity: 0.7;
+  }
+  40.645% {
+    opacity: 1;
+  }
+  41.09% {
+    opacity: 0.7;
+  }
+  41.38% {
+    opacity: 1;
+  }
+  42.03% {
+    opacity: 0.7;
+  }
+  42.38% {
+    opacity: 1;
+  }
+  42.645% {
+    opacity: 0.7;
+  }
+  43.145% {
+    opacity: 1;
+  }
+}
+
 
 .sign-lamps {
   position: absolute;
@@ -1781,8 +1836,8 @@ body:has(dialog.notice[open]) {
   stroke-dashoffset: 6;
   opacity: 0;
   animation: reserve-glint 10.5s ease-in-out infinite;
-  /* After the "v" has flickered (it runs ~0.95s from 0.6s): the gleam starts about 2.3s in. */
-  animation-delay: calc(2.3s - 10.5s * 0.06);
+  /* starts about 0.2s after load */
+  animation-delay: calc(0.2s - 10.5s * 0.06);
 }
 
 @keyframes reserve-glint {
@@ -1805,14 +1860,21 @@ body:has(dialog.notice[open]) {
   }
 }
 
-/* One letter on the tube is a little worn and buzzes now and then. */
-.reserve-letter[data-buzz] {
-  animation: spill-flicker 7.1s step-end infinite;
-  /* The opening flicker: the first burst (72.94% in) lands 0.6s after load, then it repeats
-     every 7.1s, which drifts against the 10.5s gleam. */
-  animation-delay: calc(0.6s - 7.1s * 0.7294);
+/* Two letters on the tube are a little worn and buzz now and then, taking turns: the first s,
+   then the n, then the s, then the n, and so on. Each is on a 14.2s cycle and the n runs half a
+   cycle behind, so a burst (about 1s) happens every 7.1s, alternating. The first one is the s,
+   3.5s after load; the n follows at 10.6s. They drift against the 10.5s gleam on the o. */
+.reserve-letter[data-flick] {
+  animation: spill-flicker-half 14.2s step-end infinite;
 }
 
+.reserve-letter[data-flick="a"] {
+  animation-delay: -1.7s;
+}
+
+.reserve-letter[data-flick="b"] {
+  animation-delay: 5.4s;
+}
 
 .home-reserve-link:focus-visible {
   outline: 2px dashed var(--ink);
@@ -1857,7 +1919,7 @@ body:has(dialog.notice[open]) {
   .sign-lamp-btn:focus-visible .sign-lamp-art,
   .pie-halo,
   .reserve-letter,
-  .reserve-letter[data-buzz],
+  .reserve-letter[data-flick],
   .reserve-glint {
     animation: none !important;
   }
