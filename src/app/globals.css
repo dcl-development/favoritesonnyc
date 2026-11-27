@@ -1624,13 +1624,14 @@ body:has(dialog.notice[open]) {
   }
 }
 
-/* [reservations] as a small neon sign (ReserveSign). */
+/* [reservations] as neon lettering (ReserveSign): the letters are the sign. */
 .home-reserve-link {
   position: relative;
   display: block;
-  width: min(17rem, 78vw);
-  aspect-ratio: 264 / 72;
-  filter: drop-shadow(0 4px 5px rgba(26, 20, 15, 0.3));
+  width: min(20rem, 84vw);
+  aspect-ratio: 198 / 34;
+  padding: 0.25rem 0;
+  transition: filter 200ms ease;
 }
 
 .reserve-art {
@@ -1646,29 +1647,20 @@ body:has(dialog.notice[open]) {
   animation-delay: -3.1s;
 }
 
-.reserve-label {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 0.05em;
-  font-size: clamp(1.05rem, 4.6vw, 1.25rem);
-  letter-spacing: 0.17em;
-  text-indent: 0.17em;
-  color: #ffe9e6;
-  text-shadow:
-    0 0 1px #fff,
-    0 0 5px #ff6a72,
-    0 0 11px #ff2d46,
-    0 0 22px #e0141c,
-    0 0 38px rgba(224, 20, 28, 0.6);
+/* One letter on the tube is a little worn and buzzes now and then. */
+.reserve-letter[data-buzz] {
+  animation: spill-flicker 7.1s step-end infinite;
+  animation-delay: -1.7s;
+}
+
+.home-reserve-link:hover,
+.home-reserve-link:focus-visible {
+  filter: brightness(1.18) saturate(1.1);
 }
 
 .home-reserve-link:hover .reserve-tube,
 .home-reserve-link:focus-visible .reserve-tube {
   animation: none;
-  filter: brightness(1.2);
 }
 
 .home-reserve-link:focus-visible {
@@ -1676,7 +1668,7 @@ body:has(dialog.notice[open]) {
   outline-offset: 6px;
 }
 
-/* On hover the letters buzz on one after another, like a tube warming up. */
+/* On hover the letters fire up one after another, like a tube warming up. */
 .home-reserve-link:hover .reserve-letter,
 .home-reserve-link:focus-visible .reserve-letter {
   animation: neon-on 520ms steps(1) both;
@@ -1707,7 +1699,8 @@ body:has(dialog.notice[open]) {
 @media (prefers-reduced-motion: reduce) {
   .pie-halo,
   .reserve-tube,
-  .reserve-letter {
+  .reserve-letter,
+  .reserve-letter[data-buzz] {
     animation: none !important;
   }
 }

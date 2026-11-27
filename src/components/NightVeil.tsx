@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
  * Switches the page between "lit" and "moonlight". With the lights on this tint is nearly
  * clear, so the whole page is lit and easy to read. When the sign is tapped off, the tint
  * fades to a cool night colour over everything, with soft holes cut out around the one light
- * that never goes out, the neon pie, plus a faint moon in the top corner. Dark text stays
+ * that never go out, the neon pie and the neon reservations lettering, plus a faint moon in the top corner. Dark text stays
  * dark because the tint only multiplies. The pie is measured from the page, so it follows
  * the layout at any size.
  */
@@ -45,6 +45,19 @@ export function NightVeil() {
       const pieAt = pie && centre(pie);
       if (pieAt) {
         layers.push(pool(pieAt, "5.6rem", "rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.9) 76%, #000 100%"));
+      }
+
+      // The neon reservations lettering never goes out either: a long, low pool along the word.
+      const reserve = home.querySelector(".home-reserve-link");
+      const reserveRect = reserve?.getBoundingClientRect();
+      if (reserveRect && reserveRect.width) {
+        const x = Math.round(reserveRect.left - base.left + reserveRect.width / 2);
+        const y = Math.round(reserveRect.top - base.top + reserveRect.height / 2);
+        const rx = Math.round(reserveRect.width * 0.62);
+        const ry = Math.round(reserveRect.height * 1.7);
+        layers.push(
+          `radial-gradient(ellipse ${rx}px ${ry}px at ${x}px ${y}px, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.9) 80%, #000 100%)`,
+        );
       }
 
       // The moon: a faint cool wash from the top right, so nothing is ever pitch dark.
