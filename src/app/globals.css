@@ -1739,3 +1739,22 @@ body:has(dialog.notice[open]) {
     animation: none !important;
   }
 }
+
+/* ---------- the home page wall: white painted cinder block, like the storefront ---------- */
+
+html:has(.home) {
+  background: #efebe1;
+}
+
+body:has(.home) {
+  --wall: #efebe1;
+  background-color: #efebe1;
+  background-image: url("/textures/block-wall.svg");
+  background-size: 768px auto;
+}
+
+@media (max-width: 719px) {
+  body:has(.home) {
+    background-size: 576px auto;
+  }
+}
