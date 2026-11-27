@@ -63,15 +63,17 @@ export function SignStrips() {
     if (!node || !content) return;
 
     let frame = 0;
-    // The teal lines repeat every --stripe-period. Lock the band to a whole
-    // number of periods so the bottom edge never slices a line.
+    // The teal ribs repeat every --stripe-period (a rib, then a gap). Lock the board to a whole
+    // number of periods minus the last gap, so it starts on a rib and ends on one, and the
+    // bottom edge never slices a line.
     const fit = () => {
-      const period =
-        Number.parseFloat(getComputedStyle(node).getPropertyValue("--stripe-period")) || 14;
+      const style = getComputedStyle(node);
+      const period = Number.parseFloat(style.getPropertyValue("--stripe-period")) || 16;
+      const gap = Number.parseFloat(style.getPropertyValue("--rib-gap")) || 4;
       node.style.height = "auto";
       const height = node.getBoundingClientRect().height;
-      const stripes = Math.max(1, Math.ceil(height / period - 1e-4));
-      node.style.height = `${stripes * period}px`;
+      const stripes = Math.max(1, Math.ceil((height + gap) / period - 1e-4));
+      node.style.height = `${stripes * period - gap}px`;
     };
     const schedule = () => {
       cancelAnimationFrame(frame);
