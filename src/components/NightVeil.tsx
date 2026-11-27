@@ -44,7 +44,7 @@ export function NightVeil() {
       const pie = home.querySelector(".pie-mark-home");
       const pieAt = pie && centre(pie);
       if (pieAt) {
-        layers.push(pool(pieAt, "6.5rem", "rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.38) 42%, rgba(0,0,0,0.86) 76%, #000 100%"));
+        layers.push(pool(pieAt, "5.6rem", "rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.9) 76%, #000 100%"));
       }
 
       // The moon: a faint cool wash from the top right, so nothing is ever pitch dark.

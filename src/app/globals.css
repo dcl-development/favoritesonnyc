@@ -1488,47 +1488,27 @@ body:has(dialog.notice[open]) {
 /* ---------- the sign at night: neon spill, barn lamps, lights that follow the hours ---------- */
 
 .sign {
-  /* The neon glows harder against the dark once the lamps are off. */
-  --lit: calc(1 + 0.9 * (1 - var(--lamps)));
   position: relative;
   isolation: isolate;
   overflow-x: clip;
 }
 
-/* Red light from the neon pie washing onto the wall. Flickers on the same schedule as the tube. */
-.sign::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 6.3rem;
-  left: 50%;
-  width: 19rem;
-  height: 15rem;
-  translate: -50% -50%;
-  pointer-events: none;
-  /* A tight glow that hugs the tubes, not a wash across the wall. */
-  background: radial-gradient(
-    closest-side,
-    rgba(232, 50, 70, calc(0.3 * var(--lit))),
-    rgba(232, 50, 70, calc(0.15 * var(--lit))) 32%,
-    rgba(232, 50, 70, calc(0.04 * var(--lit))) 66%,
-    transparent
-  );
-  animation:
-    spill-flicker 8.5s step-end infinite,
-    spill-breathe 6.8s ease-in-out infinite;
-  animation-delay: calc(0.15s - 8.5s * 0.7294), 0s;
+/* The neon's light comes off the tubes themselves (the .pie-halo layer in PieMark), so it
+   follows their shape and falls off fast. It flickers on the same schedule as the tube. */
+.pie-halo {
+  animation: spill-flicker 8.5s step-end infinite;
+  animation-delay: calc(0.15s - 8.5s * 0.7294);
 }
 
-@keyframes spill-breathe {
-  0%,
-  100% {
-    scale: 1;
-  }
-  50% {
-    scale: 1.05;
-  }
+/* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
+.pie-halo-level {
+  opacity: calc(0.5 + 0.5 * (1 - var(--lamps)));
 }
+
+.pie-mark-tiny .pie-halo-level {
+  display: none;
+}
+
 
 @keyframes spill-flicker {
   0% {
@@ -1631,11 +1611,6 @@ body:has(dialog.notice[open]) {
 }
 
 @media (max-width: 719px) {
-  .sign::before {
-    width: 15rem;
-    height: 12rem;
-  }
-
   .sign-lamp-extra {
     display: none;
   }
@@ -1727,7 +1702,7 @@ body:has(dialog.notice[open]) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sign::before,
+  .pie-halo,
   .reserve-tube,
   .reserve-letter {
     animation: none !important;
