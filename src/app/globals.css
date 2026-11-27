@@ -193,9 +193,10 @@ button:focus-visible {
 .pie-flicker {
   opacity: 0;
   animation: pie-flicker 11.3s step-end infinite;
-  /* Same timing as the reservations lettering: an 11.3s cycle with the first burst
-     (72.94% in) about 5s after load. */
-  animation-delay: -3.1s;
+  /* An 11.3s cycle, phased so the first burst (72.94% in) lands 0.2s after load. The glimmer
+     comes after it (see .pie-glint). The two cycles are different lengths, so after the first
+     round they drift against each other and the timing stays irregular. */
+  animation-delay: calc(0.2s - 11.3s * 0.7294);
 }
 
 .pie-mark-tiny .pie-flicker {
@@ -214,9 +215,9 @@ button:focus-visible {
 .pie-glint {
   opacity: 0;
   animation: pie-glint 10.5s ease-in-out infinite;
-  /* Phase so the shine fade-in (starts at 6% of the cycle) begins 0.2s after
-     load: visible by about 0.5s, brightest near 1s, a beat after the flicker. */
-  animation-delay: calc(0.2s - 10.5s * 0.06);
+  /* Phase so the shine (its dash starts at 6% of the cycle) begins about 2.45s after load,
+     just after the opening flicker has finished (it runs ~1.5s from 0.2s). */
+  animation-delay: calc(2.45s - 10.5s * 0.06);
 }
 
 .pie-mark-tiny .pie-glint {
@@ -1519,7 +1520,8 @@ body:has(dialog.notice[open]) {
    follows their shape and falls off fast. It flickers on the same schedule as the tube. */
 .pie-halo {
   animation: spill-flicker 11.3s step-end infinite;
-  animation-delay: -3.1s;
+  /* in step with the tube's flicker (see .pie-flicker) */
+  animation-delay: calc(0.2s - 11.3s * 0.7294);
 }
 
 /* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
@@ -1779,8 +1781,8 @@ body:has(dialog.notice[open]) {
   stroke-dashoffset: 6;
   opacity: 0;
   animation: reserve-glint 10.5s ease-in-out infinite;
-  /* starts about 0.2s after load */
-  animation-delay: calc(0.2s - 10.5s * 0.06);
+  /* After the "v" has flickered (it runs ~0.95s from 0.6s): the gleam starts about 2.3s in. */
+  animation-delay: calc(2.3s - 10.5s * 0.06);
 }
 
 @keyframes reserve-glint {
@@ -1806,7 +1808,9 @@ body:has(dialog.notice[open]) {
 /* One letter on the tube is a little worn and buzzes now and then. */
 .reserve-letter[data-buzz] {
   animation: spill-flicker 7.1s step-end infinite;
-  animation-delay: -1.7s;
+  /* The opening flicker: the first burst (72.94% in) lands 0.6s after load, then it repeats
+     every 7.1s, which drifts against the 10.5s gleam. */
+  animation-delay: calc(0.6s - 7.1s * 0.7294);
 }
 
 
