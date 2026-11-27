@@ -1775,3 +1775,22 @@ body:has(.home) {
       612px auto;
   }
 }
+
+/* Stone bands between the sections of the home page. Half the height of the old tiled ones. */
+.stone-band {
+  position: relative;
+  z-index: 1;
+  height: 22px;
+  margin-top: var(--home-group);
+  background-image: url("/textures/stone-band.svg");
+  background-size: 816px 22px;
+  background-repeat: repeat-x;
+  box-shadow: 0 4px 6px -3px rgba(40, 30, 20, 0.32);
+}
+
+@media (max-width: 719px) {
+  .stone-band {
+    height: 17px;
+    background-size: 612px 17px;
+  }
+}

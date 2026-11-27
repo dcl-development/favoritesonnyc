@@ -5,6 +5,7 @@ import { PieStrip } from "@/components/PieStrip";
 import { ReserveSign } from "@/components/ReserveSign";
 import { Reveal } from "@/components/Reveal";
 import { SignStrips } from "@/components/SignStrips";
+import { StoneBand } from "@/components/StoneBand";
 import { nav, restaurant } from "@/content/site";
 import { getPhotos } from "@/lib/cms";
 
@@ -19,6 +20,7 @@ export default async function Home() {
     <main className="home">
       <h1 className="sr-only">{restaurant.legalName}, Staten Island</h1>
       <SignStrips />
+      <StoneBand />
       <div className="home-stack">
         <nav className="home-pages" aria-label="pages">
           {nav.map((item) => (
@@ -50,9 +52,15 @@ export default async function Home() {
           <p>{restaurant.notice.title}.</p>
         </div>
       </div>
-      <Reveal>
-        <PieStrip photos={photos} />
-      </Reveal>
+      {photos.length > 0 ? (
+        <>
+          <StoneBand />
+          <Reveal>
+            <PieStrip photos={photos} />
+          </Reveal>
+        </>
+      ) : null}
+      <StoneBand />
       <div className="home-foot">
         <Footer />
       </div>

@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="816" height="304" viewBox="0 0 816 304">
+<svg xmlns="http://www.w3.org/2000/svg" width="816" height="264" viewBox="0 0 816 264">
 <defs>
-<filter id="lit" filterUnits="userSpaceOnUse" x="-14" y="-14" width="844" height="332" color-interpolation-filters="sRGB">
+<filter id="lit" filterUnits="userSpaceOnUse" x="-14" y="-14" width="844" height="292" color-interpolation-filters="sRGB">
   <feGaussianBlur in="SourceGraphic" stdDeviation="0.7" result="soft"/>
   <feColorMatrix in="soft" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="h"/>
   <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="4" result="pits"/>
@@ -19,21 +19,8 @@
     <feFuncR type="linear" slope="0.4" intercept="0.6"/><feFuncG type="linear" slope="0.4" intercept="0.6"/><feFuncB type="linear" slope="0.4" intercept="0.6"/>
   </feComponentTransfer>
 </filter>
-<filter id="rough" filterUnits="userSpaceOnUse" x="0" y="264" width="816" height="40" color-interpolation-filters="sRGB">
-  <feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="4" seed="17" stitchTiles="stitch" x="0" y="264" width="816" height="40" result="n"/>
-  <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.1 0 0 0 -0.05" result="h"/>
-  <feDiffuseLighting in="h" surfaceScale="4.5" diffuseConstant="1.1" lighting-color="#ffffff" result="light">
-    <feDistantLight azimuth="268" elevation="52"/>
-  </feDiffuseLighting>
-  <feComponentTransfer in="light" result="bright">
-    <feFuncR type="linear" slope="1.22"/><feFuncG type="linear" slope="1.22"/><feFuncB type="linear" slope="1.22"/>
-  </feComponentTransfer>
-  <feComponentTransfer in="bright">
-    <feFuncR type="linear" slope="0.38" intercept="0.62"/><feFuncG type="linear" slope="0.38" intercept="0.62"/><feFuncB type="linear" slope="0.38" intercept="0.62"/>
-  </feComponentTransfer>
-</filter>
 </defs>
-<rect width="816" height="304" fill="#d3ccbd"/>
+<rect width="816" height="264" fill="#d3ccbd"/>
 <rect x="0.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
 <rect x="0.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
 <rect x="816.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
@@ -83,7 +70,7 @@
 <rect x="-67.2" y="198.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
 <rect x="748.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
 <rect x="0" y="265.2" width="816" height="37.6" fill="#e6dfd0"/>
-<g style="mix-blend-mode:multiply" filter="url(#lit)"><rect x="-14" y="-14" width="844" height="332" fill="#000"/>
+<g style="mix-blend-mode:multiply" filter="url(#lit)"><rect x="-14" y="-14" width="844" height="292" fill="#000"/>
 <rect x="0.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
 <rect x="0.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
 <rect x="816.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
@@ -122,6 +109,5 @@
 <rect x="612.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
 <rect x="-67.2" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
 <rect x="748.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
-<rect x="-14" y="264" width="844" height="40" fill="#8a8a8a"/><rect x="-14" y="-40" width="844" height="40" fill="#8a8a8a"/></g>
-<g style="mix-blend-mode:multiply" filter="url(#rough)"><rect x="0" y="264" width="816" height="40" fill="#fff"/></g>
+</g>
 </svg>
