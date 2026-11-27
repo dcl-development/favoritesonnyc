@@ -660,6 +660,12 @@ button:focus-visible {
   margin-top: calc(var(--home-group) + 1.3rem);
 }
 
+/* On the home page the strip sits in its own piece of wall, centred between two stone bands.
+   Its old top margin would count as part of its content and push the photos below centre. */
+.wall-region .pie-strip {
+  margin-top: 0;
+}
+
 .pie-strip:active {
   cursor: grabbing;
 }
