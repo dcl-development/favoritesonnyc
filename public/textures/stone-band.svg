@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="816" height="11" viewBox="0 0 816 11">
+<svg xmlns="http://www.w3.org/2000/svg" width="816" height="11" viewBox="0 0 816 11" preserveAspectRatio="none">
 <defs>
 <filter id="rough" filterUnits="userSpaceOnUse" x="0" y="0" width="816" height="11" color-interpolation-filters="sRGB">
   <feTurbulence type="fractalNoise" baseFrequency="0.07 0.1" numOctaves="4" seed="17" stitchTiles="stitch" x="0" y="0" width="816" height="11" result="n"/>

@@ -1940,21 +1940,21 @@ body:has(.home) {
 .stone-band {
   position: relative;
   z-index: 1;
-  height: 11px;
+  height: 5.5px;
   /* Each piece of wall ends and starts with its own half of a mortar joint. The band overlaps
      both pieces by the same amount, covering those half-joints, so it sits centred on the line
      where the two pieces meet, with blocks running right up to it on both sides. */
   margin-block: -2.5px;
   background-image: url("/textures/stone-band.svg");
-  background-size: 816px 11px;
+  background-size: 816px 5.5px;
   background-repeat: repeat-x;
-  box-shadow: 0 3px 4px -2px rgba(40, 30, 20, 0.32);
+  box-shadow: 0 2px 3px -1.5px rgba(40, 30, 20, 0.32);
 }
 
 @media (max-width: 719px) {
   .stone-band {
-    height: 8px;
-    background-size: 612px 8px;
+    height: 4px;
+    background-size: 612px 4px;
   }
 }
 
