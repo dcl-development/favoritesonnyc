@@ -1936,6 +1936,16 @@ body:has(.home) {
   margin-top: 0;
 }
 
+/* The stone band above the footer already divides it from the content, so the dashed rule that
+   the other pages use is not needed here, and neither is the space that went with it. */
+.wall-region .site-footer .rule {
+  display: none;
+}
+
+.wall-region .site-footer {
+  margin-top: 0;
+}
+
 /* Stone bands between the sections of the home page. Half the height of the old tiled ones. */
 .stone-band {
   position: relative;
