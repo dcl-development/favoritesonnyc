@@ -1660,7 +1660,7 @@ body:has(dialog.notice[open]) {
 @media (hover: hover) {
   .sign-lamp-btn:hover .sign-lamp-art,
   .sign-lamp-btn:focus-visible .sign-lamp-art {
-    animation: lamp-sway 650ms ease-in-out;
+    animation: lamp-sway 650ms ease-in-out 0s 1;
   }
 }
 
@@ -1671,6 +1671,39 @@ body:has(dialog.notice[open]) {
 .sign-lamp-btn:focus-visible {
   outline: 2px dashed var(--ink);
   outline-offset: 4px;
+}
+
+/* The hint that the lamps are switches: a small sway a second after the page loads, then again
+   every 6 seconds. The 650ms sway is the first ~11% of a 6s cycle, so the repeats are exact.
+   The right lamp follows a beat behind so they do not move in lockstep. Hovering a lamp plays
+   its own sway instead. Not for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .sign-lamp-art {
+    animation: lamp-hint 6s ease-in-out 1s infinite;
+  }
+
+  .sign-lamp + .sign-lamp .sign-lamp-art:not(:hover):not(:focus-visible) {
+    animation-delay: 1.18s;
+  }
+}
+
+@keyframes lamp-hint {
+  0% {
+    transform: rotate(0);
+  }
+  2.7% {
+    transform: rotate(-4deg);
+  }
+  6% {
+    transform: rotate(2.5deg);
+  }
+  8.7% {
+    transform: rotate(-1deg);
+  }
+  10.8%,
+  100% {
+    transform: rotate(0);
+  }
 }
 
 @keyframes lamp-sway {
