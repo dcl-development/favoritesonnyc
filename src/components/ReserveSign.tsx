@@ -108,7 +108,7 @@ export function ReserveSign() {
         <Layer stroke="#ff3a24" width={2.6} />
         <Layer stroke="#fff1e4" width={1} />
         {/* The shine circles the "o", like the one around the pie logo. */}
-        <g fill="none" stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <g fill="none" stroke="#fff" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
           {letters
             .filter((letter) => letter.char === "o")
             .map((letter) => (

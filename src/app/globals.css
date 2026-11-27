@@ -1640,8 +1640,8 @@ body:has(dialog.notice[open]) {
 /* The shine that circles the "o": a short bright dash travels once around the letter, then
    rests. Same slow cycle and shape of timing as the one around the pie. pathLength is 100. */
 .reserve-glint {
-  stroke-dasharray: 34 140;
-  stroke-dashoffset: 34;
+  stroke-dasharray: 6 140;
+  stroke-dashoffset: 6;
   opacity: 0;
   animation: reserve-glint 10.5s ease-in-out infinite;
   /* starts about 0.2s after load */
@@ -1651,7 +1651,7 @@ body:has(dialog.notice[open]) {
 @keyframes reserve-glint {
   0%,
   6% {
-    stroke-dashoffset: 34;
+    stroke-dashoffset: 6;
     opacity: 0;
   }
   14% {
