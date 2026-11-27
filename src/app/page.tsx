@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { PieStrip } from "@/components/PieStrip";
 import { ReserveSign } from "@/components/ReserveSign";
-import { LightsOn } from "@/components/LightsOn";
 import { NightVeil } from "@/components/NightVeil";
 import { Reveal } from "@/components/Reveal";
 import { SignStrips } from "@/components/SignStrips";
@@ -20,9 +19,8 @@ export default async function Home() {
   const photos = await getPhotos();
 
   return (
-    <main className="home" data-boot="dark">
+    <main className="home">
       <h1 className="sr-only">{restaurant.legalName}, Staten Island</h1>
-      <LightsOn />
       <NightVeil />
       <WallAlign />
       <div className="wall-region wall-region-hero">
