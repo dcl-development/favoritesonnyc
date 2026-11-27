@@ -1517,6 +1517,11 @@ body:has(dialog.notice[open]) {
 }
 
 /* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
+/* Solid red glass in the light, a hot core in the dark. */
+.reserve-core {
+  opacity: calc(0.3 + 0.7 * (1 - var(--lamps)));
+}
+
 .pie-halo-level,
 .reserve-halo-level {
   opacity: calc(0.5 + 0.5 * (1 - var(--lamps)));

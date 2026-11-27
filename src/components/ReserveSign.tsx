@@ -106,12 +106,15 @@ export function ReserveSign() {
         {/* Same recipe as the pie's halo, including being dimmer against a lit wall. */}
         <g className="reserve-halo-level">
           <g filter="url(#reserve-halo)">
-            <Layer stroke="#ff2a3c" width={2.2} />
+            <Layer stroke="#ff2a3c" width={2.4} />
           </g>
         </g>
         {/* a thin tube: a crisp coloured edge around a near-white core, then the halo does the rest */}
-        <Layer stroke="#ff2a3c" width={1.9} />
-        <Layer stroke="#ffe3e6" width={0.8} />
+        <Layer stroke="#e8142a" width={2.4} />
+        {/* the hot core only really shows in the dark; against a lit wall the tube reads as solid red */}
+        <g className="reserve-core">
+          <Layer stroke="#ff9c8f" width={0.8} />
+        </g>
         {/* The shine circles the "o", like the one around the pie logo. */}
         <g fill="none" stroke="#fff" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
           {letters
