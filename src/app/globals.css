@@ -1818,6 +1818,10 @@ body:has(.home) {
   position: relative;
   z-index: 1;
   height: 11px;
+  /* Each piece of wall ends and starts with its own half of a mortar joint. The band overlaps
+     both pieces by the same amount, covering those half-joints, so it sits centred on the line
+     where the two pieces meet, with blocks running right up to it on both sides. */
+  margin-block: -2.5px;
   background-image: url("/textures/stone-band.svg");
   background-size: 816px 11px;
   background-repeat: repeat-x;
