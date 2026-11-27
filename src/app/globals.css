@@ -1805,18 +1805,20 @@ html[data-lights="off"] {
 
 .home {
   position: relative;
-  /* The night tint covers the whole page, even when the content is shorter than the screen. */
+  /* The tint covers the whole page: tall enough for the screen, and the footer's bottom margin
+     stays inside instead of leaving an untinted strip. */
+  display: flow-root;
   min-height: 100dvh;
 }
 
-/* A cool tint over the whole page; NightVeil cuts holes in it around each light. */
+/* Nearly clear with the lights on; a cool night tint over the whole page when the sign is tapped off. */
 .night-veil {
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
   mix-blend-mode: multiply;
-  background: color-mix(in srgb, #9fa9c8 calc(var(--lamps) * 100%), #7d89af);
+  background: color-mix(in srgb, #f4f6fb calc(var(--lamps) * 100%), #7885ab);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }

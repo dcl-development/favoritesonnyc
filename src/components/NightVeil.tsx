@@ -3,11 +3,12 @@
 import { useEffect, useRef } from "react";
 
 /**
- * The page is always night. This is a cool tint laid over the whole home page, with soft
- * holes cut out around every light source, so light falls where it actually comes from:
- * the barn lamps (which the sign toggles), the neon pie, the neon reservations sign, and a
- * faint moon in the top corner. Dark text stays dark because the tint only multiplies.
- * Source positions are measured from the page, so it follows the layout at any size.
+ * Switches the page between "lit" and "moonlight". With the lights on this tint is nearly
+ * clear, so the whole page is lit and easy to read. When the sign is tapped off, the tint
+ * fades to a cool night colour over everything, with soft holes cut out around the one light
+ * that never goes out, the neon pie, plus a faint moon in the top corner. Dark text stays
+ * dark because the tint only multiplies. The pie is measured from the page, so it follows
+ * the layout at any size.
  */
 export function NightVeil() {
   const veil = useRef<HTMLDivElement>(null);
@@ -39,30 +40,11 @@ export function NightVeil() {
 
       const layers: string[] = [];
 
-      // Barn lamps: fully lit under the shade, fading out. They fade with --lamps (0 when off).
-      home.querySelectorAll(".sign-lamp-art").forEach((lamp) => {
-        const at = centre(lamp, 0.7);
-        if (at) {
-          layers.push(
-            pool(
-              at,
-              "19rem",
-              "rgba(0,0,0,calc(1 - var(--lamps))) 0%, rgba(0,0,0,calc(1 - 0.78 * var(--lamps))) 30%, rgba(0,0,0,calc(1 - 0.3 * var(--lamps))) 62%, #000 100%",
-            ),
-          );
-        }
-      });
-
-      // The neon pie and the neon reservations sign light the wall around them, always.
+      // The neon pie lights the wall around it, always. It is the one light that never goes out.
       const pie = home.querySelector(".pie-mark-home");
       const pieAt = pie && centre(pie);
       if (pieAt) {
         layers.push(pool(pieAt, "17rem", "rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.42) 36%, #000 100%"));
-      }
-      const reserve = home.querySelector(".home-reserve-link");
-      const reserveAt = reserve && centre(reserve);
-      if (reserveAt) {
-        layers.push(pool(reserveAt, "15rem", "rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 38%, #000 100%"));
       }
 
       // The moon: a faint cool wash from the top right, so nothing is ever pitch dark.
