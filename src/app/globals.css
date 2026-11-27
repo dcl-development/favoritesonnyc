@@ -285,11 +285,17 @@ button:focus-visible {
     linear-gradient(transparent, rgba(14, 30, 33, 0.24)),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.16), transparent 38%, rgba(14, 30, 33, 0.12)),
     linear-gradient(to right, rgba(14, 30, 33, 0.14), transparent 8%, transparent 92%, rgba(14, 30, 33, 0.14)),
-    repeating-linear-gradient(
+    /* Three equal sheets of metal: seams at a third and two thirds, mirrored about the centre,
+       so the board looks the same from either side at any width. */
+    linear-gradient(
       to right,
-      transparent 0 238px,
-      rgba(14, 30, 33, 0.3) 238px 239px,
-      rgba(255, 255, 255, 0.22) 239px 240px
+      transparent calc(100% / 3 - 1px),
+      rgba(14, 30, 33, 0.3) calc(100% / 3 - 1px) calc(100% / 3),
+      rgba(255, 255, 255, 0.22) calc(100% / 3) calc(100% / 3 + 1px),
+      transparent calc(100% / 3 + 1px) calc(200% / 3 - 1px),
+      rgba(255, 255, 255, 0.22) calc(200% / 3 - 1px) calc(200% / 3),
+      rgba(14, 30, 33, 0.3) calc(200% / 3) calc(200% / 3 + 1px),
+      transparent calc(200% / 3 + 1px)
     ),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .16 0 0 0 0 .18 .7 0 0 0 -.26'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E"),
     repeating-linear-gradient(
@@ -307,7 +313,7 @@ button:focus-visible {
     100% 20px,
     100% 100%,
     100% 100%,
-    240px 100%,
+    100% 100%,
     180px 180px,
     100% 100%;
   background-position:
