@@ -14,6 +14,7 @@ import { letters, VIEWBOX } from "./ReserveSign";
  */
 export function NightVeil() {
   const veil = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const node = veil.current;
@@ -36,13 +37,17 @@ export function NightVeil() {
       const wordEl = home.querySelector(".reserve-art");
       const pieBox = pieEl?.getBoundingClientRect();
       const wordBox = wordEl?.getBoundingClientRect();
-      const tubes: string[] = [];
-      // Blur radii in screen pixels, widest first; each sign converts them to its own units.
-      const levels = [
-        { blur: 22, opacity: 0.42 },
-        { blur: 9, opacity: 0.55 },
-        { blur: 3, opacity: 0.9 },
+      // Two things are drawn from the tube paths, in screen pixels:
+      //  - a tight hole in the tint, so the tubes themselves stay bright;
+      //  - a red glow laid on top of the dark (screen blend), wide to narrow, so the light
+      //    wraps every letter and ring. No pale patch: the glow is the neon's own colour.
+      const holeLevels = [{ blur: 1.4, opacity: 1, extra: 3 }];
+      const glowLevels = [
+        { blur: 26, opacity: 0.5, extra: 6 },
+        { blur: 10, opacity: 0.7, extra: 3 },
+        { blur: 3.5, opacity: 0.95, extra: 1 },
       ];
+      type Lv = { blur: number; opacity: number; extra: number };
       const nested = (
         id: string,
         box: DOMRect,
@@ -50,6 +55,8 @@ export function NightVeil() {
         unitsPerPx: number,
         width: number,
         paths: string,
+        levels: Lv[],
+        color: string,
       ) => {
         const filters = levels
           .map(
@@ -60,40 +67,55 @@ export function NightVeil() {
         const groups = levels
           .map(
             (l, i) =>
-              `<g filter="url(#${id}${i})" opacity="${l.opacity}" fill="none" stroke="#000" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${paths}</g>`,
+              `<g filter="url(#${id}${i})" opacity="${l.opacity}" fill="none" stroke="${color}" stroke-width="${(width + l.extra * unitsPerPx).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round">${paths}</g>`,
           )
           .join("");
         return `<svg x="${(box.left - base.left).toFixed(1)}" y="${(box.top - base.top).toFixed(1)}" width="${box.width.toFixed(1)}" height="${box.height.toFixed(1)}" viewBox="${viewBox}" overflow="visible"><defs>${filters}</defs>${groups}</svg>`;
       };
+      const signs: Array<(levels: Lv[], color: string, tag: string) => string> = [];
       if (pieBox && pieBox.width) {
         const paths = [PIE_TUBE.ring, PIE_TUBE.slice, PIE_TUBE.crust]
           .map((t) => `<path d="${t.d}"/>`)
           .join("");
-        tubes.push(nested("p", pieBox, "0 0 286 320", 286 / pieBox.width, 11 * 1.125, paths));
+        signs.push((levels, color, tag) =>
+          nested(`p${tag}`, pieBox, "0 0 286 320", 286 / pieBox.width, 11 * 1.125, paths, levels, color),
+        );
       }
       if (wordBox && wordBox.width) {
         const paths = letters
           .map((l) => `<path transform="translate(${l.x} 0)" d="${l.d}"/>`)
           .join("");
-        tubes.push(
+        signs.push((levels, color, tag) =>
           nested(
-            "w",
+            `w${tag}`,
             wordBox,
             `${VIEWBOX.x} ${VIEWBOX.y} ${VIEWBOX.w} ${VIEWBOX.h}`,
             VIEWBOX.w / wordBox.width,
             2.6,
             paths,
+            levels,
+            color,
           ),
         );
       }
-      if (tubes.length) {
-        const w = Math.round(base.width);
-        const h = Math.round(base.height);
-        const svg =
-          `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">` +
-          `<defs><mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="#fff"/>${tubes.join("")}</mask></defs>` +
-          `<rect width="${w}" height="${h}" fill="#000" mask="url(#m)"/></svg>`;
-        layers.push(`url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`);
+      const w = Math.round(base.width);
+      const h = Math.round(base.height);
+      const asImage = (svg: string) => `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+      if (signs.length) {
+        const holes = signs.map((draw) => draw(holeLevels, "#000", "h")).join("");
+        layers.push(
+          asImage(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">` +
+              `<defs><mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="#fff"/>${holes}</mask></defs>` +
+              `<rect width="${w}" height="${h}" fill="#000" mask="url(#m)"/></svg>`,
+          ),
+        );
+        if (glowRef.current) {
+          const glow = signs.map((draw) => draw(glowLevels, "#ff2a18", "g")).join("");
+          glowRef.current.style.backgroundImage = asImage(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${glow}</svg>`,
+          );
+        }
       }
 
       // The moon: a faint cool wash from the top right, so nothing is ever pitch dark.
@@ -126,5 +148,10 @@ export function NightVeil() {
     };
   }, []);
 
-  return <div ref={veil} className="night-veil" aria-hidden="true" />;
+  return (
+    <>
+      <div ref={veil} className="night-veil" aria-hidden="true" />
+      <div ref={glowRef} className="night-glow" aria-hidden="true" />
+    </>
+  );
 }

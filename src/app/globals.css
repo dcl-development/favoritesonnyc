@@ -304,7 +304,8 @@ button:focus-visible {
       #9cbfbb 1.5px,
       #8ab0af 6px,
       #7ba2a4 9px,
-      #4a7074 calc(var(--stripe-period) - var(--rib-gap))
+      #4a7074 calc(var(--stripe-period) - var(--rib-gap)),
+      #4a7074 var(--stripe-period)
     );
   background-size:
     auto,
@@ -1789,6 +1790,18 @@ html[data-lights="off"] {
   background: color-mix(in srgb, #f4f6fb calc(var(--lamps) * 100%), #7885ab);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
+}
+
+/* The neon's own red light on the dark wall, drawn from the tube shapes (NightVeil). It only
+   shows once the lamps are off, and it adds light (screen) rather than cutting a hole. */
+.night-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background-repeat: no-repeat;
+  opacity: calc(1 - var(--lamps));
 }
 
 /* Tapping the sign switches the lamps. A real button underneath is there for keyboards. */
