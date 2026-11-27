@@ -1488,7 +1488,8 @@ body:has(dialog.notice[open]) {
 /* ---------- the sign at night: neon spill, barn lamps, lights that follow the hours ---------- */
 
 .sign {
-  --lit: 1;
+  /* The neon glows harder against the dark once the lamps are off. */
+  --lit: calc(1 + 0.9 * (1 - var(--lamps)));
   position: relative;
   isolation: isolate;
   overflow-x: clip;
@@ -1501,14 +1502,16 @@ body:has(dialog.notice[open]) {
   z-index: -1;
   top: 6.3rem;
   left: 50%;
-  width: 52rem;
-  height: 30rem;
+  width: 19rem;
+  height: 15rem;
   translate: -50% -50%;
   pointer-events: none;
+  /* A tight glow that hugs the tubes, not a wash across the wall. */
   background: radial-gradient(
     closest-side,
-    rgba(232, 50, 70, calc(0.34 * var(--lit))),
-    rgba(232, 50, 70, calc(0.14 * var(--lit))) 45%,
+    rgba(232, 50, 70, calc(0.3 * var(--lit))),
+    rgba(232, 50, 70, calc(0.15 * var(--lit))) 32%,
+    rgba(232, 50, 70, calc(0.04 * var(--lit))) 66%,
     transparent
   );
   animation:
@@ -1629,8 +1632,8 @@ body:has(dialog.notice[open]) {
 
 @media (max-width: 719px) {
   .sign::before {
-    width: 34rem;
-    height: 22rem;
+    width: 15rem;
+    height: 12rem;
   }
 
   .sign-lamp-extra {
