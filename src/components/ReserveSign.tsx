@@ -59,7 +59,6 @@ function Layer({ stroke, width, className }: { stroke: string; width: number; cl
           d={letter.d}
           transform={`translate(${letter.x} 0)`}
           className="reserve-letter"
-          strokeOpacity={GLOW[letter.index % GLOW.length]}
           style={{ ["--i" as string]: letter.index }}
           data-buzz={letter.index === 5 ? "" : undefined}
         />
@@ -68,49 +67,6 @@ function Layer({ stroke, width, className }: { stroke: string; width: number; cl
   );
 }
 
-
-/** Where each tube ends: the start and end of every open stroke in a path (closed shapes have none). */
-function tubeEnds(d: string): Array<[number, number]> {
-  const tokens = d.match(/[MLHVCZ]|-?\d*\.?\d+/g) ?? [];
-  const ends: Array<[number, number]> = [];
-  let cmd = "";
-  let x = 0;
-  let y = 0;
-  let open = false;
-  let i = 0;
-  const num = () => Number(tokens[i++]);
-  while (i < tokens.length) {
-    if (/[MLHVCZ]/.test(tokens[i])) cmd = tokens[i++];
-    if (cmd === "Z") {
-      open = false;
-      continue;
-    }
-    if (cmd === "M") {
-      if (open) ends.push([x, y]);
-      x = num();
-      y = num();
-      ends.push([x, y]);
-      open = true;
-      cmd = "L";
-    } else if (cmd === "L") {
-      x = num();
-      y = num();
-    } else if (cmd === "H") {
-      x = num();
-    } else if (cmd === "V") {
-      y = num();
-    } else if (cmd === "C") {
-      i += 4;
-      x = num();
-      y = num();
-    }
-  }
-  if (open) ends.push([x, y]);
-  return ends;
-}
-
-// A real gas tube is never perfectly even: a little brighter or dimmer from letter to letter.
-const GLOW = [1, 0.93, 1, 0.9, 1, 0.97, 1, 0.92, 0.98, 1, 0.94, 1];
 
 export function ReserveSign() {
   return (
@@ -150,26 +106,12 @@ export function ReserveSign() {
         {/* Same recipe as the pie's halo, including being dimmer against a lit wall. */}
         <g className="reserve-halo-level">
           <g filter="url(#reserve-halo)">
-            <Layer stroke="#ff3a24" width={2.6} />
+            <Layer stroke="#ff2a3c" width={2.2} />
           </g>
         </g>
-        {/* the glass: a darker rim, the red body, the hot core */}
-        <Layer stroke="#8f0c0e" width={3.3} />
-        <Layer stroke="#ff3a24" width={2.6} />
-        <Layer stroke="#fff1e4" width={1} />
-        {/* electrode boots: the small dark caps where each tube ends */}
-        <g fill="#2b1a17" stroke="#120a09" strokeWidth={0.3}>
-          {letters.flatMap((letter) =>
-            // A bender runs each letter as one length of tube, so only its two real ends get a boot.
-            (() => {
-              const ends = tubeEnds(letter.d);
-              const two = ends.length > 1 ? [ends[0], ends[ends.length - 1]] : ends;
-              return two.map(([ex, ey], n) => (
-                <circle key={`${letter.index}-${n}`} cx={letter.x + ex} cy={ey} r={0.85} />
-              ));
-            })(),
-          )}
-        </g>
+        {/* a thin tube: a crisp coloured edge around a near-white core, then the halo does the rest */}
+        <Layer stroke="#ff2a3c" width={1.9} />
+        <Layer stroke="#ffe3e6" width={0.8} />
         {/* The shine circles the "o", like the one around the pie logo. */}
         <g fill="none" stroke="#fff" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
           {letters
