@@ -1856,7 +1856,9 @@ body:has(.home) {
   transition: --lamps 650ms ease;
 }
 
-html[data-lights="off"] {
+html[data-lights="off"],
+/* The home page arrives dark; LightsOn takes data-boot off a beat later and the lamps fade on. */
+html:has(.home[data-boot="dark"]) {
   --lamps: 0;
 }
 
