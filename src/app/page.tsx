@@ -7,6 +7,7 @@ import { NightVeil } from "@/components/NightVeil";
 import { Reveal } from "@/components/Reveal";
 import { SignStrips } from "@/components/SignStrips";
 import { StoneBand } from "@/components/StoneBand";
+import { WallAlign } from "@/components/WallAlign";
 import { nav, restaurant } from "@/content/site";
 import { getPhotos } from "@/lib/cms";
 
@@ -21,6 +22,7 @@ export default async function Home() {
     <main className="home">
       <h1 className="sr-only">{restaurant.legalName}, Staten Island</h1>
       <NightVeil />
+      <WallAlign />
       <SignStrips />
       <StoneBand />
       <div className="home-stack">
