@@ -1684,28 +1684,33 @@ body:has(dialog.notice[open]) {
   outline-offset: 6px;
 }
 
-/* On hover the letters fire up one after another, like a tube warming up. */
+/* On hover a flicker ripples through the word: each letter keeps its normal glow until its
+   turn, then stutters briefly and settles. Nothing ever switches off first (no fill-mode, so
+   a letter that is waiting for its turn is untouched). */
 .home-reserve-link:hover .reserve-letter,
 .home-reserve-link:focus-visible .reserve-letter {
-  animation: neon-on 520ms steps(1) both;
-  animation-delay: calc(var(--i) * 38ms);
+  animation: neon-flicker 460ms steps(1);
+  animation-delay: calc(var(--i) * 45ms);
 }
 
-@keyframes neon-on {
+@keyframes neon-flicker {
   0% {
-    opacity: 0.2;
-  }
-  22% {
     opacity: 1;
   }
-  38% {
-    opacity: 0.4;
+  14% {
+    opacity: 0.3;
   }
-  60% {
+  28% {
+    opacity: 1;
+  }
+  44% {
+    opacity: 0.55;
+  }
+  58% {
     opacity: 1;
   }
   72% {
-    opacity: 0.65;
+    opacity: 0.8;
   }
   100% {
     opacity: 1;
