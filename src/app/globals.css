@@ -252,7 +252,8 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: calc(100% - 1.5rem);
+  /* A sign, not a wall: on wide screens it stays a fixed width and the block wall shows around it. */
+  width: min(calc(100% - 1.5rem), 46rem);
   padding: 1.35rem 0.85rem 1.5rem;
 }
 
@@ -1599,7 +1600,7 @@ body:has(dialog.notice[open]) {
   position: absolute;
   top: 66%;
   left: 50%;
-  width: 15rem;
+  width: 13rem;
   height: 9.5rem;
   translate: -50% 0;
   clip-path: polygon(41% 0, 59% 0, 100% 100%, 0 100%);
@@ -1611,10 +1612,6 @@ body:has(dialog.notice[open]) {
 }
 
 @media (max-width: 719px) {
-  .sign-lamp-extra {
-    display: none;
-  }
-
   .sign-cone {
     width: 10rem;
     height: 8rem;

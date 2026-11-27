@@ -99,9 +99,9 @@ export function PieMark({ className = "" }: { className?: string }) {
           <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="b2" />
           <feColorMatrix in="b2" type="matrix" values="0 0 0 0 1  0 0 0 0 0.24  0 0 0 0 0.16  0 0 0 1.25 0" result="l2" />
           <feGaussianBlur in="SourceAlpha" stdDeviation="24" result="b3" />
-          <feColorMatrix in="b3" type="matrix" values="0 0 0 0 0.95  0 0 0 0 0.12  0 0 0 0 0.09  0 0 0 1.9 0" result="l3" />
+          <feColorMatrix in="b3" type="matrix" values="0 0 0 0 0.95  0 0 0 0 0.12  0 0 0 0 0.09  0 0 0 1.45 0" result="l3" />
           <feGaussianBlur in="SourceAlpha" stdDeviation="60" result="b4" />
-          <feColorMatrix in="b4" type="matrix" values="0 0 0 0 0.86  0 0 0 0 0.09  0 0 0 0 0.07  0 0 0 2.3 0" result="l4" />
+          <feColorMatrix in="b4" type="matrix" values="0 0 0 0 0.86  0 0 0 0 0.09  0 0 0 0 0.07  0 0 0 1.2 0" result="l4" />
           <feMerge>
             <feMergeNode in="l4" />
             <feMergeNode in="l3" />

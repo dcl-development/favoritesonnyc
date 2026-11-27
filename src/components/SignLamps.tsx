@@ -1,12 +1,7 @@
 /** Gooseneck barn lamps over the sign board, each throwing a cone of light down the ribs.
  *  Pure markup; the glow and the cones are CSS, and switch with the sign's data-lights. */
 
-const LAMPS = [
-  { x: "12%", extra: false },
-  { x: "30%", extra: true },
-  { x: "70%", extra: true },
-  { x: "88%", extra: false },
-] as const;
+const LAMPS = ["13%", "87%"] as const;
 
 function Lamp() {
   return (
@@ -29,12 +24,8 @@ function Lamp() {
 export function SignLamps() {
   return (
     <div className="sign-lamps" aria-hidden="true">
-      {LAMPS.map((lamp) => (
-        <div
-          key={lamp.x}
-          className={lamp.extra ? "sign-lamp sign-lamp-extra" : "sign-lamp"}
-          style={{ left: lamp.x }}
-        >
+      {LAMPS.map((x) => (
+        <div key={x} className="sign-lamp" style={{ left: x }}>
           <div className="sign-cone" />
           <Lamp />
         </div>
