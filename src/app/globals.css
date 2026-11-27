@@ -1519,7 +1519,8 @@ body:has(dialog.notice[open]) {
 /* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
 /* Solid red glass in the light, a hot core in the dark. */
 .reserve-core {
-  opacity: calc(0.45 + 0.55 * (1 - var(--lamps)));
+  /* faint in daylight so the red stays solid; it blooms to a hot core in the dark */
+  opacity: calc(0.2 + 0.8 * (1 - var(--lamps)));
 }
 
 /* The highlight follows the cursor a little, as the pie's does (its offsets are in px). */
@@ -1527,9 +1528,14 @@ body:has(dialog.notice[open]) {
   transform: translate(calc(var(--pie-lx, 0px) * 0.35), calc(var(--pie-ly, 0px) * 0.35));
 }
 
-.pie-halo-level,
-.reserve-halo-level {
+.pie-halo-level {
   opacity: calc(0.5 + 0.5 * (1 - var(--lamps)));
+}
+
+/* The lettering's glow is a little lower in daylight than the pie's, so it does not wash the
+   red out; the pie is a big shape, the word is thin type that has to stay readable. */
+.reserve-halo-level {
+  opacity: calc(0.32 + 0.68 * (1 - var(--lamps)));
 }
 
 .pie-mark-tiny .pie-halo-level {
@@ -1651,8 +1657,8 @@ body:has(dialog.notice[open]) {
   width: min(20rem, 84vw);
   aspect-ratio: 188.2 / 34;
   padding: 0.25rem 0;
-  /* Always as bright as it was on hover. */
-  filter: brightness(1.18) saturate(1.1);
+  /* Rich, not pale: more colour, no extra brightness (brightness washed the red toward pink). */
+  filter: saturate(1.25);
 }
 
 .reserve-art {
