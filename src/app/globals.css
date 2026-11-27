@@ -1986,11 +1986,12 @@ body:has(.home) {
 }
 
 .wall-region-hero {
-  justify-content: flex-start;
   /* The sign casts a shadow below it, so the first stone band needs real room under it. The
-     region is rounded up to whole courses, which on a phone left only ~24px; this guarantees
-     at least 3rem however the rounding falls. */
-  padding: 0 0 3rem;
+     region is rounded up to whole block rows, which left anywhere from ~21px to ~70px below the
+     sign depending on the screen. The sign now sits at the bottom with exactly this much space
+     under it, and whatever the rounding leaves over goes above the neon pie instead. */
+  justify-content: flex-end;
+  padding: 0 0 3.25rem;
 }
 
 .wall-region .home-stack {
