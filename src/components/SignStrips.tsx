@@ -9,6 +9,7 @@ import { SignLamps } from "./SignLamps";
 import { keepTogether } from "@/lib/hours";
 import { tearStyle } from "@/lib/tear";
 import { restoreLights } from "@/lib/lights";
+import { alignHomeWall } from "@/lib/wall-align";
 import { StatusLine, useServiceStatus } from "./StatusLine";
 
 // href: where tapping the strip goes. The name strip is just the name.
@@ -66,10 +67,24 @@ export function SignStrips() {
       const style = getComputedStyle(node);
       const period = Number.parseFloat(style.getPropertyValue("--stripe-period")) || 16;
       const gap = Number.parseFloat(style.getPropertyValue("--rib-gap")) || 4;
-      node.style.height = "auto";
-      const height = node.getBoundingClientRect().height;
+      const measured = () => {
+        const prev = node.style.height;
+        node.style.height = "auto";
+        const height = node.getBoundingClientRect().height;
+        node.style.height = prev;
+        return height;
+      };
+      const height = measured();
       const stripes = Math.max(1, Math.ceil((height + gap) / period - 1e-4));
-      node.style.height = `${stripes * period - gap}px`;
+      const nextPx = stripes * period - gap;
+      const next = `${nextPx}px`;
+      const current = Number.parseFloat(getComputedStyle(node).height);
+      if (Math.abs(current - nextPx) > 0.5) {
+        node.style.height = next;
+      } else if (node.style.height) {
+        node.style.removeProperty("height");
+      }
+      alignHomeWall();
     };
     const schedule = () => {
       cancelAnimationFrame(frame);
@@ -86,7 +101,7 @@ export function SignStrips() {
       window.removeEventListener("resize", schedule);
       node.style.height = "";
     };
-  }, []);
+  }, [count]);
 
   useEffect(() => {
     if (!motionReady) return;

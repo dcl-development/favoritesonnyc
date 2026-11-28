@@ -1980,20 +1980,44 @@ body:has(.home) {
   /* The sign casts a shadow below it, so the first stone band needs real room under it. The
      region is rounded up to whole block rows, which left anywhere from ~21px to ~70px below the
      sign depending on the screen. The sign now sits at the bottom with exactly this much space
-     under it, and whatever the rounding leaves over goes above the neon pie instead. */
+     under it, and whatever the rounding leaves over goes above the neon pie instead.
+     Starting min-height matches WallAlign's rounded piece (4 strips) so the hero does not jump
+     on hydration. */
   justify-content: flex-end;
   padding: 0 0 3.25rem;
+  min-height: calc(8 * var(--wall-course));
 }
 
 @media (max-width: 719px) {
   .wall-region-hero {
     /* Half a block course under the sign on phones — enough for the board shadow, tight to the stone band. */
     padding-bottom: calc(0.5 * var(--wall-course));
+    min-height: calc(9 * var(--wall-course));
   }
 
   .wall-region-hero .sign {
     /* Less top air on phones; WallAlign slack above the stack is smaller with the shorter hero piece. */
     padding-top: 1.15rem;
+  }
+}
+
+/* Locked to whole rib rows (SignStrips); keeps the first paint steady before hydration. */
+.home .sign-board {
+  height: 284px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 719px) {
+  .home .sign-board {
+    height: 236px;
+  }
+
+  .home .sign-board:has(.sign-papers > .strip:nth-child(5)) {
+    height: 252px;
+  }
+
+  .wall-region-hero:has(.sign-papers > .strip:nth-child(5)) {
+    min-height: calc(10 * var(--wall-course));
   }
 }
 
