@@ -1730,24 +1730,11 @@ body:has(dialog.notice[open]) {
   outline-offset: 4px;
 }
 
-/* The hint that the lamps are switches: a small sway a second after the page loads, then again
-   every 6 seconds. The 650ms sway is the first ~11% of a 6s cycle, so the repeats are exact.
-   The right lamp follows a beat behind so they do not move in lockstep. Hovering or tapping a
-   lamp plays its own sway instead. Not for reduced motion; home entrance waits on data-motion-ready. */
+/* Tap and hover: lamp-sway. The idle hint loop (1s after motion starts, every 6s) is scheduled in
+   SignLamps once html has data-motion-ready. */
 @media (prefers-reduced-motion: no-preference) {
   .sign-lamp-art.lamp-jiggle {
     animation: lamp-sway 650ms ease-in-out;
-  }
-
-  html:has(.home)[data-motion-ready] .sign-lamp-art:not(.lamp-jiggle) {
-    animation: lamp-hint 6s ease-in-out 1s infinite;
-  }
-
-  html:has(.home)[data-motion-ready]
-    .sign-lamp
-    + .sign-lamp
-    .sign-lamp-art:not(:hover):not(:focus-visible):not(.lamp-jiggle) {
-    animation-delay: 1.18s;
   }
 }
 
@@ -1765,25 +1752,6 @@ body:has(dialog.notice[open]) {
       .reserve-letter[data-flick]
     ) {
     animation: none !important;
-  }
-}
-
-@keyframes lamp-hint {
-  0% {
-    transform: rotate(0);
-  }
-  2.7% {
-    transform: rotate(-4deg);
-  }
-  6% {
-    transform: rotate(2.5deg);
-  }
-  8.7% {
-    transform: rotate(-1deg);
-  }
-  10.8%,
-  100% {
-    transform: rotate(0);
   }
 }
 
