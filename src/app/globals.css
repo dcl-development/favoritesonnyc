@@ -1962,10 +1962,10 @@ body:has(.home) {
   background-image:
     linear-gradient(
       to right,
-      rgba(239, 235, 225, 0.3),
-      rgba(239, 235, 225, 0.86) 26%,
-      rgba(239, 235, 225, 0.86) 74%,
-      rgba(239, 235, 225, 0.3)
+      rgba(239, 235, 225, 0.28),
+      rgba(239, 235, 225, 0.74) 26%,
+      rgba(239, 235, 225, 0.74) 74%,
+      rgba(239, 235, 225, 0.28)
     ),
     url("/textures/block-wall.svg");
   background-size:
@@ -1980,7 +1980,7 @@ body:has(.home) {
 @media (max-width: 719px) {
   .wall-region {
     background-image:
-      linear-gradient(rgba(239, 235, 225, 0.8), rgba(239, 235, 225, 0.8)),
+      linear-gradient(rgba(239, 235, 225, 0.68), rgba(239, 235, 225, 0.68)),
       url("/textures/block-wall.svg");
   }
 }

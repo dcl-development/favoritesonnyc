@@ -1,7 +1,6 @@
 /**
  * Builds public/textures/block-wall.svg — painted cinder-block tile for the home wall.
  * Geometry matches --wall-course (66px × 4 courses = 264px tile height, 816px width).
- * Visual reference: storefront columns — smooth cream faces, recessed grey joint shadows.
  */
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -27,18 +26,17 @@ const ROWS = [
   { y: 198.8, xs: ROW_B },
 ];
 
-/** Warm cream/off-white — subtle drift, long repeat. */
 const BLOCK_COLORS = [
-  "#f5f2eb",
+  "#f7f4ed",
   "#f4f0e8",
-  "#f3efe6",
   "#f2ede5",
-  "#f1ece3",
+  "#eee9df",
   "#f0ebe1",
-  "#f3f1ea",
-  "#efece2",
-  "#f2efe9",
-  "#eeebe1",
+  "#ebe6db",
+  "#f3efe8",
+  "#efebe3",
+  "#f1ece4",
+  "#e9e4da",
 ];
 
 function blockColor(row, col, x) {
@@ -66,80 +64,100 @@ function verticalJoints() {
   return joints;
 }
 
-function chamferLines(x, y) {
-  const x1 = x + 0.5;
-  const x2 = x + BLOCK_W - 0.5;
-  const y1 = y + 0.55;
-  const yBot = y + BLOCK_H - 0.45;
-  return {
-    top: `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y1}" stroke="#fffef9" stroke-width="0.55" stroke-linecap="round" opacity="0.2"/>`,
-    bottom: `<line x1="${x1}" y1="${yBot}" x2="${x2}" y2="${yBot}" stroke="#9e9484" stroke-width="0.65" stroke-linecap="round" opacity="0.22"/>`,
-    left: `<line x1="${x + 0.5}" y1="${y + 1.2}" x2="${x + 0.5}" y2="${yBot}" stroke="#a09688" stroke-width="0.45" opacity="0.12"/>`,
-    right: `<line x1="${x + BLOCK_W - 0.5}" y1="${y + 1.2}" x2="${x + BLOCK_W - 0.5}" y2="${yBot}" stroke="#a09688" stroke-width="0.45" opacity="0.1"/>`,
-  };
+function blockMarkup(x, y, fill) {
+  const x1 = x + 1;
+  const x2 = x + BLOCK_W - 1;
+  const yTop = y + 1;
+  const yBot = y + BLOCK_H - 1;
+  return `<g>
+  <rect x="${x}" y="${y}" width="${BLOCK_W}" height="${BLOCK_H}" rx="1.4" fill="${fill}"/>
+  <rect x="${x}" y="${y}" width="${BLOCK_W}" height="${BLOCK_H}" rx="1.4" fill="url(#faceLight)" opacity="0.72"/>
+  <line x1="${x1}" y1="${yTop + 0.35}" x2="${x2}" y2="${yTop + 0.35}" stroke="#fffef9" stroke-width="0.7" stroke-linecap="round" opacity="0.34"/>
+  <line x1="${x1}" y1="${yBot - 0.2}" x2="${x2}" y2="${yBot - 0.2}" stroke="#7d7162" stroke-width="0.85" stroke-linecap="round" opacity="0.38"/>
+  <line x1="${x + 0.55}" y1="${yTop + 1.5}" x2="${x + 0.55}" y2="${yBot - 1}" stroke="#8a7d6e" stroke-width="0.5" opacity="0.16"/>
+  <line x1="${x + BLOCK_W - 0.55}" y1="${yTop + 1.5}" x2="${x + BLOCK_W - 0.55}" y2="${yBot - 1}" stroke="#8a7d6e" stroke-width="0.5" opacity="0.14"/>
+</g>`;
+}
+
+function lightingMask() {
+  let shapes = "";
+  ROWS.forEach(({ y, xs }) => {
+    for (const x of xs) {
+      shapes += `<rect x="${x}" y="${y}" width="${BLOCK_W}" height="${BLOCK_H}" rx="1.4" fill="#fff"/>`;
+    }
+  });
+  return shapes;
 }
 
 function build() {
   let body = "";
 
-  body += `<rect width="${TILE_W}" height="${TILE_H}" fill="#d4cdc0"/>`;
+  body += `<rect width="${TILE_W}" height="${TILE_H}" fill="#c8bfb0"/>`;
 
   ROWS.forEach(({ y, xs }, row) => {
     xs.forEach((x, col) => {
-      const fill = blockColor(row, col, x);
-      body += `<g>`;
-      body += `<rect x="${x}" y="${y}" width="${BLOCK_W}" height="${BLOCK_H}" rx="1.35" fill="${fill}"/>`;
-      body += `<rect x="${x}" y="${y}" width="${BLOCK_W}" height="${BLOCK_H}" rx="1.35" fill="url(#faceLight)" opacity="0.48"/>`;
-      const c = chamferLines(x, y);
-      body += c.top + c.bottom + c.left + c.right;
-      body += `</g>`;
+      body += blockMarkup(x, y, blockColor(row, col, x));
     });
   });
 
   for (const j of horizontalJoints()) {
     body += `<rect x="${j.x}" y="${j.y}" width="${j.w}" height="${GAP}" fill="url(#jointH)"/>`;
-    body += `<rect x="${j.x}" y="${j.y}" width="${j.w}" height="0.85" fill="#8a7f72" opacity="0.28"/>`;
+    body += `<rect x="${j.x}" y="${j.y}" width="${j.w}" height="1.05" fill="#6d6254" opacity="0.48"/>`;
+    body += `<rect x="${j.x}" y="${j.y + GAP - 0.55}" width="${j.w}" height="0.55" fill="#f0ebe2" opacity="0.55"/>`;
   }
   for (const j of verticalJoints()) {
     body += `<rect x="${j.x}" y="${j.y}" width="${GAP}" height="${j.h}" fill="url(#jointV)"/>`;
-    body += `<rect x="${j.x}" y="${j.y}" width="0.7" height="${j.h}" fill="#918576" opacity="0.2"/>`;
+    body += `<rect x="${j.x}" y="${j.y}" width="0.85" height="${j.h}" fill="#756a5c" opacity="0.36"/>`;
   }
 
   const grime = [
-    [118, 41, 24, 10, 0.022],
-    [521, 88, 19, 8, 0.018],
-    [701, 151, 20, 6, 0.019],
-    [238, 181, 17, 5, 0.016],
-    [632, 42, 13, 5, 0.015],
+    [118, 41, 24, 10, 0.026],
+    [521, 88, 19, 8, 0.021],
+    [701, 151, 20, 6, 0.022],
+    [238, 181, 17, 5, 0.019],
+    [632, 42, 13, 5, 0.018],
+    [367, 58, 16, 7, 0.017],
   ];
   for (const [cx, cy, rx, ry, op] of grime) {
-    body += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#7a6f5e" opacity="${op}"/>`;
+    body += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#6f6456" opacity="${op}"/>`;
   }
 
-  body += `<rect width="${TILE_W}" height="${TILE_H}" fill="url(#speckle)" opacity="0.075" style="mix-blend-mode:multiply"/>`;
+  body += `<rect width="${TILE_W}" height="${TILE_H}" fill="url(#speckle)" opacity="0.095" style="mix-blend-mode:multiply"/>`;
+  body += `<g style="mix-blend-mode:multiply" opacity="0.42" filter="url(#topLight)">${lightingMask()}</g>`;
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${TILE_W}" height="${TILE_H}" viewBox="0 0 ${TILE_W} ${TILE_H}">
 <defs>
   <linearGradient id="faceLight" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
-    <stop offset="32%" stop-color="#faf8f2" stop-opacity="0.05"/>
-    <stop offset="100%" stop-color="#bfb5a5" stop-opacity="0.14"/>
+    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.42"/>
+    <stop offset="35%" stop-color="#faf7f0" stop-opacity="0.1"/>
+    <stop offset="100%" stop-color="#a99a88" stop-opacity="0.28"/>
   </linearGradient>
   <linearGradient id="jointH" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#7a6f62" stop-opacity="0.62"/>
-    <stop offset="28%" stop-color="#a89b8a"/>
-    <stop offset="72%" stop-color="#ccc4b5"/>
-    <stop offset="100%" stop-color="#ece6db" stop-opacity="0.55"/>
+    <stop offset="0%" stop-color="#5c5145" stop-opacity="0.75"/>
+    <stop offset="30%" stop-color="#9c8f7d"/>
+    <stop offset="72%" stop-color="#c9bfb0"/>
+    <stop offset="100%" stop-color="#ebe4d8" stop-opacity="0.65"/>
   </linearGradient>
   <linearGradient id="jointV" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#857a6d" stop-opacity="0.45"/>
-    <stop offset="45%" stop-color="#bab1a2"/>
-    <stop offset="100%" stop-color="#ded7ca" stop-opacity="0.5"/>
+    <stop offset="0%" stop-color="#65594c" stop-opacity="0.55"/>
+    <stop offset="50%" stop-color="#b5aa9a"/>
+    <stop offset="100%" stop-color="#ddd5c8" stop-opacity="0.55"/>
   </linearGradient>
+  <filter id="topLight" filterUnits="userSpaceOnUse" x="-8" y="-8" width="${TILE_W + 16}" height="${TILE_H + 16}" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="0.35" result="soft"/>
+    <feDiffuseLighting in="soft" surfaceScale="2.8" diffuseConstant="1.15" lighting-color="#ffffff" result="light">
+      <feDistantLight azimuth="270" elevation="58"/>
+    </feDiffuseLighting>
+    <feComponentTransfer in="light">
+      <feFuncR type="linear" slope="0.38" intercept="0.62"/>
+      <feFuncG type="linear" slope="0.38" intercept="0.62"/>
+      <feFuncB type="linear" slope="0.38" intercept="0.62"/>
+    </feComponentTransfer>
+  </filter>
   <filter id="fineGrain" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
-    <feTurbulence type="fractalNoise" baseFrequency="0.88" numOctaves="2" seed="11" result="n"/>
-    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.47  0 0 0 0 0.44  0 0 0 0 0.39  0 0 0 0.08 0" result="g"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="11" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.47  0 0 0 0 0.44  0 0 0 0 0.39  0 0 0 0.1 0" result="g"/>
     <feBlend in="SourceGraphic" in2="g" mode="multiply"/>
   </filter>
   <pattern id="speckle" patternUnits="userSpaceOnUse" width="128" height="128">
