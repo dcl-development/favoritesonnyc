@@ -1996,8 +1996,13 @@ body:has(.home) {
 
 @media (max-width: 719px) {
   .wall-region-hero {
-    /* One more block course on phones so the white frame/shadow clears the first stone band. */
-    padding-bottom: calc(3.25rem + var(--wall-course));
+    /* Half a block course under the sign on phones — enough for the board shadow, tight to the stone band. */
+    padding-bottom: calc(0.5 * var(--wall-course));
+  }
+
+  .wall-region-hero .sign {
+    /* Less top air on phones; WallAlign slack above the stack is smaller with the shorter hero piece. */
+    padding-top: 1.15rem;
   }
 }
 
