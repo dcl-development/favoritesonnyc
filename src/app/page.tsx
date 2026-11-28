@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { PieStrip } from "@/components/PieStrip";
+import { ReserveSign } from "@/components/ReserveSign";
+import { NightVeil } from "@/components/NightVeil";
 import { Reveal } from "@/components/Reveal";
 import { SignStrips } from "@/components/SignStrips";
+import { StoneBand } from "@/components/StoneBand";
+import { WallAlign } from "@/components/WallAlign";
 import { nav, restaurant } from "@/content/site";
 import { getPhotos } from "@/lib/cms";
 
@@ -17,8 +21,14 @@ export default async function Home() {
   return (
     <main className="home">
       <h1 className="sr-only">{restaurant.legalName}, Staten Island</h1>
-      <SignStrips />
-      <div className="home-stack">
+      <NightVeil />
+      <WallAlign />
+      <div className="wall-region wall-region-hero">
+        <SignStrips />
+      </div>
+      <StoneBand />
+      <div className="wall-region">
+        <div className="home-stack">
         <nav className="home-pages" aria-label="pages">
           {nav.map((item) => (
             <Link key={item.href} href={item.href}>
@@ -34,10 +44,9 @@ export default async function Home() {
             href={restaurant.reserve}
             target="_blank"
             rel="noopener"
+            aria-label="reservations"
           >
-            <span aria-hidden="true">[ </span>
-            <span className="home-label">reservations</span>
-            <span aria-hidden="true"> ]</span>
+            <ReserveSign />
           </a>
           <a className="reserve-tip" href={`tel:${restaurant.phoneTel}`}>
             <span>
@@ -49,12 +58,23 @@ export default async function Home() {
           <p>whole pies, 14 inches, cut into six.</p>
           <p>{restaurant.notice.title}.</p>
         </div>
+        </div>
       </div>
-      <Reveal>
-        <PieStrip photos={photos} />
-      </Reveal>
-      <div className="home-foot">
-        <Footer />
+      {photos.length > 0 ? (
+        <>
+          <StoneBand />
+          <div className="wall-region">
+            <Reveal>
+              <PieStrip photos={photos} />
+            </Reveal>
+          </div>
+        </>
+      ) : null}
+      <StoneBand />
+      <div className="wall-region wall-region-foot">
+        <div className="home-foot">
+          <Footer />
+        </div>
       </div>
     </main>
   );

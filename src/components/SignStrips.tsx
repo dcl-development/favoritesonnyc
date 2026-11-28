@@ -1,18 +1,30 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
+import { SignLamps } from "./SignLamps";
 import { keepTogether } from "@/lib/hours";
+import { tearStyle } from "@/lib/tear";
+import { restoreLights } from "@/lib/lights";
 import { StatusLine, useServiceStatus } from "./StatusLine";
 
-type Strip = { key: string; kind: "name" | "line"; text: string | null };
+// href: where tapping the strip goes. The name strip is just the name.
+type Strip = {
+  key: string;
+  kind: "name" | "line";
+  text: string | null;
+  href?: string;
+  /** Read out after the text so a screen reader knows where the link goes. */
+  hint?: string;
+};
 
 const baseStrips: Strip[] = [
   { key: "name", kind: "name", text: restaurant.name },
-  { key: "tag", kind: "line", text: restaurant.tagline },
-  { key: "status", kind: "line", text: null },
-  { key: "street", kind: "line", text: "1210 forest avenue" },
+  { key: "tag", kind: "line", text: restaurant.tagline, href: "/menu", hint: "see the menu" },
+  { key: "status", kind: "line", text: null, href: "/visit", hint: "hours and directions" },
+  { key: "street", kind: "line", text: "1210 forest avenue", href: "/visit", hint: "hours and directions" },
 ];
 
 const drift = [
@@ -30,8 +42,12 @@ export function SignStrips() {
   const board = useRef<HTMLDivElement>(null);
   // A special date within a week gets its own strip under the status strip.
   const { notice } = useServiceStatus();
+  useEffect(() => {
+    restoreLights();
+  }, []);
+
   const strips: Strip[] = notice
-    ? [...baseStrips.slice(0, 3), { key: "notice", kind: "line", text: keepTogether(notice) }, ...baseStrips.slice(3)]
+    ? [...baseStrips.slice(0, 3), { key: "notice", kind: "line", text: keepTogether(notice), href: "/visit", hint: "hours and directions" }, ...baseStrips.slice(3)]
     : baseStrips;
   const count = strips.length;
 
@@ -41,15 +57,17 @@ export function SignStrips() {
     if (!node || !content) return;
 
     let frame = 0;
-    // The teal lines repeat every --stripe-period. Lock the band to a whole
-    // number of periods so the bottom edge never slices a line.
+    // The teal ribs repeat every --stripe-period (a rib, then a gap). Lock the board to a whole
+    // number of periods minus the last gap, so it starts on a rib and ends on one, and the
+    // bottom edge never slices a line.
     const fit = () => {
-      const period =
-        Number.parseFloat(getComputedStyle(node).getPropertyValue("--stripe-period")) || 14;
+      const style = getComputedStyle(node);
+      const period = Number.parseFloat(style.getPropertyValue("--stripe-period")) || 16;
+      const gap = Number.parseFloat(style.getPropertyValue("--rib-gap")) || 4;
       node.style.height = "auto";
       const height = node.getBoundingClientRect().height;
-      const stripes = Math.max(1, Math.ceil(height / period - 1e-4));
-      node.style.height = `${stripes * period}px`;
+      const stripes = Math.max(1, Math.ceil((height + gap) / period - 1e-4));
+      node.style.height = `${stripes * period - gap}px`;
     };
     const schedule = () => {
       cancelAnimationFrame(frame);
@@ -126,7 +144,16 @@ export function SignStrips() {
       frame = window.requestAnimationFrame(tick);
     };
 
+    // The sheen on the metal follows the cursor; leaving the window parks it back at the top.
+    const moveSheen = (event: PointerEvent) => {
+      const rect = board.current?.getBoundingClientRect();
+      if (!rect) return;
+      board.current?.style.setProperty("--sheen-x", `${event.clientX - rect.left}px`);
+      board.current?.style.setProperty("--sheen-y", `${event.clientY - rect.top}px`);
+    };
+
     const onMove = (event: PointerEvent) => {
+      moveSheen(event);
       handedOff = true;
       target.nx = event.clientX / window.innerWidth - 0.5;
       target.ny = event.clientY / window.innerHeight - 0.5;
@@ -135,6 +162,8 @@ export function SignStrips() {
 
     const onLeave = (event: PointerEvent) => {
       if (event.relatedTarget) return;
+      board.current?.style.removeProperty("--sheen-x");
+      board.current?.style.removeProperty("--sheen-y");
       handedOff = true;
       target.nx = 0;
       target.ny = 0;
@@ -161,6 +190,7 @@ export function SignStrips() {
     <div className="sign">
       <PieMark className="pie-mark pie-mark-home" />
       <div className="sign-board" ref={board}>
+        <SignLamps />
         <div className="sign-papers">
           {strips.map((strip, index) => (
             <p
@@ -169,9 +199,18 @@ export function SignStrips() {
                 papers.current[index] = node;
               }}
               className={`strip strip-${strip.kind}`}
-              style={{ ["--i" as string]: index }}
+              style={{ ["--i" as string]: index, ...tearStyle(strip.key) }}
             >
-              {strip.key === "status" ? <StatusLine /> : strip.text}
+              {strip.href ? (
+                <Link href={strip.href} className="strip-link">
+                  {strip.key === "status" ? <StatusLine /> : strip.text}
+                  <span className="sr-only">, {strip.hint}</span>
+                </Link>
+              ) : strip.key === "status" ? (
+                <StatusLine />
+              ) : (
+                strip.text
+              )}
             </p>
           ))}
         </div>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="816" height="11" viewBox="0 0 816 11" preserveAspectRatio="none">
+<defs>
+<filter id="rough" filterUnits="userSpaceOnUse" x="0" y="0" width="816" height="11" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency="0.07 0.1" numOctaves="4" seed="17" stitchTiles="stitch" x="0" y="0" width="816" height="11" result="n"/>
+  <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.1 0 0 0 -0.05" result="h"/>
+  <feDiffuseLighting in="h" surfaceScale="3" diffuseConstant="1.1" lighting-color="#ffffff" result="light">
+    <feDistantLight azimuth="268" elevation="52"/>
+  </feDiffuseLighting>
+  <feComponentTransfer in="light" result="bright">
+    <feFuncR type="linear" slope="1.22"/><feFuncG type="linear" slope="1.22"/><feFuncB type="linear" slope="1.22"/>
+  </feComponentTransfer>
+  <feComponentTransfer in="bright">
+    <feFuncR type="linear" slope="0.4" intercept="0.6"/><feFuncG type="linear" slope="0.4" intercept="0.6"/><feFuncB type="linear" slope="0.4" intercept="0.6"/>
+  </feComponentTransfer>
+</filter>
+<linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+  <stop offset=".08" stop-color="#fff" stop-opacity="0"/>
+  <stop offset=".78" stop-color="#4a3d2c" stop-opacity="0"/>
+  <stop offset="1" stop-color="#4a3d2c" stop-opacity=".34"/>
+</linearGradient>
+</defs>
+<rect width="816" height="11" fill="#e6dfd0"/>
+<g style="mix-blend-mode:multiply" filter="url(#rough)"><rect width="816" height="11" fill="#fff"/></g>
+<rect width="816" height="11" fill="url(#edge)"/>
+</svg>

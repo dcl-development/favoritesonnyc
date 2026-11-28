@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="816" height="264" viewBox="0 0 816 264">
+<defs>
+<filter id="lit" filterUnits="userSpaceOnUse" x="-14" y="-14" width="844" height="292" color-interpolation-filters="sRGB">
+  <feGaussianBlur in="SourceGraphic" stdDeviation="0.7" result="soft"/>
+  <feColorMatrix in="soft" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="h"/>
+  <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="4" result="pits"/>
+  <feColorMatrix in="pits" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="pitsA"/>
+  <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="9" result="warp"/>
+  <feColorMatrix in="warp" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="warpA"/>
+  <feComposite in="h" in2="pitsA" operator="arithmetic" k1="0" k2="1" k3="0.07" k4="0" result="h2"/>
+  <feComposite in="h2" in2="warpA" operator="arithmetic" k1="0" k2="1" k3="0.05" k4="0" result="h3"/>
+  <feDiffuseLighting in="h3" surfaceScale="3.2" diffuseConstant="1.05" lighting-color="#ffffff" result="light">
+    <feDistantLight azimuth="268" elevation="52"/>
+  </feDiffuseLighting>
+  <feComponentTransfer in="light" result="bright">
+    <feFuncR type="linear" slope="1.25"/><feFuncG type="linear" slope="1.25"/><feFuncB type="linear" slope="1.25"/>
+  </feComponentTransfer>
+  <feComponentTransfer in="bright">
+    <feFuncR type="linear" slope="0.4" intercept="0.6"/><feFuncG type="linear" slope="0.4" intercept="0.6"/><feFuncB type="linear" slope="0.4" intercept="0.6"/>
+  </feComponentTransfer>
+</filter>
+</defs>
+<rect width="816" height="264" fill="#d3ccbd"/>
+<rect x="0.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
+<rect x="0.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
+<rect x="816.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
+<rect x="816.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
+<rect x="136.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#f2efe7"/>
+<ellipse cx="154.7" cy="53.7" rx="19.6" ry="10.0" fill="#8f7f66" opacity="0.034"/>
+<rect x="136.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#f2efe7"/>
+<ellipse cx="154.7" cy="357.7" rx="19.6" ry="10.0" fill="#8f7f66" opacity="0.034"/>
+<rect x="272.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
+<rect x="272.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#f2efe8"/>
+<rect x="408.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#f3f0e9"/>
+<rect x="408.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#f3f0e9"/>
+<rect x="544.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
+<rect x="544.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
+<rect x="-135.2" y="0.8" width="134.4" height="64.4" rx="1" fill="#eeebe2"/>
+<rect x="-135.2" y="304.8" width="134.4" height="64.4" rx="1" fill="#eeebe2"/>
+<rect x="680.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#eeebe2"/>
+<rect x="680.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#eeebe2"/>
+<rect x="68.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#f0ede5"/>
+<ellipse cx="165.2" cy="116.8" rx="16.1" ry="6.4" fill="#8f7f66" opacity="0.042"/>
+<rect x="204.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#eeebe2"/>
+<ellipse cx="241.4" cy="102.9" rx="19.9" ry="11.7" fill="#8f7f66" opacity="0.055"/>
+<rect x="340.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#efece3"/>
+<ellipse cx="369.9" cy="112.6" rx="16.8" ry="5.6" fill="#8f7f66" opacity="0.046"/>
+<rect x="476.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
+<rect x="612.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#eeebe2"/>
+<ellipse cx="672.7" cy="92.9" rx="16.0" ry="10.7" fill="#8f7f66" opacity="0.044"/>
+<rect x="-67.2" y="66.8" width="134.4" height="64.4" rx="1" fill="#f1eee6"/>
+<rect x="748.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#f1eee6"/>
+<rect x="0.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#efece3"/>
+<rect x="816.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#efece3"/>
+<rect x="136.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
+<rect x="272.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#efece3"/>
+<rect x="408.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#f0ede5"/>
+<rect x="544.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#f1eee6"/>
+<rect x="-135.2" y="132.8" width="134.4" height="64.4" rx="1" fill="#f1eee6"/>
+<ellipse cx="-101.2" cy="184.4" rx="20.8" ry="9.9" fill="#8f7f66" opacity="0.033"/>
+<rect x="680.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#f1eee6"/>
+<ellipse cx="714.8" cy="184.4" rx="20.8" ry="9.9" fill="#8f7f66" opacity="0.033"/>
+<rect x="68.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#f2efe7"/>
+<rect x="204.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#f1eee6"/>
+<rect x="340.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#eeebe2"/>
+<ellipse cx="375.9" cy="223.4" rx="17.3" ry="5.3" fill="#8f7f66" opacity="0.051"/>
+<rect x="476.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#f1eee6"/>
+<ellipse cx="596.2" cy="213.5" rx="13.5" ry="7.3" fill="#8f7f66" opacity="0.051"/>
+<rect x="612.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#f3f0e9"/>
+<rect x="-67.2" y="198.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
+<rect x="748.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#edeadf"/>
+<rect x="0" y="265.2" width="816" height="37.6" fill="#e6dfd0"/>
+<g style="mix-blend-mode:multiply" filter="url(#lit)"><rect x="-14" y="-14" width="844" height="292" fill="#000"/>
+<rect x="0.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="0.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="816.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="816.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="136.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="136.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="272.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="272.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="408.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="408.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="544.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="544.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="-135.2" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="-135.2" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="680.8" y="0.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="680.8" y="304.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="68.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="204.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="340.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="476.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="612.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="-67.2" y="66.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="748.8" y="66.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="0.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="816.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="136.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="272.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="408.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="544.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="-135.2" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="680.8" y="132.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="68.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="204.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="340.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="476.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="612.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="-67.2" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+<rect x="748.8" y="198.8" width="134.4" height="64.4" rx="1" fill="#fff"/>
+</g>
+</svg>

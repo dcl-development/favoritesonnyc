@@ -312,7 +312,9 @@ export function PieStrip({ photos }: { photos: Photo[] }) {
     <div
       className="pie-strip"
       ref={scroller}
+      role="region"
       aria-label="photos"
+      tabIndex={0}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
@@ -328,7 +330,11 @@ export function PieStrip({ photos }: { photos: Photo[] }) {
             draggable: false,
           };
           return (
-            <figure className="pie-frame" key={`${photo.src}-${index}`}>
+            <figure
+              className="pie-frame"
+              key={`${photo.src}-${index}`}
+              aria-hidden={index >= photos.length ? true : undefined}
+            >
               {isSanityImageSrc(photo.src) ? (
                 <SanityImage {...shared} />
               ) : (

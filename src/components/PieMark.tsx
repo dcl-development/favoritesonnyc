@@ -35,6 +35,7 @@ export function PieMark({ className = "" }: { className?: string }) {
   const glowId = `pie-glow-${uid}`;
   const glassId = `pie-glass-${uid}`;
   const filamentId = `pie-filament-${uid}`;
+  const haloId = `pie-halo-${uid}`;
 
   return (
     <svg
@@ -46,18 +47,18 @@ export function PieMark({ className = "" }: { className?: string }) {
     >
       <defs>
         <linearGradient id={glassId} gradientUnits="userSpaceOnUse" x1="18" y1="24" x2="268" y2="308">
-          <stop offset="0%" stopColor="#ff2a30" />
-          <stop offset="22%" stopColor="#d40e16" />
-          <stop offset="46%" stopColor="#f0141c" />
-          <stop offset="68%" stopColor="#c40c14" />
-          <stop offset="84%" stopColor="#e81018" />
-          <stop offset="100%" stopColor="#f2161e" />
+          <stop offset="0%" stopColor="#ff4630" />
+          <stop offset="22%" stopColor="#f0201a" />
+          <stop offset="46%" stopColor="#ff4a34" />
+          <stop offset="68%" stopColor="#ec1c16" />
+          <stop offset="84%" stopColor="#ff3a28" />
+          <stop offset="100%" stopColor="#ff4630" />
         </linearGradient>
         <linearGradient id={filamentId} gradientUnits="userSpaceOnUse" x1="36" y1="12" x2="246" y2="286">
-          <stop offset="0%" stopColor="#ffd6d0" />
-          <stop offset="34%" stopColor="#ffc4bc" />
-          <stop offset="58%" stopColor="#ffd0c8" />
-          <stop offset="100%" stopColor="#ffc4bc" />
+          <stop offset="0%" stopColor="#fff4ea" />
+          <stop offset="34%" stopColor="#ffe6d8" />
+          <stop offset="58%" stopColor="#fff0e4" />
+          <stop offset="100%" stopColor="#ffe6d8" />
         </linearGradient>
         <filter
           id={glowId}
@@ -84,7 +85,36 @@ export function PieMark({ className = "" }: { className?: string }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+        <filter
+          id={haloId}
+          x="-360"
+          y="-360"
+          width="1006"
+          height="1040"
+          filterUnits="userSpaceOnUse"
+          colorInterpolationFilters="sRGB"
+        >
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="b1" />
+          <feColorMatrix in="b1" type="matrix" values="0 0 0 0 1  0 0 0 0 0.6  0 0 0 0 0.46  0 0 0 0.85 0" result="l1" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="b2" />
+          <feColorMatrix in="b2" type="matrix" values="0 0 0 0 1  0 0 0 0 0.24  0 0 0 0 0.16  0 0 0 1.25 0" result="l2" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="24" result="b3" />
+          <feColorMatrix in="b3" type="matrix" values="0 0 0 0 0.95  0 0 0 0 0.12  0 0 0 0 0.09  0 0 0 1.45 0" result="l3" />
+          <feGaussianBlur in="SourceAlpha" stdDeviation="60" result="b4" />
+          <feColorMatrix in="b4" type="matrix" values="0 0 0 0 0.86  0 0 0 0 0.09  0 0 0 0 0.07  0 0 0 1.2 0" result="l4" />
+          <feMerge>
+            <feMergeNode in="l4" />
+            <feMergeNode in="l3" />
+            <feMergeNode in="l2" />
+            <feMergeNode in="l1" />
+          </feMerge>
+        </filter>
       </defs>
+      <g className="pie-halo-level">
+        <g className="pie-halo" filter={`url(#${haloId})`}>
+          <Tubes stroke="#ff3a24" />
+        </g>
+      </g>
       <svg viewBox="0 0 286 320" x="0" y="0" width="286" height="320" overflow="visible" filter={`url(#${glowId})`}>
         <Tubes stroke={`url(#${glassId})`} />
         {BENDS.map(([x, y]) => (

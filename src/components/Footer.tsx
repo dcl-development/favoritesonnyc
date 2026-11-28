@@ -20,6 +20,9 @@ export function Footer() {
           </a>
         </p>
         <p>
+          <a href={`tel:${restaurant.phoneTel}`}>{restaurant.phone}</a>
+        </p>
+        <p>
           <a href={restaurant.instagram}>{instagramHandle}</a>
         </p>
         <p>
