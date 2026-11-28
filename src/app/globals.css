@@ -192,10 +192,10 @@ button:focus-visible {
 
 .pie-flicker {
   opacity: 0;
-  animation: pie-flicker 14.2s step-end infinite;
-  /* Same schedule as the first s on the reservations tube (see .reserve-letter[data-flick="a"]).
-     Ring shine still leads (see .pie-glint). */
-  animation-delay: -1.7s;
+  animation: pie-flicker 11.3s step-end infinite;
+  /* Pie's own 11.3s cycle: first burst (72.94% in) lands ~3s after motion; ring shine leads
+     (see .pie-glint). Burst stutter steps match the reservations s (see spill-flicker-half). */
+  animation-delay: calc(3s - 11.3s * 0.7294);
 }
 
 .pie-mark-tiny .pie-flicker {
@@ -1163,52 +1163,52 @@ html.reveal-ready [data-reveal].is-in {
   0% {
     opacity: 0;
   }
-  36.47% {
+  72.94% {
     opacity: 0.056;
   }
-  36.94% {
+  73.88% {
     opacity: 0;
   }
-  37.59% {
+  75.18% {
     opacity: 0.053;
   }
-  37.855% {
+  75.71% {
     opacity: 0;
   }
-  38.44% {
+  76.88% {
     opacity: 0.06;
   }
-  38.855% {
+  77.71% {
     opacity: 0;
   }
-  39.175% {
+  78.35% {
     opacity: 0.049;
   }
-  39.41% {
+  78.82% {
     opacity: 0;
   }
-  40.12% {
+  80.24% {
     opacity: 0.056;
   }
-  40.645% {
+  81.29% {
     opacity: 0;
   }
-  41.09% {
+  82.18% {
     opacity: 0.06;
   }
-  41.38% {
+  82.76% {
     opacity: 0;
   }
-  42.03% {
+  84.06% {
     opacity: 0.051;
   }
-  42.38% {
+  84.76% {
     opacity: 0;
   }
-  42.645% {
+  85.29% {
     opacity: 0.064;
   }
-  43.145%,
+  86.29%,
   100% {
     opacity: 0;
   }
@@ -1517,9 +1517,9 @@ body:has(dialog.notice[open]) {
 /* Neon spill off the slice and crust tubes only (ring halo stays steady in PieMark). Flickers
    on the same schedule as the slice/crust dark stroke (see .pie-flicker). */
 .pie-halo {
-  animation: spill-flicker-half 14.2s step-end infinite;
+  animation: spill-flicker 11.3s step-end infinite;
   /* in step with the tube's flicker (see .pie-flicker) */
-  animation-delay: -1.7s;
+  animation-delay: calc(3s - 11.3s * 0.7294);
 }
 
 /* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
