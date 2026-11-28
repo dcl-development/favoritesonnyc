@@ -193,10 +193,9 @@ button:focus-visible {
 .pie-flicker {
   opacity: 0;
   animation: pie-flicker 11.3s step-end infinite;
-  /* An 11.3s cycle, phased so the first burst (72.94% in) lands 0.2s after load. The glimmer
-     comes after it (see .pie-glint). The two cycles are different lengths, so after the first
-     round they drift against each other and the timing stays irregular. */
-  animation-delay: calc(0.2s - 11.3s * 0.7294);
+  /* Pie's own 11.3s cycle: first burst (72.94% in) lands ~3s after motion; ring shine leads
+     (see .pie-glint). Burst stutter steps match the reservations s (see spill-flicker-half). */
+  animation-delay: calc(3s - 11.3s * 0.7294);
 }
 
 .pie-mark-tiny .pie-flicker {
@@ -215,9 +214,8 @@ button:focus-visible {
 .pie-glint {
   opacity: 0;
   animation: pie-glint 10.5s ease-in-out infinite;
-  /* Phase so the shine (its dash starts at 6% of the cycle) begins about 2.45s after load,
-     just after the opening flicker has finished (it runs ~1.5s from 0.2s). */
-  animation-delay: calc(2.45s - 10.5s * 0.06);
+  /* Phase so the shine (its dash starts at 6% of the cycle) begins when motion starts. */
+  animation-delay: calc(0s - 10.5s * 0.06);
 }
 
 .pie-mark-tiny .pie-glint {
@@ -365,8 +363,6 @@ button:focus-visible {
   text-align: center;
   filter: drop-shadow(0 2px 1px rgba(26, 20, 15, 0.18))
     drop-shadow(0 5px 6px rgba(26, 20, 15, 0.16));
-  animation: settle 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  animation-delay: calc(var(--i) * 70ms);
 }
 
 /* The paper: its own torn outline (--tear, from src/lib/tear.ts), a faint bow of light across
@@ -1113,15 +1109,6 @@ html.reveal-ready [data-reveal].is-in {
   line-height: 1.45;
 }
 
-@keyframes settle {
-  from {
-    transform: translateY(-12px);
-  }
-  to {
-    transform: none;
-  }
-}
-
 @keyframes slice-out {
   from {
     transform: translate(2px, -2px);
@@ -1516,12 +1503,12 @@ body:has(dialog.notice[open]) {
   overflow-x: clip;
 }
 
-/* The neon's light comes off the tubes themselves (the .pie-halo layer in PieMark), so it
-   follows their shape and falls off fast. It flickers on the same schedule as the tube. */
+/* Neon spill off the slice and crust tubes only (ring halo stays steady in PieMark). Flickers
+   on the same schedule as the slice/crust dark stroke (see .pie-flicker). */
 .pie-halo {
   animation: spill-flicker 11.3s step-end infinite;
   /* in step with the tube's flicker (see .pie-flicker) */
-  animation-delay: calc(0.2s - 11.3s * 0.7294);
+  animation-delay: calc(3s - 11.3s * 0.7294);
 }
 
 /* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
@@ -1747,8 +1734,6 @@ body:has(dialog.notice[open]) {
       .pie-flicker,
       .pie-glint,
       .pie-halo,
-      .strip,
-      .reserve-glint,
       .reserve-letter[data-flick]
     ) {
     animation: none !important;
@@ -1820,51 +1805,18 @@ body:has(dialog.notice[open]) {
   overflow: visible;
 }
 
-/* The shine that circles the "o": a short bright dash travels once around the letter, then
-   rests. Same slow cycle and shape of timing as the one around the pie. pathLength is 100. */
-.reserve-glint {
-  stroke-dasharray: 6 140;
-  stroke-dashoffset: 6;
-  opacity: 0;
-  animation: reserve-glint 10.5s ease-in-out infinite;
-  /* starts about 0.2s after load */
-  animation-delay: calc(0.2s - 10.5s * 0.06);
-}
-
-@keyframes reserve-glint {
-  0%,
-  6% {
-    stroke-dashoffset: 6;
-    opacity: 0;
-  }
-  14% {
-    opacity: 0.85;
-  }
-  32% {
-    stroke-dashoffset: -100;
-    opacity: 0.55;
-  }
-  40%,
-  100% {
-    stroke-dashoffset: -100;
-    opacity: 0;
-  }
-}
-
-/* Two letters on the tube are a little worn and buzz now and then, taking turns: the first s,
-   then the n, then the s, then the n, and so on. Each is on a 14.2s cycle and the n runs half a
-   cycle behind, so a burst (about 1s) happens every 7.1s, alternating. The first one is the s,
-   3.5s after load; the n follows at 10.6s. They drift against the 10.5s gleam on the o. */
+/* Two letters on the tube are a little worn and buzz now and then (spill-flicker-half, 14.2s).
+   The first s bursts when motion starts; the n's first burst lands 4s after motion. */
 .reserve-letter[data-flick] {
   animation: spill-flicker-half 14.2s step-end infinite;
 }
 
 .reserve-letter[data-flick="a"] {
-  animation-delay: -1.7s;
+  animation-delay: calc(0s - 14.2s * 0.3647);
 }
 
 .reserve-letter[data-flick="b"] {
-  animation-delay: 5.4s;
+  animation-delay: calc(4s - 14.2s * 0.3647);
 }
 
 .home-reserve-link:focus-visible {
@@ -1910,8 +1862,7 @@ body:has(dialog.notice[open]) {
   .sign-lamp-btn:focus-visible .sign-lamp-art,
   .pie-halo,
   .reserve-letter,
-  .reserve-letter[data-flick],
-  .reserve-glint {
+  .reserve-letter[data-flick] {
     animation: none !important;
   }
 }
@@ -1997,7 +1948,7 @@ body:has(.home) {
 
   .wall-region-hero .sign {
     /* Less top air on phones; WallAlign slack above the stack is smaller with the shorter hero piece. */
-    padding-top: 1.15rem;
+    padding-top: calc(1.15rem - 0.875rem);
   }
 }
 

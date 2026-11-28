@@ -125,20 +125,6 @@ export function ReserveSign() {
             <Layer stroke="#f7fcff" width={0.5} />
           </g>
         </g>
-        {/* The shine circles the "o", like the one around the pie logo. */}
-        <g fill="none" stroke="#fff" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
-          {letters
-            .filter((letter) => letter.char === "o")
-            .map((letter) => (
-              <path
-                key={letter.index}
-                d={letter.d}
-                pathLength={100}
-                transform={`translate(${letter.x} 0)`}
-                className="reserve-glint"
-              />
-            ))}
-        </g>
       </g>
     </svg>
   );
