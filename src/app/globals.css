@@ -1514,8 +1514,8 @@ body:has(dialog.notice[open]) {
   overflow-x: clip;
 }
 
-/* The neon's light comes off the tubes themselves (the .pie-halo layer in PieMark), so it
-   follows their shape and falls off fast. It flickers on the same schedule as the tube. */
+/* Neon spill off the slice and crust tubes only (ring halo stays steady in PieMark). Flickers
+   on the same schedule as the slice/crust dark stroke (see .pie-flicker). */
 .pie-halo {
   animation: spill-flicker-half 14.2s step-end infinite;
   /* in step with the tube's flicker (see .pie-flicker) */

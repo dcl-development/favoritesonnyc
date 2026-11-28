@@ -20,10 +20,20 @@ const BENDS = [
   [140.81, 62.07],
 ] as const;
 
-function Tubes({ stroke, width }: { stroke: string; width?: number }) {
+type PieTube = (typeof TUBES)[number];
+
+function Tubes({
+  stroke,
+  width,
+  tubes = TUBES,
+}: {
+  stroke: string;
+  width?: number;
+  tubes?: readonly PieTube[];
+}) {
   return (
     <g fill="none" stroke={stroke} strokeLinecap="round" strokeLinejoin="round">
-      {TUBES.map((tube) => (
+      {tubes.map((tube) => (
         <path key={tube.d} d={tube.d} strokeWidth={(width ?? tube.width) * WEIGHT} />
       ))}
     </g>
@@ -111,8 +121,11 @@ export function PieMark({ className = "" }: { className?: string }) {
         </filter>
       </defs>
       <g className="pie-halo-level">
+        <g filter={`url(#${haloId})`}>
+          <Tubes stroke="#ff3a24" tubes={[PIE_TUBE.ring]} />
+        </g>
         <g className="pie-halo" filter={`url(#${haloId})`}>
-          <Tubes stroke="#ff3a24" />
+          <Tubes stroke="#ff3a24" tubes={[PIE_TUBE.slice, PIE_TUBE.crust]} />
         </g>
       </g>
       <svg viewBox="0 0 286 320" x="0" y="0" width="286" height="320" overflow="visible" filter={`url(#${glowId})`}>
