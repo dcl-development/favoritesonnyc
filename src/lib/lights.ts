@@ -3,7 +3,6 @@
 // browser session, and is exposed as a tiny store so React can follow it.
 
 const KEY = "fs-lights";
-const USED = "fs-lamps-used";
 const listeners = new Set<() => void>();
 
 export function lampsOff(): boolean {
@@ -23,23 +22,11 @@ function apply(off: boolean) {
   listeners.forEach((listener) => listener());
 }
 
-/** Once a visitor has used the lamps they know they are switches, so the idle sway that hints at
- *  it stops (CSS reads <html data-lamps-used>). Remembered for the browser session. */
-function markUsed() {
-  document.documentElement.dataset.lampsUsed = "";
-  try {
-    sessionStorage.setItem(USED, "1");
-  } catch {
-    // Blocked storage: the hint just comes back on the next load.
-  }
-}
-
 /** Restore the saved choice on load. */
 export function restoreLights() {
   let off = false;
   try {
     off = sessionStorage.getItem(KEY) === "off";
-    if (sessionStorage.getItem(USED)) document.documentElement.dataset.lampsUsed = "";
   } catch {
     // Blocked storage: lamps just start on.
   }
@@ -50,7 +37,6 @@ export function restoreLights() {
 export function toggleLights() {
   const off = !lampsOff();
   apply(off);
-  markUsed();
   try {
     if (off) sessionStorage.setItem(KEY, "off");
     else sessionStorage.removeItem(KEY);

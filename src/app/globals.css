@@ -1721,7 +1721,7 @@ body:has(dialog.notice[open]) {
   }
 }
 
-.sign-lamp-btn:active .sign-lamp-art {
+.sign-lamp-btn:active .sign-lamp-art:not(.lamp-jiggle) {
   transform: rotate(2.5deg) scale(0.97);
 }
 
@@ -1730,37 +1730,28 @@ body:has(dialog.notice[open]) {
   outline-offset: 4px;
 }
 
-/* The hint that the lamps are switches: a small sway a second after the page loads, then again
-   every 6 seconds. The 650ms sway is the first ~11% of a 6s cycle, so the repeats are exact.
-   The right lamp follows a beat behind so they do not move in lockstep. Hovering a lamp plays
-   its own sway instead. Stops for good (this session) once a lamp has been used. Not for
-   reduced motion. */
+/* Tap and hover: lamp-sway. The idle hint loop (1s after motion starts, every 6s) is scheduled in
+   SignLamps once html has data-motion-ready. */
 @media (prefers-reduced-motion: no-preference) {
-  html:not([data-lamps-used]) .sign-lamp-art {
-    animation: lamp-hint 6s ease-in-out 1s infinite;
-  }
-
-  html:not([data-lamps-used]) .sign-lamp + .sign-lamp .sign-lamp-art:not(:hover):not(:focus-visible) {
-    animation-delay: 1.18s;
+  .sign-lamp-art.lamp-jiggle {
+    animation: lamp-sway 650ms ease-in-out;
   }
 }
 
-@keyframes lamp-hint {
-  0% {
-    transform: rotate(0);
-  }
-  2.7% {
-    transform: rotate(-4deg);
-  }
-  6% {
-    transform: rotate(2.5deg);
-  }
-  8.7% {
-    transform: rotate(-1deg);
-  }
-  10.8%,
-  100% {
-    transform: rotate(0);
+/* Home entrance motion waits on the reservations notice (html data-motion-ready). */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.home):not([data-motion-ready])
+    :where(
+      .pie-mark-home,
+      .pie-core,
+      .pie-flicker,
+      .pie-glint,
+      .pie-halo,
+      .strip,
+      .reserve-glint,
+      .reserve-letter[data-flick]
+    ) {
+    animation: none !important;
   }
 }
 
@@ -1989,15 +1980,44 @@ body:has(.home) {
   /* The sign casts a shadow below it, so the first stone band needs real room under it. The
      region is rounded up to whole block rows, which left anywhere from ~21px to ~70px below the
      sign depending on the screen. The sign now sits at the bottom with exactly this much space
-     under it, and whatever the rounding leaves over goes above the neon pie instead. */
+     under it, and whatever the rounding leaves over goes above the neon pie instead.
+     Starting min-height matches WallAlign's rounded piece (4 strips) so the hero does not jump
+     on hydration. */
   justify-content: flex-end;
   padding: 0 0 3.25rem;
+  min-height: calc(8 * var(--wall-course));
 }
 
 @media (max-width: 719px) {
   .wall-region-hero {
-    /* One more block course on phones so the white frame/shadow clears the first stone band. */
-    padding-bottom: calc(3.25rem + var(--wall-course));
+    /* Half a block course under the sign on phones — enough for the board shadow, tight to the stone band. */
+    padding-bottom: calc(0.5 * var(--wall-course));
+    min-height: calc(9 * var(--wall-course));
+  }
+
+  .wall-region-hero .sign {
+    /* Less top air on phones; WallAlign slack above the stack is smaller with the shorter hero piece. */
+    padding-top: 1.15rem;
+  }
+}
+
+/* Locked to whole rib rows (SignStrips); keeps the first paint steady before hydration. */
+.home .sign-board {
+  height: 284px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 719px) {
+  .home .sign-board {
+    height: 236px;
+  }
+
+  .home .sign-board:has(.sign-papers > .strip:nth-child(5)) {
+    height: 252px;
+  }
+
+  .wall-region-hero:has(.sign-papers > .strip:nth-child(5)) {
+    min-height: calc(10 * var(--wall-course));
   }
 }
 

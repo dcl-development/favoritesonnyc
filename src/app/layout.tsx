@@ -10,6 +10,7 @@ import {
   specialOpeningHoursSpecification,
   type Hours,
 } from "@/lib/hours";
+import { HomeMotionBoot } from "@/components/HomeMotionBoot";
 import { ReservationNotice } from "@/components/ReservationNotice";
 import { restaurant } from "@/content/site";
 import { ogImage } from "@/lib/seo";
@@ -99,6 +100,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`reveal-ready ${cutive.variable}`}>
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(()=>{try{var p=location.pathname,h=p==="/";if(!h){document.documentElement.setAttribute("data-motion-ready","");return;}if(sessionStorage.getItem("fs-reservation-notice")==="1")document.documentElement.setAttribute("data-motion-ready","");}catch(e){if(location.pathname!=="/")document.documentElement.setAttribute("data-motion-ready","");}})();`,
+          }}
+        />
         <noscript>
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
@@ -111,6 +117,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <HoursProvider hours={hours}>
           <PieLight />
+          <HomeMotionBoot />
           <StickyBar />
           <ReservationNotice />
           <div id="content">{children}</div>
