@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useSyncExternalStore } from "react";
+import { homeMotionReady, subscribeHomeMotion } from "@/lib/home-motion";
 import { restaurant } from "@/content/site";
 import { PieMark } from "./PieMark";
 import { SignLamps } from "./SignLamps";
@@ -40,6 +41,7 @@ const introMs = 1600;
 export function SignStrips() {
   const papers = useRef<Array<HTMLParagraphElement | null>>([]);
   const board = useRef<HTMLDivElement>(null);
+  const motionReady = useSyncExternalStore(subscribeHomeMotion, homeMotionReady, () => true);
   // A special date within a week gets its own strip under the status strip.
   const { notice } = useServiceStatus();
   useEffect(() => {
@@ -87,6 +89,7 @@ export function SignStrips() {
   }, []);
 
   useEffect(() => {
+    if (!motionReady) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
 
@@ -184,7 +187,7 @@ export function SignStrips() {
       }
       window.cancelAnimationFrame(frame);
     };
-  }, [count]);
+  }, [count, motionReady]);
 
   return (
     <div className="sign">

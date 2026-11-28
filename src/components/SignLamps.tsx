@@ -10,6 +10,21 @@ import { lampsOff, subscribeLights, toggleLights } from "@/lib/lights";
 
 const LAMPS = ["13%", "87%"] as const;
 
+function playJiggle(button: HTMLButtonElement) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const art = button.querySelector<SVGElement>(".sign-lamp-art");
+  if (!art) return;
+  art.classList.remove("lamp-jiggle");
+  void art.getBoundingClientRect();
+  art.classList.add("lamp-jiggle");
+  const onEnd = (event: AnimationEvent) => {
+    if (event.target !== art || event.animationName !== "lamp-sway") return;
+    art.classList.remove("lamp-jiggle");
+    art.removeEventListener("animationend", onEnd);
+  };
+  art.addEventListener("animationend", onEnd);
+}
+
 function Lamp() {
   return (
     <svg className="sign-lamp-art" viewBox="0 0 40 44" focusable="false" aria-hidden="true">
@@ -40,7 +55,10 @@ export function SignLamps() {
             className="sign-lamp-btn"
             aria-pressed={!off}
             aria-label={off ? "turn the barn lamps on" : "turn the barn lamps off"}
-            onClick={toggleLights}
+            onClick={(event) => {
+              playJiggle(event.currentTarget);
+              toggleLights();
+            }}
           >
             <Lamp />
           </button>

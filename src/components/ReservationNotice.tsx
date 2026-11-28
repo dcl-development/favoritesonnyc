@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { reservationNotice, restaurant } from "@/content/site";
+import { releaseHomeMotion } from "@/lib/home-motion";
 
 const KEY = "fs-reservation-notice";
 const CLOSE_FALLBACK_MS = 250;
@@ -47,6 +48,7 @@ export function ReservationNotice() {
   function dismiss() {
     const dialog = ref.current;
     if (!dialog?.open || closing.current) return;
+    releaseHomeMotion();
     if (prefersReducedMotion()) {
       dialog.close();
       return;
