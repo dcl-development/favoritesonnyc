@@ -192,11 +192,10 @@ button:focus-visible {
 
 .pie-flicker {
   opacity: 0;
-  animation: pie-flicker 11.3s step-end infinite;
-  /* An 11.3s cycle, phased so the first burst (72.94% in) lands ~3s after motion starts.
-     The ring shine comes first (see .pie-glint). The two cycles are different lengths, so
-     after the first round they drift and the timing stays irregular. */
-  animation-delay: calc(3s - 11.3s * 0.7294);
+  animation: pie-flicker 14.2s step-end infinite;
+  /* Same schedule as the first s on the reservations tube (see .reserve-letter[data-flick="a"]).
+     Ring shine still leads (see .pie-glint). */
+  animation-delay: -1.7s;
 }
 
 .pie-mark-tiny .pie-flicker {
@@ -1164,52 +1163,52 @@ html.reveal-ready [data-reveal].is-in {
   0% {
     opacity: 0;
   }
-  72.94% {
+  36.47% {
     opacity: 0.056;
   }
-  73.88% {
+  36.94% {
     opacity: 0;
   }
-  75.18% {
+  37.59% {
     opacity: 0.053;
   }
-  75.71% {
+  37.855% {
     opacity: 0;
   }
-  76.88% {
+  38.44% {
     opacity: 0.06;
   }
-  77.71% {
+  38.855% {
     opacity: 0;
   }
-  78.35% {
+  39.175% {
     opacity: 0.049;
   }
-  78.82% {
+  39.41% {
     opacity: 0;
   }
-  80.24% {
+  40.12% {
     opacity: 0.056;
   }
-  81.29% {
+  40.645% {
     opacity: 0;
   }
-  82.18% {
+  41.09% {
     opacity: 0.06;
   }
-  82.76% {
+  41.38% {
     opacity: 0;
   }
-  84.06% {
+  42.03% {
     opacity: 0.051;
   }
-  84.76% {
+  42.38% {
     opacity: 0;
   }
-  85.29% {
+  42.645% {
     opacity: 0.064;
   }
-  86.29%,
+  43.145%,
   100% {
     opacity: 0;
   }
@@ -1518,9 +1517,9 @@ body:has(dialog.notice[open]) {
 /* The neon's light comes off the tubes themselves (the .pie-halo layer in PieMark), so it
    follows their shape and falls off fast. It flickers on the same schedule as the tube. */
 .pie-halo {
-  animation: spill-flicker 11.3s step-end infinite;
+  animation: spill-flicker-half 14.2s step-end infinite;
   /* in step with the tube's flicker (see .pie-flicker) */
-  animation-delay: calc(3s - 11.3s * 0.7294);
+  animation-delay: -1.7s;
 }
 
 /* Neon is dimmer against a lit wall and at full strength in the dark (lamps off). */
